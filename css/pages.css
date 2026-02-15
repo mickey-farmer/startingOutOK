@@ -14,7 +14,53 @@
   font-size: var(--text-lg);
 }
 
-/* Filters */
+/* Filters – collapsible, start collapsed */
+.filters-details {
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.filters-summary {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  user-select: none;
+  transition: background var(--transition-fast);
+}
+.filters-summary:hover {
+  background: var(--color-bg-elevated);
+}
+.filters-summary::-webkit-details-marker {
+  display: none;
+}
+.filters-summary::before {
+  content: "▸ ";
+  display: inline-block;
+  color: var(--color-accent);
+  font-size: var(--text-lg);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.filters-details[open] .filters-summary::before {
+  transform: rotate(90deg);
+}
+
+.filters-details .filters-bar {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  border-radius: 0 0 var(--radius) var(--radius);
+  margin-bottom: 0;
+}
+
 .filters-bar {
   display: flex;
   flex-wrap: wrap;
