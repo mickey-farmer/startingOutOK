@@ -11,6 +11,7 @@ A static website for the Oklahoma film community: casting calls, resources, vend
 - **News** – Blog-style list of articles
 - **About** – Your story; linked from footer
 - **Privacy** – Template policy; update date and contact before publishing
+- **Spotlight** – Announcements modal (same data on every page). A floating button in the lower-right opens a slide-up overlay with one-sentence updates (e.g. “Level up your stunts game at OFA March 15–20. Click here for more.”). Edit `data/spotlight.json` to add or remove items.
 - **Contributor** – Password-protected page at `contributor.html` (not linked from the site) to generate JSON for new casting calls, news, and resources. You copy the output into the right file in `data/`; the site does not save to the repo.
 
 ## Ordering
@@ -49,6 +50,7 @@ A quick checklist so the site runs well for visitors:
 
 ## Customization
 
+- **Spotlight** – Edit `data/spotlight.json`. Each item can have `message` (required), `link` (optional URL), and `linkText` (optional, default “Learn more”). If the array is empty or the file is missing, the Spotlight button is hidden.
 - **Colors** – Edit `css/variables.css`. Change `--color-accent`, `--color-bg`, section bar colors, etc.
 - **About** – Edit `about.html` with your own journey and contact.
 - **Privacy** – Edit `privacy.html`: set “Last updated” date and “[your contact email or form]”.

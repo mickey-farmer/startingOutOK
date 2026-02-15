@@ -1,0 +1,170 @@
+/* Spotlight – announcements in bottom-right, button slides up to reveal */
+
+/* Overlay – dimmed backdrop when open */
+.spotlight-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 250ms ease, visibility 250ms ease;
+  pointer-events: none;
+}
+.spotlight-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Tray – fixed bottom-right, same position as button; contains content + button */
+.spotlight-tray {
+  position: fixed;
+  bottom: var(--space-6, 1.5rem);
+  right: var(--space-6, 1.5rem);
+  z-index: 96;
+  width: 50%;
+  max-width: 400px;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* Button – first in tray; glides up to top of panel when open */
+.spotlight-button {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-accent, #7c8ae0);
+  color: var(--color-bg, #0d0d0d);
+  font-size: 1.25rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Content panel – below the button when open; expands so button glides up */
+.spotlight-modal {
+  max-height: 0;
+  overflow: hidden;
+  background: var(--color-surface, #2a3246);
+  border-top-left-radius: var(--radius-lg, 16px);
+  border-top-right-radius: var(--radius-lg, 16px);
+  border-bottom-left-radius: var(--radius-lg, 16px);
+  border-bottom-right-radius: var(--radius-lg, 16px);
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.4);
+  transition: max-height 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.spotlight-tray.is-open .spotlight-modal {
+  max-height: 85vh;
+  overflow-y: auto;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.spotlight-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+.spotlight-button:focus-visible {
+  outline: 2px solid var(--color-accent, #7c8ae0);
+  outline-offset: 3px;
+}
+.spotlight-tray[hidden],
+.spotlight-button[hidden] {
+  display: none !important;
+}
+
+.spotlight-modal-inner {
+  padding: var(--space-8, 2rem);
+  padding-bottom: max(var(--space-8, 2rem), env(safe-area-inset-bottom));
+}
+
+.spotlight-modal h2 {
+  font-family: var(--font-display, "Outfit", sans-serif);
+  font-size: var(--text-xl, 1.25rem);
+  font-weight: 600;
+  margin: 0 0 var(--space-6, 1.5rem);
+  color: var(--color-text, #e8eaf0);
+}
+
+.spotlight-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6, 1.5rem);
+}
+
+.spotlight-item {
+  padding: var(--space-4, 1rem) var(--space-5, 1.25rem);
+  background: var(--color-bg-elevated, rgba(255, 255, 255, 0.06));
+  border-radius: var(--radius, 12px);
+  border-left: 4px solid var(--color-accent, #7c8ae0);
+}
+
+.spotlight-item p {
+  margin: 0 0 var(--space-2, 0.5rem);
+  font-size: var(--text-base, 1rem);
+  line-height: 1.5;
+  color: var(--color-text, #e8eaf0);
+}
+
+.spotlight-item p:last-child {
+  margin-bottom: 0;
+}
+
+.spotlight-item a {
+  font-weight: 600;
+  color: var(--color-accent, #7c8ae0);
+}
+.spotlight-item a:hover {
+  text-decoration: underline;
+}
+
+.spotlight-close-wrap {
+  margin-top: var(--space-6, 1.5rem);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.spotlight-close {
+  padding: var(--space-2, 0.5rem) var(--space-4, 1rem);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 500;
+  background: var(--color-bg-elevated, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius, 12px);
+  color: var(--color-text, #e8eaf0);
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+.spotlight-close:hover {
+  border-color: var(--color-accent-muted, rgba(124, 138, 224, 0.22));
+  background: var(--color-bg, #1a1f2e);
+}
+.spotlight-close:focus-visible {
+  outline: 2px solid var(--color-accent, #7c8ae0);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .spotlight-tray {
+    left: var(--space-6, 1.5rem);
+    right: var(--space-6, 1.5rem);
+    width: auto;
+    max-width: none;
+    min-width: 0;
+  }
+}
