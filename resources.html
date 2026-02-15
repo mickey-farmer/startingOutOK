@@ -21,27 +21,32 @@
   <main class="main-content">
     <div class="page-header">
       <h1>Resources</h1>
-      <p>Classes, coaches, VO setups, and more for anyone starting out in Oklahoma. Plus vendors who support new talent.</p>
+      <p>Classes, photographers, theaters, agencies, and more for anyone starting out in Oklahoma.</p>
     </div>
 
     <div class="filters-bar">
       <div class="filter-group">
         <label for="filter-section">Section</label>
         <select id="filter-section" aria-label="Filter by section">
-          <option value="">All</option>
-          <option value="resources">Resources</option>
-          <option value="vendors">Vendors</option>
+          <option value="">All sections</option>
+          <option value="Agencies">Agencies</option>
+          <option value="Classes & Workshops">Classes &amp; Workshops</option>
+          <option value="Photographers">Photographers</option>
+          <option value="Props">Props</option>
+          <option value="Stunts">Stunts</option>
+          <option value="Theaters">Theaters</option>
+          <option value="Vendors">Vendors</option>
         </select>
       </div>
-      <div class="filter-group">
-        <label for="filter-category">Category</label>
-        <select id="filter-category" aria-label="Filter by category">
+      <div class="filter-group" id="filter-subcategory-wrap" hidden>
+        <label for="filter-subcategory">Category</label>
+        <select id="filter-subcategory" aria-label="Filter by category (Classes & Workshops)">
           <option value="">All categories</option>
-          <option value="Classes">Classes</option>
-          <option value="Coaches">Coaches</option>
+          <option value="Business">Business</option>
+          <option value="On-Camera Film">On-Camera Film</option>
+          <option value="Stage">Stage</option>
+          <option value="Stunts">Stunts</option>
           <option value="Voice Over">Voice Over</option>
-          <option value="Equipment">Equipment</option>
-          <option value="Services">Services</option>
         </select>
       </div>
       <div class="filter-group">
@@ -56,19 +61,10 @@
       <button type="button" class="filter-reset" id="filter-reset">Reset filters</button>
     </div>
 
-    <section class="resources-section" id="resources-section">
-      <h2>Resources for Getting Started</h2>
-      <p style="color: var(--color-text-muted); margin: 0 0 var(--space-6);">Classes, coaches, recommended setups, and guides.</p>
-      <div class="resource-grid" id="resources-grid"></div>
-      <p class="no-results" id="resources-no-results" hidden>No resources match your filters.</p>
-    </section>
-
-    <section class="resources-section" id="vendors-section">
-      <h2>Vendors</h2>
-      <p style="color: var(--color-text-muted); margin: 0 0 var(--space-6);">Equipment rentals, headshots, and services that support new talent.</p>
-      <div class="resource-grid" id="vendors-grid"></div>
-      <p class="no-results" id="vendors-no-results" hidden>No vendors match your filters.</p>
-    </section>
+    <div class="resources-container" id="resources-container">
+      <!-- Sections and grids rendered by JS -->
+    </div>
+    <p class="no-results" id="resources-no-results" hidden>No resources match your filters.</p>
   </main>
 
   <footer class="site-footer">

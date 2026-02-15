@@ -177,7 +177,7 @@
       submissionDetails: multiSubmissionDetails || undefined,
       submissionLink: multiSubmissionLink || undefined,
       sourceLink: document.getElementById("cc-multi-sourceLink").value.trim() || "",
-      exclusive: document.getElementById("cc-multi-exclusive").checked,
+      exclusive: false,
       roles: roles
     };
     if (obj.auditionDeadline === undefined) delete obj.auditionDeadline;

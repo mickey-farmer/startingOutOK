@@ -1,96 +1,173 @@
 {
-  "resources": [
+  "items": [
     {
-      "id": "r1",
-      "title": "VO Starter Setup Guide",
-      "category": "Voice Over",
-      "type": "Guide",
-      "description": "Recommended mics, interfaces, and acoustic treatment for getting started with voice over from home.",
-      "location": "Oklahoma City",
-      "link": "",
-      "vendor": false
-    },
-    {
-      "id": "r2",
-      "title": "Acting 101 – Oklahoma City Community College",
-      "category": "Classes",
+      "id": "ofa-1",
+      "section": "Classes & Workshops",
+      "subcategory": "On-Camera Film",
+      "title": "OFA On-Camera Acting",
       "type": "Class",
-      "description": "Intro to acting for film and stage. Affordable, beginner-friendly.",
+      "description": "On-camera scene study and acting classes in the Plaza District. First class free.",
+      "schedule": "Monday-Thursday",
+      "pills": ["Offers young adult classes"],
       "location": "Oklahoma City",
-      "link": "https://example.com/occc-acting",
+      "link": "https://ofastudios.com",
       "vendor": false
     },
     {
-      "id": "r3",
-      "title": "On-Camera Audition Coach – Sarah M.",
-      "category": "Coaches",
-      "type": "Coach",
-      "description": "Private coaching for commercial and film auditions. Slate, copy, callbacks.",
-      "location": "Tulsa",
-      "link": "https://example.com/sarah-coach",
-      "vendor": false
-    },
-    {
-      "id": "r4",
-      "title": "Voice Over Workshop – Monthly",
-      "category": "Classes",
+      "id": "class-2",
+      "section": "Classes & Workshops",
+      "subcategory": "On-Camera Film",
+      "title": "The Actor Factory",
       "type": "Class",
-      "description": "Monthly group workshop for VO technique and demo prep.",
+      "description": "Acting studio in Norman since 2009. Adult and young performer classes: on-camera, audition for film & TV, scene work, demo reel camps. In-person and online.",
       "location": "Norman",
-      "link": "https://example.com/vo-workshop",
+      "link": "https://www.theactorfactory.com",
       "vendor": false
     },
     {
-      "id": "r5",
-      "title": "Improv for Actors",
-      "category": "Classes",
+      "id": "class-3",
+      "section": "Classes & Workshops",
+      "subcategory": "On-Camera Film",
+      "title": "Cody Mayo Studios",
       "type": "Class",
-      "description": "Improv fundamentals to build confidence and spontaneity for auditions.",
-      "location": "Oklahoma City",
-      "link": "",
-      "vendor": false
-    }
-  ],
-  "vendors": [
-    {
-      "id": "v1",
-      "title": "OKC Gear Rentals",
-      "category": "Equipment",
-      "type": "Rental",
-      "description": "Camera, lighting, and sound equipment rentals for indie shoots. Day and week rates.",
-      "location": "Oklahoma City",
-      "link": "https://example.com/okc-gear",
-      "vendor": true
-    },
-    {
-      "id": "v2",
-      "title": "Tulsa Voice Booth – Studio Rental",
-      "category": "Voice Over",
-      "type": "Rental",
-      "description": "Professional VO booth and recording space by the hour. Great for self-tapes and demos.",
+      "description": "Film and TV acting conservatory in Tulsa. Adult and young actor classes, improv, private coaching, self-tape services. Studio Row, 317 S. Trenton Ave.",
       "location": "Tulsa",
-      "link": "https://example.com/tulsa-booth",
-      "vendor": true
+      "link": "https://www.codymayostudios.com",
+      "vendor": false
     },
     {
-      "id": "v3",
-      "title": "Headshot Pro – Oklahoma City",
-      "category": "Services",
-      "type": "Photography",
-      "description": "Actor headshots and comp cards. Experienced with casting specs.",
-      "location": "Oklahoma City",
-      "link": "https://example.com/headshots",
-      "vendor": true
+      "id": "class-4",
+      "section": "Stunts",
+      "subcategory": null,
+      "title": "1907 Stunts by Justin Parks",
+      "type": "Stunts",
+      "description": "Stunt training and coordination. Justin Parks – professional stunt performer and instructor.",
+      "location": null,
+      "link": "https://www.instagram.com/justinparks_jp/",
+      "vendor": false
     },
     {
-      "id": "v4",
-      "title": "Newbie-Friendly Casting Director Consult",
-      "category": "Services",
-      "type": "Consulting",
-      "description": "One-on-one session to review your materials and answer questions about the local industry.",
+      "id": "th-1",
+      "section": "Theaters",
+      "subcategory": null,
+      "title": "Lyric Theatre of Oklahoma",
+      "type": "Theatre",
+      "description": "Oklahoma's official state theatre. Professional theatre in the Plaza District; also performs at Civic Center Music Hall. Thelma Gaylord Academy offers training.",
       "location": "Oklahoma City",
-      "link": "",
-      "vendor": true
+      "link": "https://lyrictheatreokc.com",
+      "vendor": false
+    },
+    {
+      "id": "th-2",
+      "section": "Theaters",
+      "subcategory": null,
+      "title": "Carpenter Square Theatre",
+      "type": "Theatre",
+      "description": "Year-round live theatre at 1009 W. Reno. Award-winning mix of modern works, comedy classics, and musicals. Intimate 120-seat venue with lobby art gallery.",
+      "location": "Oklahoma City",
+      "link": "https://www.carpentersquare.com",
+      "vendor": false
+    },
+    {
+      "id": "th-3",
+      "section": "Theaters",
+      "subcategory": null,
+      "title": "Jewel Box Theatre",
+      "type": "Theatre",
+      "description": "Longest continuously operating theatre in Oklahoma (since 1911). Six productions annually including plays and musicals. 301 NW 36th St.",
+      "location": "Oklahoma City",
+      "link": "https://jewelboxokc.com",
+      "vendor": false
+    },
+    {
+      "id": "th-4",
+      "section": "Theaters",
+      "subcategory": null,
+      "title": "Oklahoma Shakespeare",
+      "type": "Theatre",
+      "description": "Oklahoma's home for classical theatre in the Paseo Arts District. Outdoor amphitheater and Black Box indoor theatre. Year-round season, student matinees, young company camps.",
+      "location": "Oklahoma City",
+      "link": "https://www.okshakes.org",
+      "vendor": false
+    },
+    {
+      "id": "th-5",
+      "section": "Theaters",
+      "subcategory": null,
+      "title": "3rd Act Theatre Company",
+      "type": "Theatre",
+      "description": "Community theatre at The Shoppes at NorthPark (12040 N May Ave). Diverse, inclusive casting. Quality theatre for Quail Creek and surrounding areas.",
+      "location": "Oklahoma City",
+      "link": "https://www.3rdacttheatreco.com",
+      "vendor": false
+    },
+    {
+      "id": "th-6",
+      "section": "Theaters",
+      "subcategory": null,
+      "title": "World Stage Theatre Company",
+      "type": "Theatre",
+      "description": "Community theatre at 1130 S. Harvard. AACT and OCTA member. Timeless and relevant stories; Season 8 (2025–2026) includes Lord of the Flies, For Colored Girls, and more.",
+      "location": "Tulsa",
+      "link": "https://okworldstage.org",
+      "vendor": false
+    },
+    {
+      "id": "th-7",
+      "section": "Theaters",
+      "subcategory": null,
+      "title": "American Theatre Company",
+      "type": "Theatre",
+      "description": "Community theatre since 1970 at 3306 Charles Page Blvd. Four-play season, dinner theatre, Black Box, youth education, and local playwright opportunities.",
+      "location": "Tulsa",
+      "link": "https://www.americantheatrecompany.org",
+      "vendor": false
+    },
+    {
+      "id": "ag-1",
+      "section": "Agencies",
+      "subcategory": null,
+      "title": "The Tabb Agency",
+      "type": "Agency",
+      "description": "Oklahoma's leading talent agency for actors, models, and artists in film, TV, and print. Represents adults, youth, families, voiceover, and hair/makeup artists.",
+      "location": "Oklahoma City",
+      "link": "https://www.thetabbagency.com",
+      "pills": ["Recommended"],
+      "vendor": false
+    },
+    {
+      "id": "ag-2",
+      "section": "Agencies",
+      "subcategory": null,
+      "title": "Reel Talent Studio",
+      "type": "Agency",
+      "description": "Talent agency in Tulsa serving Oklahoma and the region. Film, TV, and commercial representation for adults, teens, kids, and voice-over. Team-focused approach.",
+      "location": "Tulsa",
+      "link": "https://www.reeltalentstudio.com",
+      "pills": ["Recommended"],
+      "vendor": false
+    },
+    {
+      "id": "ag-3",
+      "section": "Agencies",
+      "subcategory": null,
+      "title": "Linda Layman Agency",
+      "type": "Agency",
+      "description": "Model and talent agency in Tulsa for over 50 years. Books actors, kids, and models for TV, print, film, and runway.",
+      "location": "Tulsa",
+      "link": "https://www.lindalaymanagency.com",
+      "vendor": false
+    },
+    {
+      "id": "props-1",
+      "section": "Props",
+      "subcategory": null,
+      "title": "RANGE 405",
+      "type": "Props",
+      "description": "Prop firearms and armorer services for film in Oklahoma. Extensive inventory of period and modern prop guns; professional armorer and actor weapons training; armorers available on set.",
+      "location": "Oklahoma",
+      "link": "https://range405.com",
+      "vendor": false
     }
   ]
 }

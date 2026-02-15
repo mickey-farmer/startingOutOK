@@ -1,21 +1,21 @@
 (function () {
-  const resourcesGrid = document.getElementById("resources-grid");
-  const vendorsGrid = document.getElementById("vendors-grid");
-  const resourcesNoResults = document.getElementById("resources-no-results");
-  const vendorsNoResults = document.getElementById("vendors-no-results");
+  const container = document.getElementById("resources-container");
+  const noResults = document.getElementById("resources-no-results");
   const filterSection = document.getElementById("filter-section");
-  const filterCategory = document.getElementById("filter-category");
+  const filterSubcategory = document.getElementById("filter-subcategory");
+  const filterSubcategoryWrap = document.getElementById("filter-subcategory-wrap");
   const filterLocation = document.getElementById("filter-location");
   const filterReset = document.getElementById("filter-reset");
-  const resourcesSection = document.getElementById("resources-section");
-  const vendorsSection = document.getElementById("vendors-section");
 
-  let resources = [];
-  let vendors = [];
+  // Section order (alphabetized) – no "Resources" section
+  const SECTION_ORDER = ["Agencies", "Classes & Workshops", "Photographers", "Props", "Stunts", "Theaters", "Vendors"];
+  const SUBCATEGORY_ORDER = ["Business", "On-Camera Film", "Stage", "Stunts", "Voice Over"];
+
+  let items = [];
 
   function escapeHtml(text) {
     const div = document.createElement("div");
-    div.textContent = text;
+    div.textContent = text == null ? "" : text;
     return div.innerHTML;
   }
 
@@ -24,60 +24,145 @@
     card.className = "resource-card";
     card.dataset.id = entry.id;
     const linkHtml = entry.link
-      ? '<a href="' + entry.link + '" target="_blank" rel="noopener noreferrer" class="resource-link">Learn more ↗</a>'
+      ? '<a href="' + escapeHtml(entry.link) + '" target="_blank" rel="noopener noreferrer" class="resource-link">Learn more ↗</a>'
       : "";
-    card.innerHTML =
-      '<span class="resource-category">' + escapeHtml(entry.category) + " · " + escapeHtml(entry.type) + "</span>" +
-      "<h3>" + escapeHtml(entry.title) + "</h3>" +
-      (entry.location ? '<p class="resource-desc"><strong>📍 ' + escapeHtml(entry.location) + "</strong></p>" : "") +
-      '<p class="resource-desc">' + escapeHtml(entry.description) + "</p>" +
-      linkHtml;
+    const categoryLine = entry.section === "Classes & Workshops" && entry.subcategory
+      ? escapeHtml(entry.subcategory) + " · " + (entry.type || "")
+      : (entry.category || "") + (entry.type ? " · " + entry.type : "");
+    let html = "";
+    if (categoryLine) {
+      html += '<span class="resource-category">' + categoryLine + "</span>";
+    }
+    html += "<h3>" + escapeHtml(entry.title) + "</h3>";
+    if (entry.pills && entry.pills.length > 0) {
+      html += '<div class="resource-pills">';
+      entry.pills.forEach(function (pill) {
+        html += '<span class="resource-pill">' + escapeHtml(pill) + "</span>";
+      });
+      html += "</div>";
+    }
+    if (entry.schedule) {
+      html += '<p class="resource-schedule"><strong>📅 ' + escapeHtml(entry.schedule) + "</strong></p>";
+    }
+    if (entry.location) {
+      html += '<p class="resource-desc"><strong>📍 ' + escapeHtml(entry.location) + "</strong></p>";
+    }
+    html += '<p class="resource-desc">' + escapeHtml(entry.description) + "</p>" + linkHtml;
+    card.innerHTML = html;
     return card;
   }
 
-  function matchesFilters(entry, isVendor) {
+  function matchesFilters(entry) {
     const sectionVal = filterSection.value;
-    if (sectionVal === "resources" && isVendor) return false;
-    if (sectionVal === "vendors" && !isVendor) return false;
-    if (filterCategory.value && entry.category !== filterCategory.value) return false;
+    if (sectionVal && entry.section !== sectionVal) return false;
+    if (filterSection.value === "Classes & Workshops" && filterSubcategory.value && entry.subcategory !== filterSubcategory.value) return false;
     if (filterLocation.value && entry.location !== filterLocation.value) return false;
     return true;
   }
 
+  function getSectionLabel(section) {
+    return section;
+  }
+
   function render() {
-    const filteredResources = resources.filter(function (r) {
-      return matchesFilters(r, false);
+    const filtered = items.filter(matchesFilters);
+
+    filterSubcategoryWrap.hidden = filterSection.value !== "Classes & Workshops";
+
+    container.innerHTML = "";
+    noResults.hidden = filtered.length > 0;
+
+    if (filtered.length === 0) {
+      return;
+    }
+
+    // Group by section (alphabetical order)
+    const bySection = {};
+    SECTION_ORDER.forEach(function (sec) {
+      bySection[sec] = [];
     });
-    const filteredVendors = vendors.filter(function (v) {
-      return matchesFilters(v, true);
+    filtered.forEach(function (entry) {
+      const sec = entry.section || (entry.vendor ? "Vendors" : "Resources");
+      if (!bySection[sec]) bySection[sec] = [];
+      bySection[sec].push(entry);
     });
 
-    resourcesGrid.innerHTML = "";
-    resourcesNoResults.hidden = filteredResources.length > 0;
-    filteredResources.forEach(function (entry) {
-      resourcesGrid.appendChild(renderResourceCard(entry));
-    });
+    SECTION_ORDER.forEach(function (section) {
+      const list = bySection[section] || [];
+      if (list.length === 0) return;
 
-    vendorsGrid.innerHTML = "";
-    vendorsNoResults.hidden = filteredVendors.length > 0;
-    filteredVendors.forEach(function (entry) {
-      vendorsGrid.appendChild(renderResourceCard(entry));
-    });
+      const sectionEl = document.createElement("section");
+      sectionEl.className = "resources-section";
+      sectionEl.setAttribute("aria-label", getSectionLabel(section));
 
-    resourcesSection.style.display = filterSection.value === "vendors" ? "none" : "block";
-    vendorsSection.style.display = filterSection.value === "resources" ? "none" : "block";
+      const details = document.createElement("details");
+      details.className = "resources-section-details";
+      const summary = document.createElement("summary");
+      summary.className = "resources-section-summary";
+      summary.innerHTML = "<span class=\"resources-section-summary-text\">" + escapeHtml(getSectionLabel(section)) + " <span class=\"resources-section-count\">(" + list.length + ")</span></span>";
+      details.appendChild(summary);
+
+      const content = document.createElement("div");
+      content.className = "resources-section-content";
+
+      if (section === "Agencies") {
+        const byCity = {};
+        list.forEach(function (entry) {
+          const city = entry.location || "Other";
+          if (!byCity[city]) byCity[city] = [];
+          byCity[city].push(entry);
+        });
+        const cities = Object.keys(byCity).sort();
+        cities.forEach(function (city) {
+          const cityItems = byCity[city].slice().sort(function (a, b) {
+            return (a.title || "").toLowerCase().localeCompare((b.title || "").toLowerCase());
+          });
+          const cityHeading = document.createElement("h3");
+          cityHeading.className = "resources-city-title";
+          cityHeading.textContent = city;
+          content.appendChild(cityHeading);
+          const grid = document.createElement("div");
+          grid.className = "resource-grid";
+          cityItems.forEach(function (entry) {
+            grid.appendChild(renderResourceCard(entry));
+          });
+          content.appendChild(grid);
+        });
+      } else {
+        const sorted = list.slice().sort(function (a, b) {
+          if (section === "Classes & Workshops" && (a.subcategory || b.subcategory)) {
+            const idxA = SUBCATEGORY_ORDER.indexOf(a.subcategory || "");
+            const idxB = SUBCATEGORY_ORDER.indexOf(b.subcategory || "");
+            if (idxA !== idxB) return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
+          }
+          return (a.title || "").toLowerCase().localeCompare((b.title || "").toLowerCase());
+        });
+        const grid = document.createElement("div");
+        grid.className = "resource-grid";
+        sorted.forEach(function (entry) {
+          grid.appendChild(renderResourceCard(entry));
+        });
+        content.appendChild(grid);
+      }
+
+      details.appendChild(content);
+      sectionEl.appendChild(details);
+      container.appendChild(sectionEl);
+    });
   }
 
   function initFilters() {
-    [filterSection, filterCategory, filterLocation].forEach(function (el) {
-      el.addEventListener("change", render);
+    [filterSection, filterSubcategory, filterLocation].forEach(function (el) {
+      if (el) el.addEventListener("change", render);
     });
-    filterReset.addEventListener("click", function () {
-      filterSection.value = "";
-      filterCategory.value = "";
-      filterLocation.value = "";
-      render();
-    });
+    if (filterReset) {
+      filterReset.addEventListener("click", function () {
+        filterSection.value = "";
+        filterSubcategory.value = "";
+        filterLocation.value = "";
+        render();
+      });
+    }
   }
 
   function loadData() {
@@ -86,20 +171,23 @@
         return r.json();
       })
       .then(function (data) {
-        resources = (data.resources || []).slice();
-        vendors = (data.vendors || []).slice();
-        function bySectionThenAlpha(a, b) {
-          var cat = (a.category || "").localeCompare(b.category || "");
-          if (cat !== 0) return cat;
-          return (a.title || "").toLowerCase().localeCompare((b.title || "").toLowerCase());
+        if (data.items && data.items.length) {
+          items = data.items.slice();
+        } else {
+          const res = (data.resources || []).slice();
+          const ven = (data.vendors || []).slice();
+          items = res.map(function (r) {
+            r.section = r.section || "Resources";
+            return r;
+          }).concat(ven.map(function (v) {
+            v.section = v.section || "Vendors";
+            return v;
+          }));
         }
-        resources.sort(bySectionThenAlpha);
-        vendors.sort(bySectionThenAlpha);
         render();
       })
       .catch(function () {
-        resourcesGrid.innerHTML = '<p class="no-results">Unable to load resources.</p>';
-        vendorsGrid.innerHTML = '<p class="no-results">Unable to load vendors.</p>';
+        if (container) container.innerHTML = '<p class="no-results">Unable to load resources.</p>';
       });
   }
 
