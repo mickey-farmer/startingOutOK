@@ -666,66 +666,41 @@
   margin: 0;
 }
 
-/* Subscribe CTA */
-.subscribe-cta {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8);
-  margin-top: var(--space-12);
-  text-align: center;
-}
-.subscribe-cta h3 {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
-  font-weight: 600;
-  margin: 0 0 var(--space-2);
-}
-.subscribe-cta p {
-  color: var(--color-text-muted);
-  margin: 0 0 var(--space-6);
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.subscribe-cta .subscribe-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  justify-content: center;
-  max-width: 400px;
+/* Single news article (full story page) */
+.news-article-single {
+  max-width: 720px;
   margin: 0 auto;
 }
-.subscribe-cta input[type="email"] {
-  flex: 1;
-  min-width: 200px;
-  padding: var(--space-3) var(--space-4);
-  font-family: inherit;
-  font-size: var(--text-base);
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  color: var(--color-text);
-  transition: border-color var(--transition-fast);
+.news-article-back {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-sm);
 }
-.subscribe-cta input[type="email"]:focus {
-  outline: none;
-  border-color: var(--color-accent);
+.news-article-back a {
+  color: var(--color-text-muted);
 }
-.subscribe-cta button[type="submit"] {
-  padding: var(--space-3) var(--space-6);
-  font-family: inherit;
-  font-size: var(--text-base);
-  font-weight: 600;
-  background: var(--color-accent);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: background var(--transition-fast);
+.news-article-back a:hover {
+  color: var(--color-accent);
 }
-.subscribe-cta button[type="submit"]:hover {
-  background: var(--color-accent-hover);
+.news-article-header {
+  margin-bottom: var(--space-8);
+}
+.news-article-single .news-article-date {
+  display: block;
+  margin-bottom: var(--space-2);
+}
+.news-article-title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+.news-article-body {
+  margin-top: 0;
+}
+.news-article-message {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4);
 }
 
 /* About & Privacy - prose */

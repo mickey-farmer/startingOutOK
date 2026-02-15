@@ -1,7 +1,5 @@
 (function () {
   const newsList = document.getElementById("news-list");
-  const subscribeForm = document.getElementById("subscribe-form");
-  const subscribeMessage = document.getElementById("subscribe-message");
 
   function formatDate(iso) {
     const d = new Date(iso);
@@ -15,7 +13,8 @@
   function renderArticle(entry) {
     const article = document.createElement("article");
     article.className = "news-article";
-    var url = "#"; /* Replace with news/[slug].html when you add article pages */
+    var slug = entry.slug || "";
+    var url = "news/article.html#" + encodeURIComponent(slug);
     article.innerHTML =
       '<time class="news-article-date" datetime="' + entry.date + '">' + formatDate(entry.date) + "</time>" +
       '<div>' +
@@ -55,14 +54,6 @@
         newsList.innerHTML = '<p class="no-results">Unable to load news. Please try again later.</p>';
       });
   }
-
-  subscribeForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var email = document.getElementById("subscribe-email").value;
-    subscribeMessage.style.display = "block";
-    subscribeMessage.textContent = "Thanks! Once Beehiv is connected, you’ll be added to our list. For now, save this page and we’ll be in touch.";
-    subscribeMessage.setAttribute("role", "status");
-  });
 
   loadNews();
 })();

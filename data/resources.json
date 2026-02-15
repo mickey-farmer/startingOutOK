@@ -43,7 +43,7 @@
       "subcategory": null,
       "title": "1907 Stunts by Justin Parks",
       "type": "Stunts",
-      "description": "Stunt training and coordination. Justin Parks – professional stunt performer and instructor.",
+      "description": "Stunt training and coordination. Justin Parks – stunt performer and instructor.",
       "location": null,
       "link": "https://www.instagram.com/justinparks_jp/",
       "vendor": false
@@ -65,7 +65,7 @@
       "subcategory": null,
       "title": "Carpenter Square Theatre",
       "type": "Theatre",
-      "description": "Year-round live theatre at 1009 W. Reno. Award-winning mix of modern works, comedy classics, and musicals. Intimate 120-seat venue with lobby art gallery.",
+      "description": "Year-round live theatre at 1009 W. Reno. Modern works, comedy classics, and musicals. 120-seat venue with lobby art gallery.",
       "location": "Oklahoma City",
       "link": "https://www.carpentersquare.com",
       "vendor": false
@@ -87,7 +87,7 @@
       "subcategory": null,
       "title": "Oklahoma Shakespeare",
       "type": "Theatre",
-      "description": "Oklahoma's home for classical theatre in the Paseo Arts District. Outdoor amphitheater and Black Box indoor theatre. Year-round season, student matinees, young company camps.",
+      "description": "Classical theatre in the Paseo Arts District. Outdoor amphitheater and Black Box indoor theatre. Year-round season, student matinees, young company camps.",
       "location": "Oklahoma City",
       "link": "https://www.okshakes.org",
       "vendor": false
@@ -98,7 +98,7 @@
       "subcategory": null,
       "title": "3rd Act Theatre Company",
       "type": "Theatre",
-      "description": "Community theatre at The Shoppes at NorthPark (12040 N May Ave). Diverse, inclusive casting. Quality theatre for Quail Creek and surrounding areas.",
+      "description": "Community theatre at The Shoppes at NorthPark (12040 N May Ave). Diverse, inclusive casting.",
       "location": "Oklahoma City",
       "link": "https://www.3rdacttheatreco.com",
       "vendor": false
@@ -109,7 +109,7 @@
       "subcategory": null,
       "title": "World Stage Theatre Company",
       "type": "Theatre",
-      "description": "Community theatre at 1130 S. Harvard. AACT and OCTA member. Timeless and relevant stories; Season 8 (2025–2026) includes Lord of the Flies, For Colored Girls, and more.",
+      "description": "Community theatre at 1130 S. Harvard. AACT and OCTA member. Season 8 (2025–2026) includes Lord of the Flies, For Colored Girls, and more.",
       "location": "Tulsa",
       "link": "https://okworldstage.org",
       "vendor": false
@@ -126,12 +126,23 @@
       "vendor": false
     },
     {
+      "id": "casting-1",
+      "section": "Casting",
+      "subcategory": null,
+      "title": "Freihofer Casting",
+      "type": "Casting Office",
+      "description": "Based in Norman. Casting Society of America (CSA) member. Casts film, TV, and commercials.",
+      "location": "Norman",
+      "link": "https://www.freihofercasting.com",
+      "vendor": false
+    },
+    {
       "id": "ag-1",
       "section": "Agencies",
       "subcategory": null,
       "title": "The Tabb Agency",
       "type": "Agency",
-      "description": "Oklahoma's leading talent agency for actors, models, and artists in film, TV, and print. Represents adults, youth, families, voiceover, and hair/makeup artists.",
+      "description": "Talent agency in Oklahoma City for actors, models, and artists in film, TV, and print. Represents adults, youth, families, voiceover, and hair/makeup artists.",
       "location": "Oklahoma City",
       "link": "https://www.thetabbagency.com",
       "vendor": false
@@ -142,7 +153,7 @@
       "subcategory": null,
       "title": "Reel Talent Studio",
       "type": "Agency",
-      "description": "Talent agency in Tulsa serving Oklahoma and the region. Film, TV, and commercial representation for adults, teens, kids, and voice-over. Team-focused approach.",
+      "description": "Talent agency in Tulsa. Film, TV, and commercial representation for adults, teens, kids, and voice-over.",
       "location": "Tulsa",
       "link": "https://www.reeltalentstudio.com",
       "vendor": false
@@ -164,7 +175,7 @@
       "subcategory": null,
       "title": "RANGE 405",
       "type": "Props",
-      "description": "Prop firearms and armorer services for film in Oklahoma. Extensive inventory of period and modern prop guns; professional armorer and actor weapons training; armorers available on set.",
+      "description": "Prop firearms and armorer services for film in Oklahoma. Period and modern prop guns; armorer and actor weapons training; armorers available on set.",
       "location": "Oklahoma",
       "link": "https://range405.com",
       "vendor": false
@@ -175,7 +186,7 @@
       "subcategory": null,
       "title": "Prairie Surf Studios",
       "type": "Studio",
-      "description": "Downtown Oklahoma City. 1.3 million square feet with five clearspan soundstages under one roof; converted from the former Cox Convention Center. All production departments in a single location. Hosts major productions; Oklahoma Film + Music certified.",
+      "description": "Downtown Oklahoma City. 1.3 million square feet with five clearspan soundstages; converted from the former Cox Convention Center. Oklahoma Film + Music certified.",
       "location": "Oklahoma City",
       "link": "https://prairiesurf.com",
       "vendor": false
@@ -208,7 +219,7 @@
       "subcategory": null,
       "title": "Stormfront Studios",
       "type": "Studio",
-      "description": "Full-service production facility in Tulsa's Kendall Whittier neighborhood. Two sound stages (6,000 and 2,800 sq ft), lighting grid, cyc walls, ADR/Foley booth, scene shop. Plus a 320-acre filming property in Osage County with cabin and exterior locations.",
+      "description": "Production facility in Tulsa's Kendall Whittier neighborhood. Two sound stages (6,000 and 2,800 sq ft), lighting grid, cyc walls, ADR/Foley booth, scene shop. 320-acre filming property in Osage County with cabin and exterior locations.",
       "location": "Tulsa",
       "link": "https://www.stormfrontstudios.net",
       "vendor": false
@@ -231,10 +242,21 @@
       "subcategory": null,
       "title": "Numunuu Photography",
       "type": "Photographer",
-      "description": "Oklahoma City headshot studio in the Plaza District. Actor headshots and business headshots with a focus on authenticity—truthful, real portraits by the people for the people. Numunuu (Comanche for \"the people\") offers a premium headshot experience for actors and professionals.",
+      "description": "Oklahoma City headshot studio in the Plaza District. Actor headshots and business headshots. Numunuu is Comanche for \"the people\".",
       "location": "Oklahoma City",
       "link": "https://numunuu.photography/",
       "vendor": false
+    },
+    {
+      "id": "vendor-1",
+      "section": "Vendors",
+      "subcategory": null,
+      "title": "AMP Equipment",
+      "type": "Equipment Rental",
+      "description": "Oklahoma film and camera equipment rental. Camera packages, lighting, grip, and production gear for features, TV, and commercials.",
+      "location": "Oklahoma",
+      "link": "https://ampequipment.com",
+      "vendor": true
     }
   ]
 }
