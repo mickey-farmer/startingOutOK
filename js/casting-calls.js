@@ -1,8 +1,13 @@
 (function () {
   const grid = document.getElementById("casting-grid");
   const noResults = document.getElementById("no-results");
-  const expiringSection = document.getElementById("expiring-soon-section");
   const expiringGrid = document.getElementById("expiring-soon-grid");
+  const expiringCountEl = document.getElementById("expiring-count");
+  const noResultsExpiring = document.getElementById("no-results-expiring");
+  const tabAll = document.getElementById("tab-all");
+  const tabExpiring = document.getElementById("tab-expiring");
+  const panelAll = document.getElementById("panel-all");
+  const panelExpiring = document.getElementById("panel-expiring");
   const archivedSection = document.getElementById("archived-section");
   const archivedList = document.getElementById("archived-list");
   const archivedSummary = document.getElementById("archived-summary");
@@ -18,6 +23,7 @@
   const filterReset = document.getElementById("filter-reset");
 
   let castingCalls = [];
+  let activeTab = "all";
 
   function formatDeadlineDate(iso) {
     if (!iso) return "";
@@ -113,7 +119,7 @@
 
   function renderSingleCard(entry) {
     const exclusiveBadge = entry.exclusive
-      ? '<span class="casting-exclusive">Starting Out OK Exclusive</span>'
+      ? '<span class="casting-exclusive">Acting Out OK Exclusive</span>'
       : "";
     const sourceLinkHtml =
       !entry.exclusive && entry.sourceLink
@@ -149,7 +155,7 @@
 
   function renderMultiRoleCard(entry) {
     const exclusiveBadge = entry.exclusive
-      ? '<span class="casting-exclusive">Starting Out OK Exclusive</span>'
+      ? '<span class="casting-exclusive">Acting Out OK Exclusive</span>'
       : "";
     const sourceLinkHtml =
       !entry.exclusive && entry.sourceLink
@@ -321,13 +327,19 @@
       return parseInt(da, 10) - parseInt(db, 10);
     });
 
-    if (expiringSection && expiringGrid) {
-      expiringSection.hidden = expiringSoon.length === 0;
+    if (expiringCountEl) expiringCountEl.textContent = expiringSoon.length;
+    if (expiringGrid) {
       expiringGrid.innerHTML = "";
       expiringSoon.forEach(function (entry) {
         expiringGrid.appendChild(renderCard(entry));
       });
     }
+    if (noResultsExpiring) noResultsExpiring.hidden = expiringSoon.length > 0;
+
+    if (panelAll) panelAll.hidden = activeTab !== "all";
+    if (panelExpiring) panelExpiring.hidden = activeTab !== "expiring";
+    if (tabAll) tabAll.setAttribute("aria-selected", activeTab === "all");
+    if (tabExpiring) tabExpiring.setAttribute("aria-selected", activeTab === "expiring");
 
     grid.querySelectorAll(".casting-card").forEach((el) => el.remove());
     noResults.hidden = filtered.length > 0;
@@ -396,6 +408,25 @@
       });
   }
 
+  function initTabs() {
+    if (!tabAll || !tabExpiring) return;
+    function switchTo(tab) {
+      activeTab = tab;
+      render();
+    }
+    tabAll.addEventListener("click", function () { switchTo("all"); });
+    tabExpiring.addEventListener("click", function () { switchTo("expiring"); });
+    tabAll.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight" || e.key === "End") { e.preventDefault(); tabExpiring.focus(); tabExpiring.click(); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); tabAll.focus(); }
+    });
+    tabExpiring.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" || e.key === "Home") { e.preventDefault(); tabAll.focus(); tabAll.click(); }
+      if (e.key === "ArrowRight") { e.preventDefault(); tabExpiring.focus(); }
+    });
+  }
+
   initFilters();
+  initTabs();
   loadData();
 })();

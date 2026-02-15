@@ -153,6 +153,12 @@
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    var tosCheckbox = document.getElementById("casting-tos");
+    if (!tosCheckbox || !tosCheckbox.checked) {
+      alert("You must accept the Terms of Service to submit.");
+      if (tosCheckbox) tosCheckbox.focus();
+      return;
+    }
     var multiTitle = document.getElementById("cc-multi-title").value.trim();
     var roles = collectRoles();
     if (roles.length === 0) {

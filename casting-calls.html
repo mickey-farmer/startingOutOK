@@ -3,34 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Casting Calls – Starting Out OK</title>
+  <title>Casting Calls – Acting Out OK</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/pages.css" />
 </head>
-<body>
+<body data-current-nav="Casting Calls">
   <header class="site-header">
-    <a href="index.html" class="site-logo">Starting Out OK</a>
-    <nav class="site-nav" aria-label="Main">
-      <a href="casting-calls.html" aria-current="page">Casting Calls</a>
-      <a href="resources.html">Resources</a>
-      <a href="news.html">News</a>
-    </nav>
+    <div class="site-header-inner">
+      <a href="index.html" class="site-logo"><img src="images/logo.png" alt="Acting Out OK" /></a>
+      <div class="site-nav-wrap">
+        <div class="nav-dropdown">
+          <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="nav-dropdown-menu" id="nav-dropdown-trigger">
+            <span class="nav-dropdown-label">Casting Calls</span>
+            <span class="nav-dropdown-arrow" aria-hidden="true">▼</span>
+          </button>
+          <ul class="nav-dropdown-menu" id="nav-dropdown-menu" hidden role="menu">
+            <li role="none"><a href="casting-calls.html" role="menuitem">Casting Calls</a></li>
+            <li role="none"><a href="resources.html" role="menuitem">Resources</a></li>
+            <li role="none"><a href="news.html" role="menuitem">News</a></li>
+          </ul>
+        </div>
+      </div>
+      <button type="button" class="nav-mobile-toggle" aria-expanded="false" aria-controls="nav-drawer" aria-label="Open menu" id="nav-mobile-toggle">☰</button>
+    </div>
   </header>
+  <div class="nav-drawer-backdrop" id="nav-drawer-backdrop" aria-hidden="true"></div>
+  <aside class="nav-drawer" id="nav-drawer" aria-label="Main navigation">
+    <a href="index.html" class="site-logo"><img src="images/logo.png" alt="Acting Out OK" /></a>
+    <ul class="nav-drawer-nav">
+      <li><a href="casting-calls.html">Casting Calls</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="news.html">News</a></li>
+    </ul>
+    <div class="nav-drawer-footer">
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </div>
+  </aside>
 
   <main class="main-content">
     <div class="page-header">
       <h1>Casting Calls</h1>
       <p>Find auditions and opportunities across Oklahoma. Sourced from around the web and exclusive listings.</p>
-      <p class="casting-submit-cta">To have your casting call added to Starting Out OK, <a href="submit-casting.html">submit your request</a>.</p>
+      <p class="casting-submit-cta">To have your casting call added to Acting Out OK, <a href="submit-casting.html">submit your request</a>.</p>
     </div>
 
-    <section class="expiring-soon-section" id="expiring-soon-section" aria-label="Casting calls expiring within a week" hidden>
-      <h2 class="expiring-soon-title">Expiring within a week</h2>
-      <p class="expiring-soon-desc">Submit soon – audition deadline in the next 7 days.</p>
-      <div class="casting-grid expiring-soon-grid" id="expiring-soon-grid"></div>
-    </section>
+    <div class="casting-tabs" role="tablist" aria-label="Casting call views">
+      <button type="button" role="tab" id="tab-all" aria-selected="true" aria-controls="panel-all">All</button>
+      <button type="button" role="tab" id="tab-expiring" aria-selected="false" aria-controls="panel-expiring">Expiring Soon (<span id="expiring-count">0</span>)</button>
+    </div>
 
+    <div id="panel-all" role="tabpanel" aria-labelledby="tab-all">
     <div class="filters-bar">
       <div class="filter-group">
         <label for="filter-type">Type</label>
@@ -77,6 +102,7 @@
           <option value="">All locations</option>
           <option value="Oklahoma City">Oklahoma City</option>
           <option value="Tulsa">Tulsa</option>
+          <option value="Spencer">Spencer</option>
           <option value="Norman">Norman</option>
           <option value="Remote / OKC">Remote / OKC</option>
         </select>
@@ -121,6 +147,13 @@
       <!-- Populated by JS -->
       <p class="no-results" id="no-results" hidden>No casting calls match your filters. Try adjusting them.</p>
     </div>
+    </div>
+
+    <div id="panel-expiring" role="tabpanel" aria-labelledby="tab-expiring" hidden>
+      <p class="expiring-soon-desc">Submit soon – audition deadline in the next 7 days.</p>
+      <div class="casting-grid expiring-soon-grid" id="expiring-soon-grid"></div>
+      <p class="no-results" id="no-results-expiring" hidden>No casting calls expiring in the next 7 days.</p>
+    </div>
 
     <section class="casting-archived-section" id="archived-section" aria-label="Archived casting calls" hidden>
       <details class="casting-archived-details">
@@ -134,7 +167,7 @@
     <aside class="casting-disclaimer" aria-label="Disclaimer">
       <h2 class="casting-disclaimer-title">Disclaimer</h2>
       <p>
-        Starting Out OK is a <strong>listing and information service only</strong>. We do not employ, represent, endorse, or produce any of the projects or employers listed here. We are not responsible for the practices, compliance, or conduct of any production or employer. Listings are provided for convenience; we do not verify compliance with labor laws (including child labor laws) or the accuracy of listing details. Projects involving performers under 18 may be subject to additional legal requirements. You use this information at your own risk and should verify any production or opportunity independently.
+        Acting Out OK is a <strong>listing and information service only</strong>. We do not employ, represent, endorse, or produce any of the projects or employers listed here. We are not responsible for the practices, compliance, or conduct of any production or employer. Listings are provided for convenience; we do not verify compliance with labor laws (including child labor laws) or the accuracy of listing details. Projects involving performers under 18 may be subject to additional legal requirements. You use this information at your own risk and should verify any production or opportunity independently.
       </p>
     </aside>
   </main>
@@ -142,7 +175,7 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <div>
-        <div class="footer-brand">Starting Out OK</div>
+        <div class="footer-brand">Acting Out OK</div>
         <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin: 0;">Your first stop for acting in Oklahoma.</p>
       </div>
       <div class="footer-section">
@@ -158,11 +191,13 @@
         <ul class="footer-links">
           <li><a href="about.html">About</a></li>
           <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
   </footer>
 
+  <script src="js/header.js"></script>
   <script src="js/casting-calls.js"></script>
 </body>
 </html>

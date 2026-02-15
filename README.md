@@ -1,4 +1,4 @@
-# Starting Out OK
+# Acting Out OK
 
 A static website for the Oklahoma film community: casting calls, resources, vendors, and news for anyone starting out in acting in Oklahoma.
 
@@ -73,4 +73,4 @@ Opening the HTML files directly via `file://` will **not** load the JSON data: b
 
 ## License
 
-Use and modify as you like for Starting Out OK.
+Use and modify as you like for Acting Out OK.

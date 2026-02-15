@@ -1,31 +1,31 @@
-/* Starting Out OK - Design Tokens */
+/* Acting Out OK - Design Tokens */
 :root {
-  /* Colors - easy to tweak later */
-  --color-bg: #0a0a0f;
-  --color-bg-elevated: #12121a;
-  --color-surface: #1a1a24;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-text: #f0f0f5;
-  --color-text-muted: #8b8b9e;
-  --color-accent: #6366f1;
-  --color-accent-hover: #818cf8;
-  --color-accent-muted: rgba(99, 102, 241, 0.2);
+  /* Colors – slate base (black/gray/blue), easier on the eyes */
+  --color-bg: #1a1f2e;
+  --color-bg-elevated: #232a3d;
+  --color-surface: #2a3246;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text: #e8eaf0;
+  --color-text-muted: #9ca3b8;
+  --color-accent: #7c8ae0;
+  --color-accent-hover: #9ca8f0;
+  --color-accent-muted: rgba(124, 138, 224, 0.22);
   --color-success: #22c55e;
   --color-warning: #eab308;
   /* Casting pills */
   --color-pill-union: #22c55e;
   --color-pill-union-bg: rgba(34, 197, 94, 0.2);
-  --color-pill-nonunion: #3b82f6;
-  --color-pill-nonunion-bg: rgba(59, 130, 246, 0.2);
-  --color-pill-mixed: #8b8b9e;
-  --color-pill-mixed-bg: rgba(139, 139, 158, 0.2);
+  --color-pill-nonunion: #6b8ae8;
+  --color-pill-nonunion-bg: rgba(107, 138, 232, 0.22);
+  --color-pill-mixed: #9ca3b8;
+  --color-pill-mixed-bg: rgba(156, 163, 184, 0.2);
   --color-pill-under18: #f59e0b;
   --color-pill-under18-bg: rgba(245, 158, 11, 0.2);
 
-  /* Section bar colors (splash) */
-  --bar-casting: #6366f1;
-  --bar-resources: #06b6d4;
-  --bar-news: #ec4899;
+  /* Section bar colors (splash) – lightened */
+  --bar-casting: #7c8ae0;
+  --bar-resources: #5eb4c9;
+  --bar-news: #e87aa8;
 
   /* Typography */
   --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
@@ -57,7 +57,7 @@
 
   /* Layout */
   --max-width: 1200px;
-  --header-height: 72px;
+  --header-height: 80px;
   --radius: 12px;
   --radius-lg: 16px;
 }

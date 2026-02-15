@@ -1,9 +1,9 @@
 (function () {
   // Set your contributor password here (or leave default and change after first use).
   // This is not secure – anyone with the page source can see it. It only keeps casual visitors out.
-  var CONTRIBUTOR_PASSWORD = "startingoutok";
+  var CONTRIBUTOR_PASSWORD = "actingoutok";
 
-  var STORAGE_KEY = "startingoutok-contributor";
+  var STORAGE_KEY = "actingoutok-contributor";
 
   var gate = document.getElementById("contributor-gate");
   var panel = document.getElementById("contributor-panel");
