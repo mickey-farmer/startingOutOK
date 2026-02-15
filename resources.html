@@ -53,7 +53,9 @@
       <p class="resources-submit-cta">To have your resource listed on Acting Out OK, <a href="submit-resource.html">submit your request</a>.</p>
     </div>
 
-    <div class="filters-bar">
+    <details class="filters-details">
+      <summary class="filters-summary">Filters</summary>
+      <div class="filters-bar">
       <div class="filter-group">
         <label for="filter-section">Section</label>
         <select id="filter-section" aria-label="Filter by section">
@@ -94,7 +96,8 @@
         </select>
       </div>
       <button type="button" class="filter-reset" id="filter-reset">Reset filters</button>
-    </div>
+      </div>
+    </details>
 
     <div class="resources-toolbar" id="resources-toolbar" hidden>
       <button type="button" class="resources-expand-collapse" id="resources-expand-all" aria-label="Expand all sections">Expand all</button>

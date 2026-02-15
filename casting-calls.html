@@ -61,7 +61,9 @@
     </div>
 
     <div id="panel-all" role="tabpanel" aria-labelledby="tab-all">
-    <div class="filters-bar">
+    <details class="filters-details">
+      <summary class="filters-summary">Filters</summary>
+      <div class="filters-bar">
       <div class="filter-group">
         <label for="filter-type">Type</label>
         <select id="filter-type" aria-label="Filter by type">
@@ -146,7 +148,8 @@
         </select>
       </div>
       <button type="button" class="filter-reset" id="filter-reset">Reset filters</button>
-    </div>
+      </div>
+    </details>
 
     <div class="casting-grid" id="casting-grid">
       <!-- Populated by JS -->
