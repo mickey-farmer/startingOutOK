@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contributor – Starting Out OK</title>
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/contributor.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="site-logo">Starting Out OK</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="casting-calls.html">Casting Calls</a>
+      <a href="resources.html">Resources</a>
+      <a href="news.html">News</a>
+    </nav>
+  </header>
+
+  <main class="main-content contributor-main">
+    <div id="contributor-gate" class="contributor-gate">
+      <div class="contributor-gate-inner">
+        <h1>Contributor</h1>
+        <p>Enter the contributor password to add or edit content.</p>
+        <form id="gate-form">
+          <label for="gate-password" class="visually-hidden">Password</label>
+          <input type="password" id="gate-password" name="password" placeholder="Password" required autocomplete="current-password" />
+          <button type="submit">Continue</button>
+        </form>
+        <p id="gate-error" class="contributor-error" role="alert" hidden>Incorrect password.</p>
+      </div>
+    </div>
+
+    <div id="contributor-panel" class="contributor-panel" hidden>
+      <div class="page-header">
+        <h1>Contributor</h1>
+        <p>Generate JSON for new entries. Copy the output into the matching file in <code>data/</code>. Casting calls and news are shown newest first; resources are sectioned and alphabetical.</p>
+        <p><button type="button" class="filter-reset" id="contributor-logout">Lock</button></p>
+      </div>
+
+      <div class="contributor-tabs" role="tablist">
+        <button type="button" role="tab" aria-selected="true" aria-controls="panel-casting" id="tab-casting">Casting Call</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="panel-news" id="tab-news">News</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="panel-resource" id="tab-resource">Resource / Vendor</button>
+      </div>
+
+      <div id="panel-casting" role="tabpanel" class="contributor-panel-content">
+        <form id="form-casting" class="contributor-form">
+          <div class="contributor-multi-fields">
+            <div class="form-row two-cols">
+              <div>
+                <label for="cc-multi-date">Date (YYYY-MM-DD)</label>
+                <input type="date" id="cc-multi-date" name="cc-multi-date" />
+              </div>
+              <div>
+                <label for="cc-multi-auditionDeadline">Audition deadline (optional)</label>
+                <input type="date" id="cc-multi-auditionDeadline" name="cc-multi-auditionDeadline" />
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-title">Project title</label>
+              <input type="text" id="cc-multi-title" name="cc-multi-title" placeholder="e.g. Indie Feature – Oklahoma" />
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-description">Project description (optional)</label>
+              <textarea id="cc-multi-description" name="cc-multi-description" rows="2" placeholder="Brief project summary"></textarea>
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-location">Location</label>
+              <input type="text" id="cc-multi-location" name="cc-multi-location" placeholder="e.g. Tulsa" />
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-director">Director</label>
+              <input type="text" id="cc-multi-director" name="cc-multi-director" />
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-filmingDates">Filming dates (optional)</label>
+              <input type="text" id="cc-multi-filmingDates" name="cc-multi-filmingDates" placeholder="e.g. March 15 – April 5, 2025 or TBD" />
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-submissionDetails">Submission details (optional)</label>
+              <textarea id="cc-multi-submissionDetails" name="cc-multi-submissionDetails" rows="3" placeholder="How to submit: email, what to include, etc."></textarea>
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-submissionLink">Submission / apply link (optional)</label>
+              <input type="url" id="cc-multi-submissionLink" name="cc-multi-submissionLink" placeholder="https://..." />
+            </div>
+            <div class="form-row">
+              <label for="cc-multi-sourceLink">Source link (leave blank if exclusive)</label>
+              <input type="url" id="cc-multi-sourceLink" name="cc-multi-sourceLink" placeholder="https://..." />
+            </div>
+            <div class="form-row">
+              <label><input type="checkbox" id="cc-multi-exclusive" name="cc-multi-exclusive" /> Starting Out OK exclusive</label>
+            </div>
+            <div class="form-row">
+              <label><input type="checkbox" id="cc-multi-under18" name="cc-multi-under18" /> Under 18 / may involve minors</label>
+            </div>
+            <div class="form-row">
+              <label>Roles</label>
+              <p class="form-hint">Add at least one role. Use “Add role” for multiple roles on the same project.</p>
+              <div id="cc-roles-container"></div>
+              <button type="button" id="cc-add-role" class="contributor-add-role">Add role</button>
+            </div>
+          </div>
+
+          <button type="submit" class="contributor-submit">Generate JSON</button>
+        </form>
+      </div>
+
+      <div id="panel-news" role="tabpanel" class="contributor-panel-content" hidden>
+        <form id="form-news" class="contributor-form">
+          <div class="form-row">
+            <label for="news-date">Date (YYYY-MM-DD)</label>
+            <input type="date" id="news-date" name="date" required />
+          </div>
+          <div class="form-row">
+            <label for="news-title">Title</label>
+            <input type="text" id="news-title" name="title" required />
+          </div>
+          <div class="form-row">
+            <label for="news-excerpt">Excerpt</label>
+            <textarea id="news-excerpt" name="excerpt" rows="3" required></textarea>
+          </div>
+          <div class="form-row">
+            <label for="news-slug">Slug (URL-friendly, optional – generated from title if blank)</label>
+            <input type="text" id="news-slug" name="slug" placeholder="e.g. ok-film-office-spring" />
+          </div>
+          <button type="submit" class="contributor-submit">Generate JSON</button>
+        </form>
+      </div>
+
+      <div id="panel-resource" role="tabpanel" class="contributor-panel-content" hidden>
+        <form id="form-resource" class="contributor-form">
+          <div class="form-row">
+            <label for="res-title">Title</label>
+            <input type="text" id="res-title" name="title" required />
+          </div>
+          <div class="form-row">
+            <label for="res-category">Category</label>
+            <select id="res-category" name="category">
+              <option value="Classes">Classes</option>
+              <option value="Coaches">Coaches</option>
+              <option value="Voice Over">Voice Over</option>
+              <option value="Equipment">Equipment</option>
+              <option value="Services">Services</option>
+              <option value="Guide">Guide</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="res-type">Type (display)</label>
+            <input type="text" id="res-type" name="type" placeholder="e.g. Class, Coach, Rental" />
+          </div>
+          <div class="form-row">
+            <label for="res-description">Description</label>
+            <textarea id="res-description" name="description" rows="3" required></textarea>
+          </div>
+          <div class="form-row">
+            <label for="res-location">Location</label>
+            <input type="text" id="res-location" name="location" placeholder="e.g. Oklahoma City" />
+          </div>
+          <div class="form-row">
+            <label for="res-link">Link (optional)</label>
+            <input type="url" id="res-link" name="link" placeholder="https://..." />
+          </div>
+          <div class="form-row">
+            <label><input type="checkbox" id="res-vendor" name="vendor" /> Vendor (equipment, services, etc.)</label>
+          </div>
+          <button type="submit" class="contributor-submit">Generate JSON</button>
+        </form>
+      </div>
+
+      <div id="contributor-output" class="contributor-output" hidden>
+        <h2>Copy this into your data file</h2>
+        <p class="contributor-output-hint" id="output-hint"></p>
+        <textarea id="output-json" readonly rows="12"></textarea>
+        <button type="button" id="output-copy" class="filter-reset">Copy to clipboard</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Starting Out OK</div>
+        <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin: 0;">Your first stop for acting in Oklahoma.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="casting-calls.html">Casting Calls</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="news.html">News</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Info</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/contributor.js"></script>
+</body>
+</html>

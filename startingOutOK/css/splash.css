@@ -1,0 +1,200 @@
+/* Splash page – aligned with rest of site (dark theme, no rotation) */
+.splash-page {
+  background: var(--color-bg);
+}
+
+.splash {
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.splash-bar {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  transition: flex var(--transition-slow), min-width var(--transition-slow);
+  overflow: hidden;
+  border-right: 1px solid var(--color-border);
+}
+.splash-bar:last-child {
+  border-right: none;
+}
+
+/* Subtle tint per bar – same dark base as site */
+.splash-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-surface);
+  transition: opacity var(--transition-base);
+}
+.splash-bar:nth-child(1)::before {
+  box-shadow: inset 4px 0 0 var(--bar-casting);
+}
+.splash-bar:nth-child(2)::before {
+  box-shadow: inset 4px 0 0 var(--bar-resources);
+}
+.splash-bar:nth-child(3)::before {
+  box-shadow: inset 4px 0 0 var(--bar-news);
+}
+
+.splash-bar:hover {
+  flex: 1.25;
+  min-width: 260px;
+}
+.splash-bar:hover::before {
+  background: var(--color-bg-elevated);
+}
+
+/* Vertical letters down the left side */
+.splash-bar-letters {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+  min-width: 48px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.25vw, 1.5rem);
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+  transition: color var(--transition-base);
+}
+.splash-bar-letters span {
+  display: block;
+  line-height: 1.1;
+}
+.splash-bar-word-gap {
+  width: 0;
+  height: var(--space-3);
+  min-height: var(--space-3);
+}
+.splash-bar:nth-child(1):hover .splash-bar-letters {
+  color: var(--bar-casting);
+}
+.splash-bar:nth-child(2):hover .splash-bar-letters {
+  color: var(--bar-resources);
+}
+.splash-bar:nth-child(3):hover .splash-bar-letters {
+  color: var(--bar-news);
+}
+
+/* Center content – no rotation */
+.splash-bar-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  text-align: center;
+  transition: opacity var(--transition-base);
+}
+
+.splash-bar-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  max-width: 220px;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.9;
+  transition: opacity var(--transition-base);
+}
+.splash-bar:hover .splash-bar-desc {
+  opacity: 1;
+}
+
+/* Header – same style as inner pages */
+.splash-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-8);
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.splash-site-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-xl);
+  color: var(--color-text);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color var(--transition-fast);
+}
+.splash-site-title:hover {
+  color: var(--color-accent);
+}
+
+/* Footer – same style as inner pages */
+.splash-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: var(--space-6);
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-sm);
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--color-border);
+}
+.splash-footer a {
+  color: var(--color-text-muted);
+}
+.splash-footer a:hover {
+  color: var(--color-text);
+}
+
+/* Add top/bottom padding so content isn’t under header/footer */
+.splash {
+  padding-top: var(--header-height);
+  padding-bottom: 56px;
+}
+
+@media (max-width: 768px) {
+  .splash {
+    flex-direction: column;
+    padding-bottom: 52px;
+  }
+  .splash-bar {
+    min-height: 28vh;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .splash-bar:last-child {
+    border-bottom: none;
+  }
+  .splash-bar-letters {
+    flex-direction: row;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    min-width: auto;
+  }
+  .splash-bar-letters span {
+    display: inline;
+  }
+}

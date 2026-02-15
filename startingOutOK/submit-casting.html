@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit a Casting Call – Starting Out OK</title>
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+  <link rel="stylesheet" href="css/contributor.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="site-logo">Starting Out OK</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="casting-calls.html">Casting Calls</a>
+      <a href="resources.html">Resources</a>
+      <a href="news.html">News</a>
+    </nav>
+  </header>
+
+  <main class="main-content contributor-main">
+    <div class="page-header">
+      <h1>Submit a Casting Call</h1>
+      <p>Fill out the form below to request that your casting call be added to Starting Out OK. We’ll review it and add it to the listing when appropriate.</p>
+    </div>
+
+    <div id="submit-thank-you" class="submit-thank-you" hidden>
+      <p><strong>Thanks!</strong> Your request has been sent. We’ll review it and add your casting call to the listing when appropriate.</p>
+      <p><a href="casting-calls.html">Back to Casting Calls</a></p>
+    </div>
+
+    <form id="form-submit-casting" class="contributor-form" action="https://formspree.io/f/mreaqrnw" method="POST" hidden>
+      <input type="hidden" name="_subject" value="Starting Out OK – New casting call submission" />
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" />
+
+      <div class="form-row two-cols">
+        <div>
+          <label for="submitter-name">Your name (optional)</label>
+          <input type="text" id="submitter-name" name="submitter_name" placeholder="Your name" />
+        </div>
+        <div>
+          <label for="submitter-email">Your email</label>
+          <input type="email" id="submitter-email" name="_replyto" placeholder="you@example.com" required />
+        </div>
+      </div>
+
+      <hr class="form-divider" aria-hidden="true" />
+
+      <div class="contributor-multi-fields">
+        <div class="form-row two-cols">
+          <div>
+            <label for="cc-multi-date">Date (YYYY-MM-DD)</label>
+            <input type="date" id="cc-multi-date" name="cc-multi-date" />
+          </div>
+          <div>
+            <label for="cc-multi-auditionDeadline">Audition deadline (optional)</label>
+            <input type="date" id="cc-multi-auditionDeadline" name="cc-multi-auditionDeadline" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-title">Project title</label>
+          <input type="text" id="cc-multi-title" name="cc-multi-title" placeholder="e.g. Indie Feature – Oklahoma" required />
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-description">Project description (optional)</label>
+          <textarea id="cc-multi-description" name="cc-multi-description" rows="2" placeholder="Brief project summary"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-location">Location</label>
+          <input type="text" id="cc-multi-location" name="cc-multi-location" placeholder="e.g. Tulsa" />
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-director">Director</label>
+          <input type="text" id="cc-multi-director" name="cc-multi-director" />
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-filmingDates">Filming dates (optional)</label>
+          <input type="text" id="cc-multi-filmingDates" name="cc-multi-filmingDates" placeholder="e.g. March 15 – April 5, 2025 or TBD" />
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-submissionDetails">Submission details (optional)</label>
+          <textarea id="cc-multi-submissionDetails" name="cc-multi-submissionDetails" rows="3" placeholder="How to submit: email, what to include, etc."></textarea>
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-submissionLink">Submission / apply link (optional)</label>
+          <input type="url" id="cc-multi-submissionLink" name="cc-multi-submissionLink" placeholder="https://..." />
+        </div>
+        <div class="form-row">
+          <label for="cc-multi-sourceLink">Source link (leave blank if exclusive)</label>
+          <input type="url" id="cc-multi-sourceLink" name="cc-multi-sourceLink" placeholder="https://..." />
+        </div>
+        <div class="form-row">
+          <label><input type="checkbox" id="cc-multi-exclusive" name="cc-multi-exclusive" /> Starting Out OK exclusive</label>
+        </div>
+        <div class="form-row">
+          <label><input type="checkbox" id="cc-multi-under18" name="cc-multi-under18" /> Under 18 / may involve minors</label>
+        </div>
+        <div class="form-row">
+          <label>Roles</label>
+          <p class="form-hint">Add at least one role. Use “Add role” for multiple roles on the same project.</p>
+          <div id="cc-roles-container"></div>
+          <button type="button" id="cc-add-role" class="contributor-add-role">Add role</button>
+        </div>
+      </div>
+
+      <textarea name="casting_call_json" id="casting-call-json" style="display:none;" aria-hidden="true"></textarea>
+
+      <button type="submit" class="contributor-submit">Submit request</button>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Starting Out OK</div>
+        <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin: 0;">Your first stop for acting in Oklahoma.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="casting-calls.html">Casting Calls</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="news.html">News</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Info</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/submit-casting.js"></script>
+</body>
+</html>

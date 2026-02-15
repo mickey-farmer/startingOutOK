@@ -1,0 +1,96 @@
+{
+  "resources": [
+    {
+      "id": "r1",
+      "title": "VO Starter Setup Guide",
+      "category": "Voice Over",
+      "type": "Guide",
+      "description": "Recommended mics, interfaces, and acoustic treatment for getting started with voice over from home.",
+      "location": "Oklahoma City",
+      "link": "",
+      "vendor": false
+    },
+    {
+      "id": "r2",
+      "title": "Acting 101 – Oklahoma City Community College",
+      "category": "Classes",
+      "type": "Class",
+      "description": "Intro to acting for film and stage. Affordable, beginner-friendly.",
+      "location": "Oklahoma City",
+      "link": "https://example.com/occc-acting",
+      "vendor": false
+    },
+    {
+      "id": "r3",
+      "title": "On-Camera Audition Coach – Sarah M.",
+      "category": "Coaches",
+      "type": "Coach",
+      "description": "Private coaching for commercial and film auditions. Slate, copy, callbacks.",
+      "location": "Tulsa",
+      "link": "https://example.com/sarah-coach",
+      "vendor": false
+    },
+    {
+      "id": "r4",
+      "title": "Voice Over Workshop – Monthly",
+      "category": "Classes",
+      "type": "Class",
+      "description": "Monthly group workshop for VO technique and demo prep.",
+      "location": "Norman",
+      "link": "https://example.com/vo-workshop",
+      "vendor": false
+    },
+    {
+      "id": "r5",
+      "title": "Improv for Actors",
+      "category": "Classes",
+      "type": "Class",
+      "description": "Improv fundamentals to build confidence and spontaneity for auditions.",
+      "location": "Oklahoma City",
+      "link": "",
+      "vendor": false
+    }
+  ],
+  "vendors": [
+    {
+      "id": "v1",
+      "title": "OKC Gear Rentals",
+      "category": "Equipment",
+      "type": "Rental",
+      "description": "Camera, lighting, and sound equipment rentals for indie shoots. Day and week rates.",
+      "location": "Oklahoma City",
+      "link": "https://example.com/okc-gear",
+      "vendor": true
+    },
+    {
+      "id": "v2",
+      "title": "Tulsa Voice Booth – Studio Rental",
+      "category": "Voice Over",
+      "type": "Rental",
+      "description": "Professional VO booth and recording space by the hour. Great for self-tapes and demos.",
+      "location": "Tulsa",
+      "link": "https://example.com/tulsa-booth",
+      "vendor": true
+    },
+    {
+      "id": "v3",
+      "title": "Headshot Pro – Oklahoma City",
+      "category": "Services",
+      "type": "Photography",
+      "description": "Actor headshots and comp cards. Experienced with casting specs.",
+      "location": "Oklahoma City",
+      "link": "https://example.com/headshots",
+      "vendor": true
+    },
+    {
+      "id": "v4",
+      "title": "Newbie-Friendly Casting Director Consult",
+      "category": "Services",
+      "type": "Consulting",
+      "description": "One-on-one session to review your materials and answer questions about the local industry.",
+      "location": "Oklahoma City",
+      "link": "",
+      "vendor": true
+    }
+  ]
+}
