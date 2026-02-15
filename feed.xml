@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Acting Out OK – News</title>
+    <link>https://your-username.github.io/startingOutOK</link>
+    <description>Spotlights on actors, productions, and what&apos;s happening in the Oklahoma film community.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://your-username.github.io/startingOutOK/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hollywood on the Prairie: Tulsa Launches First-Ever Film Incentive</title>
+      <link>https://your-username.github.io/startingOutOK/news/article.html#tulsa-film-incentive-2026</link>
+      <guid isPermaLink="true">https://your-username.github.io/startingOutOK/news/article.html#tulsa-film-incentive-2026</guid>
+      <pubDate>Tue, 10 Feb 2026 00:00:00 GMT</pubDate>
+      <description>Tulsa&apos;s new film incentive launched February 1, 2026—and it&apos;s stackable with state rebates. Here&apos;s why that&apos;s a big deal for actors in the 918.</description>
+    </item>
+    <item>
+      <title>MovieMaker Rankings: OKC and Tulsa Top the List</title>
+      <link>https://your-username.github.io/startingOutOK/news/article.html#moviemaker-2026-okc-tulsa</link>
+      <guid isPermaLink="true">https://your-username.github.io/startingOutOK/news/article.html#moviemaker-2026-okc-tulsa</guid>
+      <pubDate>Tue, 03 Feb 2026 00:00:00 GMT</pubDate>
+      <description>Both cities landed on MovieMaker Magazine&apos;s 2026 Top 25 Places to Live and Work as a Moviemaker—Tulsa at #18, OKC at #24 in the big cities category. Here&apos;s what that means for local talent.</description>
+    </item>
+  </channel>
+</rss>

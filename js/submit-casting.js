@@ -44,7 +44,7 @@
       "</div>" +
       '<div class="form-row"><label>Role title</label><input type="text" class="role-roleTitle" placeholder="e.g. Lead – Maya" /></div>' +
       '<div class="form-row"><label>Description</label><textarea class="role-description" rows="3" placeholder="Role description"></textarea></div>' +
-      '<div class="form-row form-row-pay"><label>Pay (display text – any text)</label><div class="pay-input-wrap"><input type="text" class="role-pay" placeholder="e.g. $500/day or Credit, Pay, and Copy" /><button type="button" class="pay-quick-fill" aria-label="Fill with Credit, Pay, and Copy">Credit, Pay, and Copy</button></div></div>' +
+      '<div class="form-row form-row-pay"><label>Pay (display text – any text)</label><div class="pay-input-wrap"><input type="text" class="role-pay" placeholder="e.g. $500/day or Credit and Copy" /><button type="button" class="pay-quick-fill" aria-label="Fill with Credit and Copy">Credit and Copy</button></div></div>' +
       '<div class="form-row two-cols">' +
       '<div><label>Pay min</label><input type="number" class="role-payMin" min="0" placeholder="optional" /></div>' +
       '<div><label>Pay max</label><input type="number" class="role-payMax" min="0" placeholder="optional" /></div>' +
@@ -105,7 +105,7 @@
       var wrap = e.target.closest(".pay-input-wrap");
       if (wrap) {
         var input = wrap.querySelector("input[type=text]");
-        if (input) input.value = "Credit, Pay, and Copy";
+        if (input) input.value = "Credit and Copy";
       }
     }
   });

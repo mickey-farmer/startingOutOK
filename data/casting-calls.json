@@ -3,6 +3,7 @@
     "id": "new-1771170270895",
     "date": "2026-02-15",
     "title": "First Light",
+    "pills": "Quick cast",
     "description": "In a dimly lit late-night coffee shop, teenage Daria is paralyzed by a crush on Vivianne, the charming barista behind the counter. Just as Daria finds the courage to speak, Vivianne initiates a connection that sparks an instant, electric bond. However, the cozy atmosphere shatters when Vivianne discovers Daria's dark reality: she is a creature of the night. Their budding romance is immediately thrust into peril as Sam and Robert, a relentless duo of supernatural trackers, close in on their trail. In this high-stakes urban fantasy, a simple \"meet-cute\" turns into a desperate fight for survival.",
     "location": "Oklahoma City",
     "director": "Rorey Younge",
@@ -14,7 +15,7 @@
       {
         "roleTitle": "Vivianne",
         "description": "(17-Early 20s)\nWitty, Spunky, Bold, Waitress/Barista",
-        "pay": "",
+        "pay": "Credit and Copy",
         "payMin": null,
         "payMax": null,
         "ageRange": "",
@@ -67,6 +68,35 @@
         "type": "Short Film",
         "union": "Non-Union",
         "gender": "Female",
+        "ethnicity": "All ethnicities"
+      }
+    ]
+  },
+  {
+    "id": "here-we-go-again-2026",
+    "date": "2026-02-15",
+    "title": "Here We Go Again",
+    "description": "Independent feature film from Dying Breed Films. Drama/realism. Filming in Oklahoma City April 2026. Oklahoma-based actors preferred; regional (TX, surrounding states) welcome. Shortlisted actors may be contacted for chemistry reads.",
+    "location": "Oklahoma City",
+    "director": "",
+    "filmingDates": "April 2026",
+    "auditionDeadline": "2026-03-14",
+    "submissionDetails": "Email casting@dyingbreedfilms.com with subject line: CECIL – Here We Go Again. Include: headshot, resume (if available), reel or self-tape (preferred), contact information.",
+    "sourceLink": "https://www.okfilmmusic.org/film-music-jobs-all/casting-call-for-here-we-go-again",
+    "exclusive": false,
+    "roles": [
+      {
+        "roleTitle": "Cecil (Lead)",
+        "description": "18–28. Strong presence, grounded, emotionally layered. Street-smart but not one-note. Drama/realism. Rehearsals and shoot dates TBD. Star role with significant screen time and character depth.",
+        "pay": "Paid (compensation discussed with production)",
+        "payMin": null,
+        "payMax": null,
+        "ageRange": "18-28",
+        "ageMin": 18,
+        "ageMax": 28,
+        "type": "Feature Film",
+        "union": "Non-Union",
+        "gender": "Male",
         "ethnicity": "All ethnicities"
       }
     ]

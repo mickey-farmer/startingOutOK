@@ -313,9 +313,13 @@
     return entry.archived === true || entry.archived === "true";
   }
 
+  function isDeleted(entry) {
+    return entry.deleted === "yes" || entry.deleted === true;
+  }
+
   function render() {
-    const active = castingCalls.filter(function (e) { return !isArchived(e); });
-    const archived = castingCalls.filter(isArchived).slice().sort(function (a, b) {
+    const active = castingCalls.filter(function (e) { return !isArchived(e) && !isDeleted(e); });
+    const archived = castingCalls.filter(function (e) { return isArchived(e) && !isDeleted(e); }).slice().sort(function (a, b) {
       var da = a.date ? new Date(a.date).getTime() : 0;
       var db = b.date ? new Date(b.date).getTime() : 0;
       return db - da;
@@ -390,6 +394,7 @@
       })
       .then((data) => {
         castingCalls = (Array.isArray(data) ? data : []).slice();
+        // Newest first (reverse chronological by date)
         castingCalls.sort(function (a, b) {
           var da = a.date ? new Date(a.date).getTime() : 0;
           var db = b.date ? new Date(b.date).getTime() : 0;
