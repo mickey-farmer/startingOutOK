@@ -31,6 +31,12 @@ Opening the HTML files directly via `file://` will **not** load the JSON data: b
 - **Option A:** From the project root run `npx serve .` then open **http://localhost:3000** (or the port shown).
 - **Option B:** Run `python3 -m http.server 8000` then open **http://localhost:8000**.
 
+## SEO
+
+Search engine setup is in the repo (titles, meta descriptions, `robots.txt`, `sitemap.xml`), not in GitHub. The casting-calls and home pages use titles and descriptions aimed at queries like “Oklahoma casting calls.”
+
+**After you deploy:** Replace the placeholder in `sitemap.xml` with your live site base URL (e.g. `https://yoursite.github.io/actingOutOK` or your custom domain). Then uncomment and set the `Sitemap:` line in `robots.txt` to point to your full sitemap URL so search engines can discover all pages.
+
 ## Customization
 
 - **Colors** – Edit `css/variables.css`. Change `--color-accent`, `--color-bg`, section bar colors, etc.
