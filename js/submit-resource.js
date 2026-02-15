@@ -1,6 +1,7 @@
 (function () {
   var form = document.getElementById("form-submit-resource");
   var thankYou = document.getElementById("submit-thank-you");
+  var jsonField = document.getElementById("resource-json");
   var sectionSelect = document.getElementById("resource-section");
   var sectionOtherWrap = document.getElementById("section-other-wrap");
   var sectionOtherInput = document.getElementById("section-other");
@@ -86,4 +87,57 @@
   toggleSectionOther();
   toggleSubcategory();
   toggleLocationOther();
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var tosCheckbox = document.getElementById("resource-tos");
+    if (!tosCheckbox || !tosCheckbox.checked) {
+      alert("You must accept the Terms of Service to submit.");
+      if (tosCheckbox) tosCheckbox.focus();
+      return;
+    }
+
+    var section = sectionSelect ? sectionSelect.value : "";
+    var sectionResolved = section === "Other" && sectionOtherInput ? (sectionOtherInput.value || "").trim() : section;
+    var subcategoryVal = "";
+    if (section === "Classes & Workshops" && subcategorySelect) {
+      subcategoryVal = subcategorySelect.value === "Other" && subcategoryOtherInput
+        ? (subcategoryOtherInput.value || "").trim()
+        : (subcategorySelect.value || "").trim();
+    }
+    var locationVal = (locationSelect && locationSelect.value) || "";
+    if (locationVal === "Other" && locationOtherInput) {
+      locationVal = (locationOtherInput.value || "").trim();
+    }
+    var titleVal = (document.getElementById("resource-title") && document.getElementById("resource-title").value) || "";
+    var typeVal = (document.getElementById("resource-type") && document.getElementById("resource-type").value) || "";
+    var descVal = (document.getElementById("resource-description") && document.getElementById("resource-description").value) || "";
+    var linkVal = (document.getElementById("resource-link") && document.getElementById("resource-link").value) || "";
+    var scheduleVal = (document.getElementById("resource-schedule") && document.getElementById("resource-schedule").value) || "";
+    var notesVal = (document.getElementById("resource-notes") && document.getElementById("resource-notes").value) || "";
+
+    var obj = {
+      id: "res-" + Date.now(),
+      subcategory: subcategoryVal || null,
+      title: titleVal.trim() || "Untitled",
+      type: typeVal.trim() || null,
+      description: (descVal || "").trim(),
+      location: (locationVal || "").trim() || null,
+      link: (linkVal || "").trim() || "",
+      vendor: sectionResolved === "Vendors"
+    };
+    if (scheduleVal.trim()) obj.schedule = scheduleVal.trim();
+    var pills = (notesVal || "")
+      .split(/[\n,]+/)
+      .map(function (s) { return s.trim(); })
+      .filter(Boolean);
+    if (pills.length) obj.pills = pills;
+
+    var addToSectionEl = document.getElementById("add-to-section");
+    if (addToSectionEl) addToSectionEl.value = "Add the Resource JSON below to the \"" + sectionResolved + "\" array in data/resources.json";
+    if (jsonField) {
+      jsonField.value = JSON.stringify(obj, null, 2);
+    }
+    form.submit();
+  });
 })();

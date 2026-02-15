@@ -661,6 +661,26 @@
   font-weight: 500;
 }
 
+.resources-toolbar {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.resources-expand-collapse {
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+.resources-expand-collapse:hover {
+  color: var(--color-text);
+  border-color: var(--color-accent-muted);
+}
+
 .resources-container {
   display: flex;
   flex-direction: column;

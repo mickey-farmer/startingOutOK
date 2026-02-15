@@ -6,6 +6,10 @@
   const filterSubcategoryWrap = document.getElementById("filter-subcategory-wrap");
   const filterLocation = document.getElementById("filter-location");
   const filterReset = document.getElementById("filter-reset");
+  const resourcesContainer = document.getElementById("resources-container");
+  const resourcesToolbar = document.getElementById("resources-toolbar");
+  const expandAllBtn = document.getElementById("resources-expand-all");
+  const collapseAllBtn = document.getElementById("resources-collapse-all");
 
   // Section order (alphabetized) – no "Resources" section
   const SECTION_ORDER = ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Vendors"];
@@ -72,6 +76,7 @@
     if (!container) return;
     container.innerHTML = "";
     if (noResults) noResults.hidden = filtered.length > 0;
+    if (resourcesToolbar) resourcesToolbar.hidden = filtered.length === 0;
 
     if (filtered.length === 0) {
       return;
@@ -98,6 +103,7 @@
 
       const details = document.createElement("details");
       details.className = "resources-section-details";
+      details.setAttribute("open", ""); // Start expanded so content is visible without clicking
       const summary = document.createElement("summary");
       summary.className = "resources-section-summary";
       summary.innerHTML = "<span class=\"resources-section-summary-text\">" + escapeHtml(getSectionLabel(section)) + " <span class=\"resources-section-count\">(" + list.length + ")</span></span>";
@@ -150,6 +156,14 @@
       details.appendChild(content);
       sectionEl.appendChild(details);
       container.appendChild(sectionEl);
+    });
+  }
+
+  function expandOrCollapseAll(open) {
+    if (!resourcesContainer) return;
+    resourcesContainer.querySelectorAll(".resources-section-details").forEach(function (el) {
+      if (open) el.setAttribute("open", "");
+      else el.removeAttribute("open");
     });
   }
 
@@ -211,6 +225,12 @@
       });
   }
 
+  function initExpandCollapse() {
+    if (expandAllBtn) expandAllBtn.addEventListener("click", function () { expandOrCollapseAll(true); });
+    if (collapseAllBtn) collapseAllBtn.addEventListener("click", function () { expandOrCollapseAll(false); });
+  }
+
   initFilters();
+  initExpandCollapse();
   loadData();
 })();
