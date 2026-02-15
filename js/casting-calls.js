@@ -412,9 +412,10 @@
     if (tabAll) tabAll.setAttribute("aria-selected", activeTab === "all");
     if (tabExpiring) tabExpiring.setAttribute("aria-selected", activeTab === "expiring");
 
-    grid.querySelectorAll(".casting-card").forEach((el) => el.remove());
-    noResults.hidden = filtered.length > 0;
-    filtered.forEach((entry) => grid.insertBefore(renderCard(entry), noResults));
+    if (!grid) return;
+    grid.querySelectorAll(".casting-card").forEach(function (el) { el.remove(); });
+    if (noResults) noResults.hidden = filtered.length > 0;
+    filtered.forEach(function (entry) { grid.insertBefore(renderCard(entry), noResults); });
 
     if (archivedSection && archivedList && archivedSummary) {
       archivedSection.hidden = archived.length === 0;

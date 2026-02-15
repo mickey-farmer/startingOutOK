@@ -9,7 +9,7 @@
 
   // Section order (alphabetized) – no "Resources" section
   const SECTION_ORDER = ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Vendors"];
-  const SUBCATEGORY_ORDER = ["Business", "On-Camera Film", "Stage", "Stunts", "Voice Over"];
+  const SUBCATEGORY_ORDER = ["Business", "Improv", "On-Camera Film", "Stage", "Stunts", "Voice Over"];
 
   let items = [];
 
@@ -67,10 +67,11 @@
   function render() {
     const filtered = items.filter(matchesFilters);
 
-    filterSubcategoryWrap.hidden = filterSection.value !== "Classes & Workshops";
+    if (filterSubcategoryWrap) filterSubcategoryWrap.hidden = filterSection.value !== "Classes & Workshops";
 
+    if (!container) return;
     container.innerHTML = "";
-    noResults.hidden = filtered.length > 0;
+    if (noResults) noResults.hidden = filtered.length > 0;
 
     if (filtered.length === 0) {
       return;
@@ -129,13 +130,14 @@
           content.appendChild(grid);
         });
       } else {
+        // Within section: alphabetical by title. Strip leading "The " for sort so "The Actor Factory" sorts under A.
+        function titleSortKey(title) {
+          var t = (title || "").trim();
+          if (/^the\s+/i.test(t)) return t.replace(/^the\s+/i, "").toLowerCase();
+          return t.toLowerCase();
+        }
         const sorted = list.slice().sort(function (a, b) {
-          if (section === "Classes & Workshops" && (a.subcategory || b.subcategory)) {
-            const idxA = SUBCATEGORY_ORDER.indexOf(a.subcategory || "");
-            const idxB = SUBCATEGORY_ORDER.indexOf(b.subcategory || "");
-            if (idxA !== idxB) return (idxA === -1 ? 999 : idxA) - (idxB === -1 ? 999 : idxB);
-          }
-          return (a.title || "").toLowerCase().localeCompare((b.title || "").toLowerCase());
+          return titleSortKey(a.title).localeCompare(titleSortKey(b.title));
         });
         const grid = document.createElement("div");
         grid.className = "resource-grid";
@@ -174,7 +176,22 @@
         function notDeleted(entry) {
           return entry.deleted !== "yes" && entry.deleted !== true;
         }
-        if (data.items && data.items.length) {
+        // Section-grouped format: { "Agencies": [...], "Classes & Workshops": [...], ... }
+        const sectionKeys = ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Vendors"];
+        const hasSections = sectionKeys.some(function (sec) { return Array.isArray(data[sec]); });
+        if (hasSections) {
+          items = [];
+          sectionKeys.forEach(function (sectionName) {
+            const list = data[sectionName];
+            if (!Array.isArray(list)) return;
+            list.forEach(function (entry) {
+              if (notDeleted(entry)) {
+                entry.section = sectionName;
+                items.push(entry);
+              }
+            });
+          });
+        } else if (data.items && data.items.length) {
           items = data.items.filter(notDeleted);
         } else {
           const res = (data.resources || []).slice();

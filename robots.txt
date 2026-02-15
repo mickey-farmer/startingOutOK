@@ -2,5 +2,4 @@
 User-agent: *
 Allow: /
 
-# Add your live site URL once deployed (e.g. https://yoursite.github.io/actingOutOK/sitemap.xml)
-# Sitemap: https://YOUR-SITE-URL/sitemap.xml
+Sitemap: https://actingoutok.com/sitemap.xml

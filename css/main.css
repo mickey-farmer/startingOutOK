@@ -1,4 +1,5 @@
 /* Acting Out OK - Base & Layout */
+/* display=swap avoids invisible text while fonts load */
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap");
 @import "variables.css";
 
@@ -11,6 +12,11 @@
 html {
   scroll-behavior: smooth;
 }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
 
 body {
   margin: 0;
@@ -20,6 +26,7 @@ body {
   color: var(--color-text);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 a {
@@ -109,6 +116,11 @@ img {
   border-color: var(--color-accent);
   background: var(--color-accent-muted);
 }
+.nav-dropdown-trigger:focus-visible,
+.nav-mobile-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
 .nav-dropdown-arrow {
   font-size: 0.7em;
   opacity: 0.9;
@@ -185,9 +197,11 @@ img {
   right: 0;
   width: min(280px, 85vw);
   height: 100vh;
+  height: 100dvh;
   background: var(--color-bg-elevated);
   border-left: 1px solid var(--color-border);
   padding: var(--space-8) var(--space-6);
+  padding-bottom: max(var(--space-8), env(safe-area-inset-bottom));
   z-index: 99;
   transform: translateX(100%);
   transition: transform var(--transition-base);
@@ -322,14 +336,27 @@ img {
 }
 
 @media (max-width: 768px) {
+  .site-header {
+    padding: 0 var(--space-3);
+  }
+  .main-content {
+    padding: var(--space-4) var(--space-3);
+  }
   .footer-inner {
     grid-template-columns: 1fr;
     text-align: center;
+    padding: 0 var(--space-4);
+  }
+  .site-footer {
+    padding: var(--space-8) var(--space-4);
   }
   .site-nav-wrap {
     display: none;
   }
   .nav-mobile-toggle {
     display: flex;
+  }
+  .site-logo img {
+    max-height: 48px;
   }
 }

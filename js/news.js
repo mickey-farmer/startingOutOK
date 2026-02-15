@@ -45,13 +45,15 @@
           var db = b.date ? new Date(b.date).getTime() : 0;
           return db - da;
         });
-        newsList.innerHTML = "";
-        list.forEach(function (entry) {
-          newsList.appendChild(renderArticle(entry));
-        });
+        if (newsList) {
+          newsList.innerHTML = "";
+          list.forEach(function (entry) {
+            newsList.appendChild(renderArticle(entry));
+          });
+        }
       })
       .catch(function () {
-        newsList.innerHTML = '<p class="no-results">Unable to load news. Please try again later.</p>';
+        if (newsList) newsList.innerHTML = '<p class="no-results">Unable to load news. Please try again later.</p>';
       });
   }
 
