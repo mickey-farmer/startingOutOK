@@ -8,7 +8,7 @@
   const filterReset = document.getElementById("filter-reset");
 
   // Section order (alphabetized) – no "Resources" section
-  const SECTION_ORDER = ["Agencies", "Classes & Workshops", "Photographers", "Props", "Stunts", "Theaters", "Vendors"];
+  const SECTION_ORDER = ["Agencies", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Vendors"];
   const SUBCATEGORY_ORDER = ["Business", "On-Camera Film", "Stage", "Stunts", "Voice Over"];
 
   let items = [];

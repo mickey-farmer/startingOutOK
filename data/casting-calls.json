@@ -26,5 +26,49 @@
         "ethnicity": "All ethnicities"
       }
     ]
+  },
+  {
+    "id": "mad-jackal-2026",
+    "date": "2026-02-15",
+    "title": "Mad Jackal: The Rise of Jackal Junior",
+    "description": "Short film. Hannah Byrnes, the main star of the in-universe TV show Riley 103, is deceased at the start of the story; her death is the catalyst for the events. Jackal Junior is the central figure with a Darth Vader–like voice. Serious subject matter; performers under 18 require parent/guardian permission and must have a parent or guardian present on set.",
+    "location": "Spencer",
+    "director": "",
+    "filmingDates": "February 21 and 22",
+    "auditionDeadline": "2026-02-20",
+    "submissionDetails": "Send your auditions and headshot to willez1997@gmail.com. Filming schedule subject to change. Meals provided; free copy of short film. Unpaid.",
+    "sourceLink": "https://www.okfilmmusic.org/film-music-jobs-all/casting-call-for-mad-jackal-the-rise-of-jackal-junior-short-film",
+    "exclusive": false,
+    "under18": true,
+    "roles": [
+      {
+        "roleTitle": "Hannah Byrnes",
+        "description": "17–24. The main star of the in-universe TV show Riley 103; deceased at the start but her death is the catalyst for the story. Must be able to work with serious subject matter.",
+        "pay": "Unpaid",
+        "payMin": null,
+        "payMax": null,
+        "ageRange": "17-24",
+        "ageMin": 17,
+        "ageMax": 24,
+        "type": "Short Film",
+        "union": "Non-Union",
+        "gender": "Female",
+        "ethnicity": "All ethnicities"
+      },
+      {
+        "roleTitle": "Jackal Junior Voice",
+        "description": "15–24. The Darth Vader–like voice for Jackal Junior. Must be able to record and email lines if chosen.",
+        "pay": "Unpaid",
+        "payMin": null,
+        "payMax": null,
+        "ageRange": "15-24",
+        "ageMin": 15,
+        "ageMax": 24,
+        "type": "Short Film",
+        "union": "Non-Union",
+        "gender": "Female",
+        "ethnicity": "All ethnicities"
+      }
+    ]
   }
 ]
