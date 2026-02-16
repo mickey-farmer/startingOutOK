@@ -1,6 +1,8 @@
-/* Splash page – aligned with rest of site (dark theme, no rotation) */
+/* Splash page – logo as full-page background, three sections on top */
 .splash-page {
-  background: var(--color-bg);
+  background: var(--color-bg) url("../images/logo.png") no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
 }
 
 .splash {
@@ -8,6 +10,7 @@
   display: flex;
   align-items: stretch;
   overflow: hidden;
+  position: relative;
 }
 
 .splash-bar {
@@ -26,13 +29,15 @@
   border-right: none;
 }
 
-/* Subtle tint per bar – same dark base as site */
+/* Frosted overlay per bar – logo shows through, “cut” into three sections */
 .splash-bar::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--color-surface);
-  transition: opacity var(--transition-base);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: background var(--transition-base);
 }
 .splash-bar:nth-child(1)::before {
   box-shadow: inset 4px 0 0 var(--bar-casting);
@@ -48,8 +53,9 @@
   flex: 1.25;
   min-width: 260px;
 }
+/* Section background stays same white on hover */
 .splash-bar:hover::before {
-  background: var(--color-bg-elevated);
+  background: rgba(255, 255, 255, 0.78);
 }
 
 /* Vertical letters down the left side */
@@ -78,14 +84,12 @@
   height: var(--space-3);
   min-height: var(--space-3);
 }
-.splash-bar:nth-child(1):hover .splash-bar-letters {
-  color: var(--bar-casting);
-}
-.splash-bar:nth-child(2):hover .splash-bar-letters {
-  color: var(--bar-resources);
-}
+/* Keep section titles dark on hover so they stay readable on tinted background */
+.splash-bar:nth-child(1):hover .splash-bar-letters,
+.splash-bar:nth-child(2):hover .splash-bar-letters,
 .splash-bar:nth-child(3):hover .splash-bar-letters {
-  color: var(--bar-news);
+  color: var(--color-text);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Center content – no rotation */
@@ -105,48 +109,30 @@
 
 .splash-bar-desc {
   font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  color: var(--color-text);
   max-width: 220px;
   line-height: 1.5;
   margin: 0;
-  opacity: 0.9;
-  transition: opacity var(--transition-base);
+  padding: var(--space-3) var(--space-4);
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transition: opacity var(--transition-base), background var(--transition-base), color var(--transition-base);
 }
-.splash-bar:hover .splash-bar-desc {
+.splash-bar:nth-child(1):hover .splash-bar-desc {
   opacity: 1;
+  background: rgba(0, 122, 255, 0.22);
+  color: var(--color-text);
 }
-
-/* Header – same style as inner pages */
-.splash-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  height: var(--header-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 var(--space-4);
-  background: rgba(26, 31, 46, 0.92);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border);
+.splash-bar:nth-child(2):hover .splash-bar-desc {
+  opacity: 1;
+  background: rgba(13, 148, 136, 0.22);
+  color: var(--color-text);
 }
-
-.splash-site-title {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-.splash-site-title img {
-  display: block;
-  max-height: 144px;
-  width: auto;
-  object-fit: contain;
-  transition: opacity var(--transition-fast);
-}
-.splash-site-title:hover img {
-  opacity: 0.9;
+.splash-bar:nth-child(3):hover .splash-bar-desc {
+  opacity: 1;
+  background: rgba(192, 38, 211, 0.22);
+  color: var(--color-text);
 }
 
 /* Footer – same style as inner pages */
@@ -161,7 +147,7 @@
   gap: var(--space-6);
   padding: var(--space-4) var(--space-8);
   font-size: var(--text-sm);
-  background: rgba(26, 31, 46, 0.92);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(12px);
   border-top: 1px solid var(--color-border);
 }
@@ -174,7 +160,6 @@
 
 /* Add top/bottom padding so content isn’t under header/footer */
 .splash {
-  padding-top: var(--header-height);
   padding-bottom: 56px;
 }
 

@@ -1,3 +1,7 @@
+/**
+ * Casting calls list page – loads summary list from casting-calls.json,
+ * renders cards that link to casting-call.html?slug=xxx for full details.
+ */
 (function () {
   const grid = document.getElementById("casting-grid");
   const noResults = document.getElementById("no-results");
@@ -11,19 +15,22 @@
   const archivedSection = document.getElementById("archived-section");
   const archivedList = document.getElementById("archived-list");
   const archivedSummary = document.getElementById("archived-summary");
-  const filterAge = document.getElementById("filter-age");
   const filterLocation = document.getElementById("filter-location");
   const filterPay = document.getElementById("filter-pay");
   const filterType = document.getElementById("filter-type");
   const filterUnion = document.getElementById("filter-union");
   const filterUnder18 = document.getElementById("filter-under18");
-  const filterGender = document.getElementById("filter-gender");
-  const filterEthnicity = document.getElementById("filter-ethnicity");
   const filterExpiring = document.getElementById("filter-expiring");
   const filterReset = document.getElementById("filter-reset");
 
-  let castingCalls = [];
+  let listItems = [];
   let activeTab = "all";
+
+  function formatDate(iso) {
+    if (!iso) return "";
+    var d = new Date(iso + "T12:00:00");
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  }
 
   function formatDeadlineDate(iso) {
     if (!iso) return "";
@@ -41,200 +48,91 @@
     return deadlineTime >= todayStart && deadlineTime <= weekEnd;
   }
 
-  function getPayCategory(roleOrEntry) {
-    if (roleOrEntry.payMin != null && roleOrEntry.payMax != null) {
-      if (roleOrEntry.payMin === 0 && roleOrEntry.payMax === 0) return "volunteer";
-      if (roleOrEntry.payMin > 0 || roleOrEntry.payMax > 0) return "paid";
-    }
-    const p = (roleOrEntry.pay || "").toLowerCase();
-    if (p.includes("deferred") || p.includes("copy")) return "deferred";
-    if (p.includes("volunteer") || p.includes("no pay")) return "volunteer";
+  function getPayCategory(entry) {
+    var p = (entry.pay || "").toLowerCase();
+    if (p.includes("deferred") || p.includes("copy") || p.includes("credit")) return "deferred";
+    if (p.includes("volunteer") || p.includes("no pay") || p.includes("unpaid")) return "volunteer";
     if (p.includes("$") || p.includes("scale") || p.includes("paid")) return "paid";
     return "paid";
   }
 
-  function roleMatchesAge(role, ageVal) {
-    if (!ageVal) return true;
-    const parts = ageVal.split("-").map(Number);
-    const min = parts[0];
-    const max = parts[1];
-    const roleMin = role.ageMin != null ? role.ageMin : (role.ageRange ? parseInt(role.ageRange.split("-")[0], 10) : null);
-    const roleMax = role.ageMax != null ? role.ageMax : (role.ageRange ? parseInt(role.ageRange.split("-")[1], 10) : null);
-    if (roleMin == null || roleMax == null) return role.ageRange === ageVal;
-    if (max === undefined) return roleMax >= min;
-    return roleMax >= min && roleMin <= max;
+  function escapeHtml(text) {
+    var div = document.createElement("div");
+    div.textContent = text == null ? "" : text;
+    return div.innerHTML;
   }
 
-  function deadlineHtml(entry) {
-    if (!entry.auditionDeadline) return "";
-    return '<p class="casting-deadline"><strong>Audition by:</strong> ' + formatDeadlineDate(entry.auditionDeadline) + "</p>";
-  }
-
-  function filmingHtml(entry) {
-    if (!entry.filmingDates) return "";
-    return '<p class="casting-filming"><strong>Filming:</strong> ' + escapeHtml(entry.filmingDates) + "</p>";
-  }
-
-  function submissionHtml(entry) {
-    var details = (entry.submissionDetails || "").trim();
-    var link = (entry.submissionLink || "").trim();
-    if (!details && !link) return "";
-    var out = '<div class="casting-submission">';
-    out += '<h4 class="casting-submission-title">How to submit</h4>';
-    if (details) {
-      out += '<p class="casting-submission-details">' + escapeHtml(details) + "</p>";
+  function entryMatchesFilters(entry) {
+    if (filterUnder18 && filterUnder18.value === "yes" && !entry.under18) return false;
+    if (filterUnder18 && filterUnder18.value === "no" && entry.under18) return false;
+    if (filterExpiring && filterExpiring.value === "soon" && !isExpiringWithinWeek(entry)) return false;
+    if (filterLocation && filterLocation.value && entry.location !== filterLocation.value) return false;
+    if (filterType && filterType.value && entry.type !== filterType.value) return false;
+    if (filterUnion && filterUnion.value && entry.union !== filterUnion.value) return false;
+    if (filterPay && filterPay.value) {
+      var cat = getPayCategory(entry);
+      if (filterPay.value === "paid" && cat !== "paid") return false;
+      if (filterPay.value === "deferred" && cat !== "deferred") return false;
+      if (filterPay.value === "volunteer" && cat !== "volunteer") return false;
     }
-    if (link) {
-      out += '<p class="casting-submission-link"><a href="' + escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">Apply or submit here ↗</a></p>';
-    }
-    out += "</div>";
-    return out;
+    return true;
   }
 
-  function pillsHtml(entry) {
-    var union = entry.union || "";
-    var unionClass = union === "Union" ? "casting-pill--union" : union === "Non-Union" ? "casting-pill--nonunion" : "casting-pill--mixed";
-    var unionLabel = union === "Union" ? "Union" : union === "Non-Union" ? "Non-Union" : "Union status varies";
-    var unionPill = '<span class="casting-pill ' + unionClass + '" aria-label="Union status">' + escapeHtml(unionLabel) + "</span>";
-    var under18Pill = entry.under18
-      ? '<span class="casting-pill casting-pill--under18" aria-label="May involve performers under 18">Under 18</span>'
+  function isArchived(entry) {
+    return entry.archived === true || entry.archived === "true";
+  }
+
+  function renderListCard(entry) {
+    var slug = entry.slug || "";
+    if (!slug) return null;
+    var base = "casting-call.html";
+    var url = base + "#" + encodeURIComponent(slug);
+    var unionClass = (entry.union || "") === "Union" ? "casting-pill--union" : (entry.union || "") === "Non-Union" ? "casting-pill--nonunion" : "casting-pill--mixed";
+    var pills = '<span class="casting-pill ' + unionClass + '">' + escapeHtml(entry.union || "Non-Union") + "</span>";
+    if (entry.under18) pills += '<span class="casting-pill casting-pill--under18">Under 18</span>';
+    var deadlineHtml = entry.auditionDeadline
+      ? '<p class="casting-deadline casting-list-deadline"><strong>Audition by:</strong> ' + formatDeadlineDate(entry.auditionDeadline) + "</p>"
       : "";
-    return '<div class="casting-pills">' + unionPill + (under18Pill ? under18Pill : "") + "</div>";
-  }
-
-  function multiPillsHtml(entry) {
-    var unions = {};
-    (entry.roles || []).forEach(function (r) {
-      unions[r.union || "Non-Union"] = true;
-    });
-    var keys = Object.keys(unions);
-    var unionClass = keys.length > 1 ? "casting-pill--mixed" : keys[0] === "Union" ? "casting-pill--union" : "casting-pill--nonunion";
-    var unionLabel = keys.length > 1 ? "Mixed" : keys[0] || "Non-Union";
-    var unionPill = '<span class="casting-pill ' + unionClass + '" aria-label="Union status">' + escapeHtml(unionLabel) + "</span>";
-    var under18Pill = entry.under18
-      ? '<span class="casting-pill casting-pill--under18" aria-label="May involve performers under 18">Under 18</span>'
-      : "";
-    return '<div class="casting-pills">' + unionPill + (under18Pill ? under18Pill : "") + "</div>";
-  }
-
-  function renderSingleCard(entry) {
-    const exclusiveBadge = entry.exclusive
-      ? '<span class="casting-exclusive">Acting Out OK Exclusive</span>'
-      : "";
-    const sourceLinkHtml =
-      !entry.exclusive && entry.sourceLink
-        ? '<div class="casting-source"><a href="' + entry.sourceLink + '" target="_blank" rel="noopener noreferrer">View original source ↗</a></div>'
-        : "";
-    const deadlineLine = deadlineHtml(entry);
-    const filmingLine = filmingHtml(entry);
-    const submissionBlock = submissionHtml(entry);
-    const pills = pillsHtml(entry);
-    return (
-      exclusiveBadge +
-      "<h3>" + escapeHtml(entry.title) + "</h3>" +
-      pills +
-      '<div class="casting-meta">' +
-      '<span>💰 ' + escapeHtml(entry.pay) + "</span>" +
-      '<span>📍 ' + escapeHtml(entry.location) + "</span>" +
-      '<span>👤 ' + escapeHtml(entry.director) + "</span>" +
-      '<span>📅 ' + escapeHtml(entry.ageRange) + "</span>" +
-      '<span>' + escapeHtml(entry.type) + "</span>" +
-      (entry.gender ? '<span>Seeking: ' + escapeHtml(entry.gender) + "</span>" : "") +
-      (entry.ethnicity ? '<span>' + escapeHtml(entry.ethnicity) + "</span>" : "") +
-      "</div>" +
-      deadlineLine +
-      filmingLine +
-      '<details class="casting-desc-details">' +
-      '<summary class="casting-desc-summary">Description</summary>' +
-      '<p class="casting-desc">' + escapeHtml(entry.description) + "</p>" +
-      "</details>" +
-      submissionBlock +
-      sourceLinkHtml
-    );
-  }
-
-  function renderMultiRoleCard(entry) {
-    const exclusiveBadge = entry.exclusive
-      ? '<span class="casting-exclusive">Acting Out OK Exclusive</span>'
-      : "";
-    const sourceLinkHtml =
-      !entry.exclusive && entry.sourceLink
-        ? '<div class="casting-source"><a href="' + entry.sourceLink + '" target="_blank" rel="noopener noreferrer">View original source ↗</a></div>'
-        : "";
-    const roleCount = entry.roles.length;
-    const pills = multiPillsHtml(entry);
-    let meta =
-      '<span>📍 ' + escapeHtml(entry.location) + "</span>" +
-      '<span>👤 ' + escapeHtml(entry.director) + "</span>" +
-      '<span>' + roleCount + " role" + (roleCount !== 1 ? "s" : "") + "</span>";
-    let rolesHtml = '<div class="casting-roles">';
-    entry.roles.forEach(function (role) {
-      var roleDesc = (role.description || "").trim();
-      var roleDescHtml = roleDesc
-        ? '<details class="casting-role-desc-details">' +
-          '<summary class="casting-role-desc-summary">Details</summary>' +
-          '<p class="casting-role-desc">' + escapeHtml(role.description) + "</p>" +
-          "</details>"
-        : "";
-      rolesHtml +=
-        '<div class="casting-role">' +
-        '<h4 class="casting-role-title">' + escapeHtml(role.roleTitle) + "</h4>" +
-        '<div class="casting-role-meta">' +
-        '<span>💰 ' + escapeHtml(role.pay || "") + "</span>" +
-        '<span>📅 ' + escapeHtml(role.ageRange || "") + "</span>" +
-        '<span>' + escapeHtml(role.type || "") + " · " + escapeHtml(role.union || "") + "</span>" +
-        (role.gender ? '<span>Seeking: ' + escapeHtml(role.gender) + "</span>" : "") +
-        (role.ethnicity ? '<span>' + escapeHtml(role.ethnicity) + "</span>" : "") +
-        "</div>" +
-        roleDescHtml +
-        "</div>";
-    });
-    rolesHtml += "</div>";
-    const projectDesc = entry.description
-      ? '<details class="casting-desc-details casting-project-desc-details">' +
-        '<summary class="casting-desc-summary">Project description</summary>' +
-        '<p class="casting-desc casting-project-desc">' + escapeHtml(entry.description) + "</p>" +
-        "</details>"
-      : "";
-    const deadlineLine = deadlineHtml(entry);
-    const filmingLine = filmingHtml(entry);
-    const submissionBlock = submissionHtml(entry);
-    return (
-      exclusiveBadge +
-      "<h3>" + escapeHtml(entry.title) + "</h3>" +
-      pills +
-      '<div class="casting-meta">' + meta + "</div>" +
-      deadlineLine +
-      filmingLine +
-      projectDesc +
-      rolesHtml +
-      submissionBlock +
-      sourceLinkHtml
-    );
-  }
-
-  function getShareUrl(entryId) {
-    return window.location.origin + window.location.pathname + window.location.search + "#call-" + (entryId || "");
-  }
-
-  function handleShare(entry) {
-    const url = getShareUrl(entry.id);
-    const title = (entry.title || "Casting call").trim();
-    const text = "Casting call: " + title + " – Acting Out OK";
-    if (typeof navigator !== "undefined" && navigator.share) {
-      navigator.share({ title: title, text: text, url: url }).catch(function () {
-        copyShareUrl(url);
+    var meta = [];
+    if (entry.date) meta.push('<time datetime="' + escapeHtml(entry.date) + '">Posted ' + formatDate(entry.date) + "</time>");
+    if (entry.location) meta.push("📍 " + escapeHtml(entry.location));
+    if (entry.pay) meta.push("💰 " + escapeHtml(entry.pay));
+    if (entry.type) meta.push(escapeHtml(entry.type));
+    if (entry.roleCount) meta.push(entry.roleCount + " role" + (entry.roleCount !== 1 ? "s" : ""));
+    var metaHtml = meta.length ? '<div class="casting-list-meta">' + meta.join(" · ") + "</div>" : "";
+    var shareUrl = window.location.origin + window.location.pathname.replace(/casting-calls\.html$/, "casting-call.html") + "#" + encodeURIComponent(slug);
+    var card = document.createElement("article");
+    card.className = "casting-list-card";
+    card.innerHTML =
+      '<a href="' + url + '" class="casting-list-card-link">' +
+      '<h2 class="casting-list-card-title">' + escapeHtml(entry.title || "Untitled") + "</h2>" +
+      '<div class="casting-pills">' + pills + "</div>" +
+      deadlineHtml +
+      metaHtml +
+      "</a>" +
+      '<div class="casting-share-row">' +
+      '<button type="button" class="casting-share-btn" aria-label="Share this casting call">Share</button>' +
+      "</div>";
+    var shareBtn = card.querySelector(".casting-share-btn");
+    if (shareBtn) {
+      shareBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var title = (entry.title || "Casting call").trim();
+        var text = "Casting call: " + title + " – Acting Out OK";
+        if (navigator.share) {
+          navigator.share({ title: title, text: text, url: shareUrl }).catch(function () { copyUrl(shareUrl); });
+        } else {
+          copyUrl(shareUrl);
+        }
       });
-    } else {
-      copyShareUrl(url);
     }
+    return card;
   }
 
-  function copyShareUrl(url) {
+  function copyUrl(url) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(function () {
-        showShareFeedback();
-      }).catch(function () { fallbackCopy(url); });
+      navigator.clipboard.writeText(url).then(showShareFeedback).catch(function () { fallbackCopy(url); });
     } else {
       fallbackCopy(url);
     }
@@ -263,136 +161,18 @@
     el.setAttribute("aria-live", "polite");
     el.textContent = "Link copied!";
     document.body.appendChild(el);
-    setTimeout(function () {
-      if (el.parentNode) el.parentNode.removeChild(el);
-    }, 2000);
-  }
-
-  function renderCard(entry, opts) {
-    const useShareId = !(opts && opts.noId);
-    const card = document.createElement("article");
-    if (useShareId && entry.id) card.id = "call-" + entry.id;
-    card.className = "casting-card" + (entry.roles && entry.roles.length > 0 ? " casting-card--multi" : "");
-    card.dataset.id = entry.id;
-    card.innerHTML =
-      entry.roles && entry.roles.length > 0
-        ? renderMultiRoleCard(entry)
-        : renderSingleCard(entry);
-    const shareRow = document.createElement("div");
-    shareRow.className = "casting-share-row";
-    const shareBtn = document.createElement("button");
-    shareBtn.type = "button";
-    shareBtn.className = "casting-share-btn";
-    shareBtn.textContent = "Share";
-    shareBtn.setAttribute("aria-label", "Share this casting call");
-    shareBtn.addEventListener("click", function () { handleShare(entry); });
-    shareRow.appendChild(shareBtn);
-    card.appendChild(shareRow);
-    return card;
-  }
-
-  function escapeHtml(text) {
-    const div = document.createElement("div");
-    div.textContent = text == null ? "" : text;
-    return div.innerHTML;
-  }
-
-  function entryMatchesFilters(entry) {
-    const under18Val = filterUnder18 && filterUnder18.value;
-    if (under18Val === "yes" && !entry.under18) return false;
-    if (under18Val === "no" && entry.under18) return false;
-
-    const expiringVal = filterExpiring && filterExpiring.value;
-    if (expiringVal === "soon" && !isExpiringWithinWeek(entry)) return false;
-
-    const genderVal = filterGender && filterGender.value;
-    const ethnicityVal = filterEthnicity && filterEthnicity.value;
-
-    if (entry.roles && entry.roles.length > 0) {
-      if (genderVal) {
-        var roleGenderMatch = entry.roles.some(function (r) {
-          return (r.gender || "").toLowerCase() === genderVal.toLowerCase();
-        });
-        if (!roleGenderMatch) return false;
-      }
-      if (ethnicityVal === "all") {
-        var roleEthnicityMatch = entry.roles.some(function (r) {
-          var e = (r.ethnicity || "").toLowerCase();
-          return !e || e.indexOf("all") !== -1 || e.indexOf("any") !== -1 || e.indexOf("open") !== -1;
-        });
-        if (!roleEthnicityMatch) return false;
-      }
-    } else {
-      if (genderVal && (entry.gender || "").toLowerCase() !== genderVal.toLowerCase()) return false;
-      if (ethnicityVal === "all") {
-        var e = (entry.ethnicity || "").toLowerCase();
-        if (e && e.indexOf("all") === -1 && e.indexOf("any") === -1 && e.indexOf("open") === -1) return false;
-      }
-    }
-
-    const locationVal = filterLocation.value;
-    if (locationVal && entry.location !== locationVal) return false;
-
-    if (entry.roles && entry.roles.length > 0) {
-      const ageVal = filterAge.value;
-      const payVal = filterPay.value;
-      const typeVal = filterType.value;
-      const unionVal = filterUnion.value;
-      const anyRoleMatches = entry.roles.some(function (role) {
-        if (ageVal && !roleMatchesAge(role, ageVal)) return false;
-        if (typeVal && role.type !== typeVal) return false;
-        if (unionVal && role.union !== unionVal) return false;
-        if (payVal) {
-          const cat = getPayCategory(role);
-          if (payVal === "paid" && cat !== "paid") return false;
-          if (payVal === "deferred" && cat !== "deferred") return false;
-          if (payVal === "volunteer" && cat !== "volunteer") return false;
-        }
-        return true;
-      });
-      return anyRoleMatches;
-    }
-
-    const ageVal = filterAge.value;
-    if (ageVal) {
-      const [min, max] = ageVal.split("-").map(Number);
-      if (max === undefined) {
-        if (entry.ageMax == null || entry.ageMax < min) return false;
-      } else if (entry.ageMin == null || entry.ageMax == null) {
-        if (entry.ageRange !== ageVal) return false;
-      } else {
-        if (entry.ageMax < min || entry.ageMin > max) return false;
-      }
-    }
-    if (filterType.value && entry.type !== filterType.value) return false;
-    if (filterUnion.value && entry.union !== filterUnion.value) return false;
-    const payVal = filterPay.value;
-    if (payVal) {
-      const cat = getPayCategory(entry);
-      if (payVal === "paid" && cat !== "paid") return false;
-      if (payVal === "deferred" && cat !== "deferred") return false;
-      if (payVal === "volunteer" && cat !== "volunteer") return false;
-    }
-    return true;
-  }
-
-  function isArchived(entry) {
-    return entry.archived === true || entry.archived === "true";
-  }
-
-  function isDeleted(entry) {
-    return entry.deleted === "yes" || entry.deleted === true;
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 2000);
   }
 
   function render() {
-    const active = castingCalls.filter(function (e) { return !isArchived(e) && !isDeleted(e); });
-    const archived = castingCalls.filter(function (e) { return isArchived(e) && !isDeleted(e); }).slice().sort(function (a, b) {
+    var active = listItems.filter(function (e) { return !isArchived(e); });
+    var archived = listItems.filter(isArchived).slice().sort(function (a, b) {
       var da = a.date ? new Date(a.date).getTime() : 0;
       var db = b.date ? new Date(b.date).getTime() : 0;
       return db - da;
     });
-    const filtered = active.filter(entryMatchesFilters);
-    const expiringSoon = filtered.filter(isExpiringWithinWeek).slice().sort(function (a, b) {
+    var filtered = active.filter(entryMatchesFilters);
+    var expiringSoon = filtered.filter(isExpiringWithinWeek).slice().sort(function (a, b) {
       var da = (a.auditionDeadline || "").replace(/-/g, "");
       var db = (b.auditionDeadline || "").replace(/-/g, "");
       return parseInt(da, 10) - parseInt(db, 10);
@@ -402,7 +182,8 @@
     if (expiringGrid) {
       expiringGrid.innerHTML = "";
       expiringSoon.forEach(function (entry) {
-        expiringGrid.appendChild(renderCard(entry, { noId: true }));
+        var card = renderListCard(entry);
+        if (card) expiringGrid.appendChild(card);
       });
     }
     if (noResultsExpiring) noResultsExpiring.hidden = expiringSoon.length > 0;
@@ -412,17 +193,21 @@
     if (tabAll) tabAll.setAttribute("aria-selected", activeTab === "all");
     if (tabExpiring) tabExpiring.setAttribute("aria-selected", activeTab === "expiring");
 
-    if (!grid) return;
-    grid.querySelectorAll(".casting-card").forEach(function (el) { el.remove(); });
-    if (noResults) noResults.hidden = filtered.length > 0;
-    filtered.forEach(function (entry) { grid.insertBefore(renderCard(entry), noResults); });
+    if (grid) {
+      grid.querySelectorAll(".casting-list-card").forEach(function (el) { el.remove(); });
+      if (noResults) noResults.hidden = filtered.length > 0;
+      filtered.forEach(function (entry) {
+        var card = renderListCard(entry);
+        if (card) grid.insertBefore(card, noResults);
+      });
+    }
 
     if (archivedSection && archivedList && archivedSummary) {
       archivedSection.hidden = archived.length === 0;
       archivedSummary.textContent = "Archived (" + archived.length + ")";
       archivedList.innerHTML = "";
       archived.forEach(function (entry) {
-        const li = document.createElement("li");
+        var li = document.createElement("li");
         li.className = "casting-archived-item";
         li.textContent = entry.title || "Untitled";
         archivedList.appendChild(li);
@@ -430,102 +215,51 @@
     }
   }
 
-  function initFilters() {
-    var filterEls = [filterAge, filterLocation, filterPay, filterType, filterUnion];
-    if (filterUnder18) filterEls.push(filterUnder18);
-    if (filterGender) filterEls.push(filterGender);
-    if (filterEthnicity) filterEls.push(filterEthnicity);
-    if (filterExpiring) filterEls.push(filterExpiring);
-    filterEls.forEach(function (el) {
-      if (el) el.addEventListener("change", render);
-    });
-    filterReset.addEventListener("click", function () {
-      clearFilters();
-      render();
-    });
-  }
-
-  function getHashCallId() {
-    var hash = (window.location.hash || "").slice(1);
-    return hash.indexOf("call-") === 0 ? hash.slice(5) : null;
-  }
-
   function clearFilters() {
-    if (filterAge) filterAge.value = "";
     if (filterLocation) filterLocation.value = "";
     if (filterPay) filterPay.value = "";
     if (filterType) filterType.value = "";
     if (filterUnion) filterUnion.value = "";
     if (filterUnder18) filterUnder18.value = "";
-    if (filterGender) filterGender.value = "";
-    if (filterEthnicity) filterEthnicity.value = "";
     if (filterExpiring) filterExpiring.value = "";
     activeTab = "all";
   }
 
-  function scrollToCardAndHighlight(entryId) {
-    var card = document.getElementById("call-" + entryId);
-    if (!card) return;
-    card.scrollIntoView({ behavior: "smooth", block: "start" });
-    card.classList.add("casting-card--highlight");
-    card.setAttribute("tabindex", "-1");
-    card.focus({ preventScroll: true });
-    window.setTimeout(function () {
-      card.classList.remove("casting-card--highlight");
-    }, 3000);
+  function initFilters() {
+    [filterLocation, filterPay, filterType, filterUnion, filterUnder18, filterExpiring].forEach(function (el) {
+      if (el) el.addEventListener("change", render);
+    });
+    if (filterReset) filterReset.addEventListener("click", function () { clearFilters(); render(); });
+  }
+
+  function initTabs() {
+    if (!tabAll || !tabExpiring) return;
+    tabAll.addEventListener("click", function () { activeTab = "all"; render(); });
+    tabExpiring.addEventListener("click", function () { activeTab = "expiring"; render(); });
   }
 
   function loadData() {
     var isFileProtocol = typeof window !== "undefined" && window.location && window.location.protocol === "file:";
     fetch("data/casting-calls.json")
-      .then((r) => {
+      .then(function (r) {
         if (!r.ok) throw new Error(r.statusText);
         return r.json();
       })
-      .then((data) => {
-        castingCalls = (Array.isArray(data) ? data : []).slice();
-        // Newest first (reverse chronological by date)
-        castingCalls.sort(function (a, b) {
+      .then(function (data) {
+        listItems = (Array.isArray(data) ? data : []).slice();
+        listItems.sort(function (a, b) {
           var da = a.date ? new Date(a.date).getTime() : 0;
           var db = b.date ? new Date(b.date).getTime() : 0;
           return db - da;
         });
-        var hashId = getHashCallId();
-        if (hashId) {
-          clearFilters();
-        }
         render();
-        if (hashId) {
-          scrollToCardAndHighlight(hashId);
-        }
       })
       .catch(function (err) {
         var msg = "Unable to load casting calls.";
-        if (isFileProtocol) {
-          msg += " Browsers block loading local JSON when the page is opened via file://. Run a local server (e.g. <code>npx serve .</code> or <code>python3 -m http.server 8000</code>) and open the site via http://localhost.";
-        } else {
-          msg += " " + (err && err.message ? err.message : "Please try again later.");
-        }
-        grid.innerHTML = '<p class="no-results casting-load-error">' + msg + "</p>";
+        if (isFileProtocol) msg += " Run a local server (e.g. npx serve .) and open via http://localhost.";
+        else if (err && err.message) msg += " " + err.message;
+        if (grid) grid.innerHTML = '<p class="no-results casting-load-error">' + msg + "</p>";
       });
-  }
-
-  function initTabs() {
-    if (!tabAll || !tabExpiring) return;
-    function switchTo(tab) {
-      activeTab = tab;
-      render();
-    }
-    tabAll.addEventListener("click", function () { switchTo("all"); });
-    tabExpiring.addEventListener("click", function () { switchTo("expiring"); });
-    tabAll.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight" || e.key === "End") { e.preventDefault(); tabExpiring.focus(); tabExpiring.click(); }
-      if (e.key === "ArrowLeft") { e.preventDefault(); tabAll.focus(); }
-    });
-    tabExpiring.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowLeft" || e.key === "Home") { e.preventDefault(); tabAll.focus(); tabAll.click(); }
-      if (e.key === "ArrowRight") { e.preventDefault(); tabExpiring.focus(); }
-    });
   }
 
   initFilters();
