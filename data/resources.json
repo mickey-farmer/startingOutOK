@@ -141,9 +141,19 @@
     {
       "id": "photo-1",
       "subcategory": null,
+      "title": "Circle House Media",
+      "type": "Photographer",
+      "description": "Oklahoma City actor headshot studio. Relaxed sessions and tailored results; studio designed for creativity and convenience.",
+      "location": "Oklahoma City",
+      "link": "https://www.circlehouse.media/OKC-Actor-Headshots/",
+      "vendor": false
+    },
+    {
+      "id": "photo-2",
+      "subcategory": null,
       "title": "Numunuu Photography",
       "type": "Photographer",
-      "description": "Oklahoma City headshot studio in the Plaza District. Actor headshots and business headshots. Numunuu is Comanche for \"the people\".",
+      "description": "Comanche for \"the people,\" Numunuu is an Oklahoma City headshot studio in the Plaza District offering actor and business headshots.",
       "location": "Oklahoma City",
       "link": "https://numunuu.photography/",
       "vendor": false
@@ -322,7 +332,7 @@
       "vendor": false
     }
   ],
-  
+
   "Writing": [
     {
       "id": "writing-1",
