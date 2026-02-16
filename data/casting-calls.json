@@ -1,5 +1,17 @@
 [
   {
+    "slug": "lyric-theatre-summer-2026",
+    "title": "Lyric Theatre of Oklahoma – Summer 2026 Season",
+    "date": "2026-02-15",
+    "auditionDeadline": "2026-02-26",
+    "location": "Oklahoma City",
+    "pay": "Paid",
+    "type": "Theatre",
+    "union": "Union",
+    "under18": true,
+    "roleCount": 3
+  },
+  {
     "slug": "new-1771170270895",
     "title": "First Light",
     "date": "2026-02-15",
