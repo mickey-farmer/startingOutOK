@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="css/pages.css" />
   <link rel="stylesheet" href="css/contributor.css" />
   <link rel="stylesheet" href="css/spotlight.css" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body data-current-nav="Casting Calls">
   <header class="site-header">
@@ -142,6 +143,11 @@
           <input type="checkbox" id="casting-tos" name="accept_terms" required />
           I accept the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms of Service</a>.
         </label>
+      </div>
+
+      <div class="form-row cf-turnstile-wrap">
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAACd9D2mM-r32Oe4d"></div>
+        <p class="form-hint">Complete the captcha so we know you’re not a bot.</p>
       </div>
 
       <button type="submit" class="contributor-submit">Submit request</button>
