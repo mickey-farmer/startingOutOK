@@ -1,119 +1,53 @@
 [
   {
-    "id": "new-1771170270895",
-    "date": "2026-02-15",
+    "slug": "new-1771170270895",
     "title": "First Light",
-    "pills": "Quick cast",
-    "description": "In a dimly lit late-night coffee shop, teenage Daria is paralyzed by a crush on Vivianne, the charming barista behind the counter. Just as Daria finds the courage to speak, Vivianne initiates a connection that sparks an instant, electric bond. However, the cozy atmosphere shatters when Vivianne discovers Daria's dark reality: she is a creature of the night. Their budding romance is immediately thrust into peril as Sam and Robert, a relentless duo of supernatural trackers, close in on their trail. In this high-stakes urban fantasy, a simple \"meet-cute\" turns into a desperate fight for survival.",
+    "date": "2026-02-15",
+    "auditionDeadline": null,
     "location": "Oklahoma City",
-    "director": "Rorey Younge",
-    "filmingDates": "March 6-7",
-    "submissionDetails": "Submit headshot/resume/reel/ to:\n\nforeveryoungepictures@gmail.com and\nMoodyfulFilms@gmail.com\nSubject: \"FIRST LIGHT - [VIVIANNE]\"",
-    "sourceLink": "https://www.instagram.com/foreveryoungepictures/p/DUtTHnsjwpo/",
-    "exclusive": false,
-    "roles": [
-      {
-        "roleTitle": "Vivianne",
-        "description": "(17-Early 20s)\nWitty, Spunky, Bold, Waitress/Barista",
-        "pay": "Credit and Copy",
-        "payMin": null,
-        "payMax": null,
-        "ageRange": "",
-        "ageMin": null,
-        "ageMax": null,
-        "type": "Feature Film",
-        "union": "Non-Union",
-        "gender": "Female",
-        "ethnicity": "All ethnicities"
-      }
-    ]
+    "pay": "Credit and Copy",
+    "type": "Feature Film",
+    "union": "Non-Union",
+    "under18": false,
+    "roleCount": 1
   },
   {
-    "id": "mad-jackal-2026",
-    "date": "2026-02-15",
+    "slug": "mad-jackal-2026",
     "title": "Mad Jackal: The Rise of Jackal Junior",
-    "description": "Short film. Hannah Byrnes, the main star of the in-universe TV show Riley 103, is deceased at the start of the story; her death is the catalyst for the events. Jackal Junior is the central figure with a Darth Vader–like voice. Serious subject matter; performers under 18 require parent/guardian permission and must have a parent or guardian present on set.",
-    "location": "Spencer",
-    "director": "",
-    "filmingDates": "February 21 and 22",
-    "auditionDeadline": "2026-02-20",
-    "submissionDetails": "Send your auditions and headshot to willez1997@gmail.com. Filming schedule subject to change. Meals provided; free copy of short film. Unpaid.",
-    "sourceLink": "https://www.okfilmmusic.org/film-music-jobs-all/casting-call-for-mad-jackal-the-rise-of-jackal-junior-short-film",
-    "exclusive": false,
-    "under18": true,
-    "roles": [
-      {
-        "roleTitle": "Hannah Byrnes",
-        "description": "17–24. The main star of the in-universe TV show Riley 103; deceased at the start but her death is the catalyst for the story. Must be able to work with serious subject matter.",
-        "pay": "Unpaid",
-        "payMin": null,
-        "payMax": null,
-        "ageRange": "17-24",
-        "ageMin": 17,
-        "ageMax": 24,
-        "type": "Short Film",
-        "union": "Non-Union",
-        "gender": "Female",
-        "ethnicity": "All ethnicities"
-      },
-      {
-        "roleTitle": "Jackal Junior Voice",
-        "description": "15–24. The Darth Vader–like voice for Jackal Junior. Must be able to record and email lines if chosen.",
-        "pay": "Unpaid",
-        "payMin": null,
-        "payMax": null,
-        "ageRange": "15-24",
-        "ageMin": 15,
-        "ageMax": 24,
-        "type": "Short Film",
-        "union": "Non-Union",
-        "gender": "Female",
-        "ethnicity": "All ethnicities"
-      }
-    ]
-  },
-  {
-    "id": "here-we-go-again-2026",
     "date": "2026-02-15",
+    "auditionDeadline": "2026-02-20",
+    "location": "Spencer",
+    "pay": "Unpaid",
+    "type": "Short Film",
+    "union": "Non-Union",
+    "under18": true,
+    "roleCount": 2
+  },
+  {
+    "slug": "here-we-go-again-2026",
     "title": "Here We Go Again",
-    "description": "Independent feature film from Dying Breed Films. Drama/realism. Filming in Oklahoma City April 2026. Oklahoma-based actors preferred; regional (TX, surrounding states) welcome. Shortlisted actors may be contacted for chemistry reads.",
-    "location": "Oklahoma City",
-    "director": "",
-    "filmingDates": "April 2026",
+    "date": "2026-02-15",
     "auditionDeadline": "2026-03-14",
-    "submissionDetails": "Email casting@dyingbreedfilms.com with subject line: CECIL – Here We Go Again. Include: headshot, resume (if available), reel or self-tape (preferred), contact information.",
-    "sourceLink": "https://www.okfilmmusic.org/film-music-jobs-all/casting-call-for-here-we-go-again",
-    "exclusive": false,
-    "roles": [
-      {
-        "roleTitle": "Cecil (Lead)",
-        "description": "18–28. Strong presence, grounded, emotionally layered. Street-smart but not one-note. Drama/realism. Rehearsals and shoot dates TBD. Star role with significant screen time and character depth.",
-        "pay": "Paid (compensation discussed with production)",
-        "payMin": null,
-        "payMax": null,
-        "ageRange": "18-28",
-        "ageMin": 18,
-        "ageMax": 28,
-        "type": "Feature Film",
-        "union": "Non-Union",
-        "gender": "Male",
-        "ethnicity": "All ethnicities"
-      }
-    ]
+    "location": "Oklahoma City",
+    "pay": "Paid",
+    "type": "Feature Film",
+    "union": "Non-Union",
+    "under18": false,
+    "roleCount": 1
   },
   {
-    "id": "angus-led-me-to-you",
-    "archived": true,
-    "title": "Angus Led Me To You (2026)"
+    "slug": "angus-led-me-to-you",
+    "title": "Angus Led Me To You (2026)",
+    "archived": true
   },
   {
-    "id": "honor-2026",
-    "archived": true,
-    "title": "Honor (2026)"
+    "slug": "honor-2026",
+    "title": "Honor (2026)",
+    "archived": true
   },
   {
-    "id": "south-of-stillwater",
-    "archived": true,
-    "title": "South of Stillwater (2025)"
+    "slug": "south-of-stillwater",
+    "title": "South of Stillwater (2025)",
+    "archived": true
   }
 ]

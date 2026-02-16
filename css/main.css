@@ -1,6 +1,6 @@
 /* Acting Out OK - Base & Layout */
 /* display=swap avoids invisible text while fonts load */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 @import "variables.css";
 
 *,
@@ -43,7 +43,7 @@ img {
   height: auto;
 }
 
-/* Header - used on inner pages */
+/* Header - glassmorphism, used on inner pages */
 .site-header {
   position: sticky;
   top: 0;
@@ -53,8 +53,9 @@ img {
   align-items: center;
   justify-content: flex-start;
   padding: 0 var(--space-4);
-  background: rgba(26, 31, 46, 0.92);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
 }
 .site-header-inner {
@@ -357,6 +358,6 @@ img {
     display: flex;
   }
   .site-logo img {
-    max-height: 48px;
+    max-height: 72px;
   }
 }
