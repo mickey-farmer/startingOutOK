@@ -12,7 +12,7 @@
   const collapseAllBtn = document.getElementById("resources-collapse-all");
 
   // Section order (alphabetized) – no "Resources" section
-  const SECTION_ORDER = ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Vendors"];
+  const SECTION_ORDER = ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Voice", "Vendors"];
   const SUBCATEGORY_ORDER = ["Business", "Improv", "On-Camera Film", "Stage", "Stunts", "Voice Over"];
 
   let items = [];
@@ -191,7 +191,7 @@
           return entry.deleted !== "yes" && entry.deleted !== true;
         }
         // Section-grouped format: { "Agencies": [...], "Classes & Workshops": [...], ... }
-        const sectionKeys = ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Vendors"];
+        const sectionKeys = ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Voice", "Vendors"];
         const hasSections = sectionKeys.some(function (sec) { return Array.isArray(data[sec]); });
         if (hasSections) {
           items = [];
