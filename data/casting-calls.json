@@ -1,5 +1,17 @@
 [
   {
+    "slug": "theatre-tulsa-fun-home-2026",
+    "title": "Theatre Tulsa – Fun Home",
+    "date": "2026-02-15",
+    "auditionDeadline": "2026-03-15",
+    "location": "Tulsa",
+    "pay": "Unpaid",
+    "type": "Theatre",
+    "union": "Non-Union",
+    "under18": true,
+    "roleCount": 8
+  },
+  {
     "slug": "lyric-theatre-summer-2026",
     "title": "Lyric Theatre of Oklahoma – Summer 2026 Season",
     "date": "2026-02-15",

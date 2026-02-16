@@ -29,6 +29,16 @@
       "location": "Tulsa",
       "link": "https://www.lindalaymanagency.com",
       "vendor": false
+    },
+    {
+      "id": "ag-4",
+      "subcategory": null,
+      "title": "MAGNA Talent",
+      "type": "Agency",
+      "description": "Talent agency in Norman representing actors for film, TV, and commercials. Oklahoma-based; exclusive representation in the state. Union and non-union talent. By appointment only; talent applications and requirements are on the agency website.",
+      "location": "Norman",
+      "link": "https://magnatalent.com",
+      "vendor": false
     }
   ],
 
@@ -88,6 +98,17 @@
       "pills": ["Improv"],
       "location": "Oklahoma City",
       "link": "https://www.okcimprov.com/classes",
+      "vendor": false
+    },
+    {
+      "id": "class-6",
+      "subcategory": "On-Camera Film",
+      "title": "Howard Fine Acting Studio (Fine Online)",
+      "type": "Class",
+      "description": "LA-based acting studio offering online classes worldwide. Technique, script analysis, audition for film & TV, self-tape, on-camera work, voice and speech, voice acting, American accent, emotional range, Alexander technique, and improv. Adult and kids classes. Training from the studio’s faculty via Zoom.",
+      "pills": ["Virtual"],
+      "location": "Online",
+      "link": "https://www.howardfine.com/acting-classes/online-acting-classes/",
       "vendor": false
     }
   ],
@@ -267,6 +288,20 @@
       "description": "Community theatre since 1970 at 3306 Charles Page Blvd. Four-play season, dinner theatre, Black Box, youth education, and local playwright opportunities.",
       "location": "Tulsa",
       "link": "https://www.americantheatrecompany.org",
+      "vendor": false
+    }
+  ],
+
+  "Voice": [
+    {
+      "id": "voice-1",
+      "subcategory": null,
+      "title": "Tara Strong's Voicelings",
+      "type": "Course",
+      "description": "Voice acting course and community led by Tara Strong (Timmy Turner, Harley Quinn, Bubbles, Twilight Sparkle, Raven, and more). Online, self-paced: vocal techniques, character creation, audition prep, home studio, career development. Live events with industry guests, private community, gig board. Minimum age 13; under 18 requires guardian permission. Scholarships available.",
+      "pills": ["Scholarships available"],
+      "location": "Online",
+      "link": "https://www.voicelings.com/",
       "vendor": false
     }
   ],
