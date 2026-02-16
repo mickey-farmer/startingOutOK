@@ -75,7 +75,7 @@ img {
 }
 .site-logo img {
   display: block;
-  max-height: 144px;
+  max-height: 96px;
   width: auto;
   object-fit: contain;
 }
@@ -358,6 +358,6 @@ img {
     display: flex;
   }
   .site-logo img {
-    max-height: 72px;
+    max-height: 56px;
   }
 }

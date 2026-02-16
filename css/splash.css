@@ -1,7 +1,7 @@
 /* Splash page – logo as full-page background, three sections on top */
 .splash-page {
   background: var(--color-bg) url("../images/logo.png") no-repeat center center;
-  background-size: cover;
+  background-size: 50%;
   min-height: 100vh;
 }
 
