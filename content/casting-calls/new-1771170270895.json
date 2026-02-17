@@ -1,30 +1,31 @@
 {
-  "id": "new-1771170270895",
+  "archived": true,
+  "filmingDates": "March 6-7",
+  "slug": "new-1771170270895",
+  "director": "Rorey Younge",
   "date": "2026-02-15",
+  "sourceLink": "https://www.instagram.com/foreveryoungepictures/p/DUtTHnsjwpo/",
+  "location": "Oklahoma City",
+  "submissionDetails": "Submit headshot/resume/reel/ to:\n\nforeveryoungepictures@gmail.com and\nMoodyfulFilms@gmail.com\nSubject: \"FIRST LIGHT - [VIVIANNE]\"",
   "title": "First Light",
   "pills": "Quick cast",
+  "id": "new-1771170270895",
   "description": "In a dimly lit late-night coffee shop, teenage Daria is paralyzed by a crush on Vivianne, the charming barista behind the counter. Just as Daria finds the courage to speak, Vivianne initiates a connection that sparks an instant, electric bond. However, the cozy atmosphere shatters when Vivianne discovers Daria's dark reality: she is a creature of the night. Their budding romance is immediately thrust into peril as Sam and Robert, a relentless duo of supernatural trackers, close in on their trail. In this high-stakes urban fantasy, a simple \"meet-cute\" turns into a desperate fight for survival.",
-  "location": "Oklahoma City",
-  "director": "Rorey Younge",
-  "filmingDates": "March 6-7",
-  "submissionDetails": "Submit headshot/resume/reel/ to:\n\nforeveryoungepictures@gmail.com and\nMoodyfulFilms@gmail.com\nSubject: \"FIRST LIGHT - [VIVIANNE]\"",
-  "sourceLink": "https://www.instagram.com/foreveryoungepictures/p/DUtTHnsjwpo/",
-  "exclusive": false,
   "roles": [
     {
+      "gender": "Female",
       "roleTitle": "Vivianne",
-      "description": "(17-Early 20s)\nWitty, Spunky, Bold, Waitress/Barista",
+      "ageMax": null,
       "pay": "Credit and Copy",
       "payMin": null,
-      "payMax": null,
-      "ageRange": "",
-      "ageMin": null,
-      "ageMax": null,
-      "type": "Short Film",
       "union": "Non-Union",
-      "gender": "Female",
+      "ageMin": null,
+      "type": "Short Film",
+      "payMax": null,
+      "description": "(17-Early 20s)\nWitty, Spunky, Bold, Waitress/Barista",
+      "ageRange": "",
       "ethnicity": "All ethnicities"
     }
   ],
-  "slug": "new-1771170270895"
+  "exclusive": false
 }
