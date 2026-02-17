@@ -1,0 +1,15 @@
+{
+  "id": "ofa-1",
+  "subcategory": "On-Camera Film",
+  "title": "Oklahoma Film Actors (OFA)",
+  "type": "Class",
+  "description": "On-camera scene study, workshops, and acting classes in the Oklahoma City Plaza District. First class free.",
+  "pills": [
+    "Offers young adult classes",
+    "First class free"
+  ],
+  "location": "Oklahoma City",
+  "link": "https://ofastudios.com",
+  "vendor": false,
+  "section": "Classes & Workshops"
+}

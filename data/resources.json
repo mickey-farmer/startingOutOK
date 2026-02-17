@@ -1,26 +1,6 @@
 {
   "Agencies": [
     {
-      "id": "ag-1",
-      "subcategory": null,
-      "title": "The Tabb Agency",
-      "type": "Agency",
-      "description": "Talent agency in Oklahoma City for actors, models, and artists in film, TV, and print. Represents adults, youth, families, voiceover, and hair/makeup artists.",
-      "location": "Oklahoma City",
-      "link": "https://www.thetabbagency.com",
-      "vendor": false
-    },
-    {
-      "id": "ag-2",
-      "subcategory": null,
-      "title": "Reel Talent Studio",
-      "type": "Agency",
-      "description": "Talent agency in Tulsa. Film, TV, and commercial representation for adults, teens, kids, and voice-over.",
-      "location": "Tulsa",
-      "link": "https://www.reeltalentstudio.com",
-      "vendor": false
-    },
-    {
       "id": "ag-3",
       "subcategory": null,
       "title": "Linda Layman Agency",
@@ -28,7 +8,8 @@
       "description": "Model and talent agency in Tulsa for over 50 years. Books actors, kids, and models for TV, print, film, and runway.",
       "location": "Tulsa",
       "link": "https://www.lindalaymanagency.com",
-      "vendor": false
+      "vendor": false,
+      "section": "Agencies"
     },
     {
       "id": "ag-4",
@@ -38,10 +19,32 @@
       "description": "Talent agency in Norman representing actors for film, TV, and commercials. Oklahoma-based; exclusive representation in the state. Union and non-union talent. By appointment only; talent applications and requirements are on the agency website.",
       "location": "Norman",
       "link": "https://magnatalent.com",
-      "vendor": false
+      "vendor": false,
+      "section": "Agencies"
+    },
+    {
+      "id": "ag-2",
+      "subcategory": null,
+      "title": "Reel Talent Studio",
+      "type": "Agency",
+      "description": "Talent agency in Tulsa. Film, TV, and commercial representation for adults, teens, kids, and voice-over.",
+      "location": "Tulsa",
+      "link": "https://www.reeltalentstudio.com",
+      "vendor": false,
+      "section": "Agencies"
+    },
+    {
+      "id": "ag-1",
+      "subcategory": null,
+      "title": "The Tabb Agency",
+      "type": "Agency",
+      "description": "Talent agency in Oklahoma City for actors, models, and artists in film, TV, and print. Represents adults, youth, families, voiceover, and hair/makeup artists.",
+      "location": "Oklahoma City",
+      "link": "https://www.thetabbagency.com",
+      "vendor": false,
+      "section": "Agencies"
     }
   ],
-
   "Casting": [
     {
       "id": "casting-1",
@@ -51,43 +54,24 @@
       "description": "Based in Norman. Casting Society of America (CSA) member. Casts film, TV, and commercials.",
       "location": "Norman",
       "link": "https://www.freihofercasting.com",
-      "vendor": false
+      "vendor": false,
+      "section": "Casting"
     }
   ],
-
   "Classes & Workshops": [
-    {
-      "id": "ofa-1",
-      "subcategory": "On-Camera Film",
-      "title": "Oklahoma Film Actors (OFA)",
-      "type": "Class",
-      "description": "On-camera scene study, workshops, and acting classes in the Oklahoma City Plaza District. First class free.",
-      "pills": ["Offers young adult classes", "First class free"],
-      "location": "Oklahoma City",
-      "link": "https://ofastudios.com",
-      "vendor": false
-    },
-    {
-      "id": "class-2",
-      "subcategory": "On-Camera Film",
-      "pills": ["Offers young adult classes"],
-      "title": "The Actor Factory",
-      "type": "Class",
-      "description": "Acting studio in Norman since 2009. Adult and young performer classes: on-camera, audition for film & TV, scene work, demo reel camps. In-person and online.",
-      "location": "Norman",
-      "link": "https://www.theactorfactory.com",
-      "vendor": false
-    },
     {
       "id": "class-3",
       "subcategory": "On-Camera Film",
       "title": "Cody Mayo Studios",
-      "pills": ["Offers young adult classes"],
+      "pills": [
+        "Offers young adult classes"
+      ],
       "type": "Class",
       "description": "Film and TV acting conservatory in Tulsa. Adult and young actor classes, improv, private coaching, self-tape services. Studio Row, 317 S. Trenton Ave.",
       "location": "Tulsa",
       "link": "https://www.codymayostudios.com",
-      "vendor": false
+      "vendor": false,
+      "section": "Classes & Workshops"
     },
     {
       "id": "class-5",
@@ -95,25 +79,56 @@
       "title": "OKC Improv",
       "type": "Class",
       "description": "Improv comedy classes in the Plaza District (1755 NW 16th St). Eight-week sessions, multiple levels from beginning to advanced; kids and teen classes, sketch and stand-up, and workshops. Supportive environment for building confidence and performance skills.",
-      "pills": ["Improv"],
+      "pills": [
+        "Improv"
+      ],
       "location": "Oklahoma City",
       "link": "https://www.okcimprov.com/classes",
-      "vendor": false
+      "vendor": false,
+      "section": "Classes & Workshops"
     },
     {
-      "id": "class-6",
+      "id": "ofa-1",
       "subcategory": "On-Camera Film",
-      "title": "Howard Fine Acting Studio (Fine Online)",
+      "title": "Oklahoma Film Actors (OFA)",
       "type": "Class",
-      "description": "LA-based acting studio offering online classes worldwide. Technique, script analysis, audition for film & TV, self-tape, on-camera work, voice and speech, voice acting, American accent, emotional range, Alexander technique, and improv. Adult and kids classes. Training from the studio’s faculty via Zoom.",
-      "pills": ["Virtual"],
-      "location": "Online",
-      "link": "https://www.howardfine.com/acting-classes/online-acting-classes/",
-      "vendor": false
+      "description": "On-camera scene study, workshops, and acting classes in the Oklahoma City Plaza District. First class free.",
+      "pills": [
+        "Offers young adult classes",
+        "First class free"
+      ],
+      "location": "Oklahoma City",
+      "link": "https://ofastudios.com",
+      "vendor": false,
+      "section": "Classes & Workshops"
+    },
+    {
+      "id": "class-2",
+      "subcategory": "On-Camera Film",
+      "pills": [
+        "Offers young adult classes"
+      ],
+      "title": "The Actor Factory",
+      "type": "Class",
+      "description": "Acting studio in Norman since 2009. Adult and young performer classes: on-camera, audition for film & TV, scene work, demo reel camps. In-person and online.",
+      "location": "Norman",
+      "link": "https://www.theactorfactory.com",
+      "vendor": false,
+      "section": "Classes & Workshops"
     }
   ],
-
   "Networking": [
+    {
+      "id": "networking-2",
+      "subcategory": null,
+      "title": "deadCenter Film",
+      "type": "Networking",
+      "description": "Oklahoma's largest and only Oscar-qualifying film festival, in OKC. Five-day fest each June; great place to meet filmmakers and connect with the local film community. Year-round screenings and education programs.",
+      "location": "Oklahoma City",
+      "link": "https://deadcenterfilm.org",
+      "vendor": false,
+      "section": "Networking"
+    },
     {
       "id": "networking-1",
       "subcategory": null,
@@ -123,20 +138,10 @@
       "schedule": "First Friday of each month, 8–10 a.m.",
       "location": "Oklahoma City & Tulsa",
       "link": "https://www.okmpa.com/events",
-      "vendor": false
-    },
-    {
-      "id": "networking-2",
-      "subcategory": null,
-      "title": "deadCenter Film",
-      "type": "Networking",
-      "description": "Oklahoma's largest and only Oscar-qualifying film festival, in OKC. Five-day fest each June; great place to meet filmmakers and connect with the local film community. Year-round screenings and education programs.",
-      "location": "Oklahoma City",
-      "link": "https://deadcenterfilm.org",
-      "vendor": false
+      "vendor": false,
+      "section": "Networking"
     }
   ],
-
   "Photographers": [
     {
       "id": "photo-1",
@@ -146,7 +151,8 @@
       "description": "Oklahoma City actor headshot studio. Relaxed sessions and tailored results; studio designed for creativity and convenience.",
       "location": "Oklahoma City",
       "link": "https://www.circlehouse.media/OKC-Actor-Headshots/",
-      "vendor": false
+      "vendor": false,
+      "section": "Photographers"
     },
     {
       "id": "photo-2",
@@ -156,10 +162,10 @@
       "description": "Comanche for \"the people,\" Numunuu is an Oklahoma City headshot studio in the Plaza District offering actor and business headshots.",
       "location": "Oklahoma City",
       "link": "https://numunuu.photography/",
-      "vendor": false
+      "vendor": false,
+      "section": "Photographers"
     }
   ],
-
   "Props": [
     {
       "id": "props-1",
@@ -169,10 +175,10 @@
       "description": "Prop firearms and armorer services for film in Oklahoma. Period and modern prop guns; armorer and actor weapons training; armorers available on set.",
       "location": "Oklahoma",
       "link": "https://range405.com",
-      "vendor": false
+      "vendor": false,
+      "section": "Props"
     }
   ],
-
   "Stunts": [
     {
       "id": "stunts-1",
@@ -182,21 +188,11 @@
       "description": "Stunt training and coordination. Justin Parks – stunt performer and instructor.",
       "location": null,
       "link": "https://www.instagram.com/justinparks_jp/",
-      "vendor": false
+      "vendor": false,
+      "section": "Stunts"
     }
   ],
-
   "Studios & Sound Stages": [
-    {
-      "id": "studio-2",
-      "subcategory": null,
-      "title": "Filmmakers Ranch",
-      "type": "Studio",
-      "description": "About 15 miles from downtown OKC. 12-acre campus with three sound stages (23,000+ sq ft), six acres of backlot, standing sets (police station, hospital, high school, apartments), production offices, and Oklahoma's largest Grip & Electric company. Dolby Atmos post facility on site.",
-      "location": "Oklahoma City",
-      "link": "https://www.filmmakersranch.com",
-      "vendor": false
-    },
     {
       "id": "studio-3",
       "subcategory": null,
@@ -205,7 +201,19 @@
       "description": "Owasso campus, ~15–20 minutes from Tulsa. 27,000 sq ft complex with certified soundstages, XR/virtual production (LED volumes), edit suites, control room, audio booth, hair & makeup. Oklahoma Film + Music certified.",
       "location": "Owasso / Tulsa",
       "link": "https://cherokee.film/studios/",
-      "vendor": false
+      "vendor": false,
+      "section": "Studios & Sound Stages"
+    },
+    {
+      "id": "studio-2",
+      "subcategory": null,
+      "title": "Filmmakers Ranch",
+      "type": "Studio",
+      "description": "About 15 miles from downtown OKC. 12-acre campus with three sound stages (23,000+ sq ft), six acres of backlot, standing sets (police station, hospital, high school, apartments), production offices, and Oklahoma's largest Grip & Electric company. Dolby Atmos post facility on site.",
+      "location": "Oklahoma City",
+      "link": "https://www.filmmakersranch.com",
+      "vendor": false,
+      "section": "Studios & Sound Stages"
     },
     {
       "id": "studio-4",
@@ -215,51 +223,11 @@
       "description": "Production facility in Tulsa's Kendall Whittier neighborhood. Two sound stages (6,000 and 2,800 sq ft), lighting grid, cyc walls, ADR/Foley booth, scene shop. 320-acre filming property in Osage County with cabin and exterior locations.",
       "location": "Tulsa",
       "link": "https://www.stormfrontstudios.net",
-      "vendor": false
+      "vendor": false,
+      "section": "Studios & Sound Stages"
     }
   ],
-
   "Theaters": [
-    {
-      "id": "th-1",
-      "subcategory": null,
-      "title": "Lyric Theatre of Oklahoma",
-      "type": "Theatre",
-      "description": "Oklahoma's official state theatre. Professional theatre in the Plaza District; also performs at Civic Center Music Hall. Thelma Gaylord Academy offers training.",
-      "location": "Oklahoma City",
-      "link": "https://lyrictheatreokc.com",
-      "vendor": false
-    },
-    {
-      "id": "th-2",
-      "subcategory": null,
-      "title": "Carpenter Square Theatre",
-      "type": "Theatre",
-      "description": "Year-round live theatre at 1009 W. Reno. Modern works, comedy classics, and musicals. 120-seat venue with lobby art gallery.",
-      "location": "Oklahoma City",
-      "link": "https://www.carpentersquare.com",
-      "vendor": false
-    },
-    {
-      "id": "th-3",
-      "subcategory": null,
-      "title": "Jewel Box Theatre",
-      "type": "Theatre",
-      "description": "Longest continuously operating theatre in Oklahoma (since 1911). Six productions annually including plays and musicals. 301 NW 36th St.",
-      "location": "Oklahoma City",
-      "link": "https://jewelboxokc.com",
-      "vendor": false
-    },
-    {
-      "id": "th-4",
-      "subcategory": null,
-      "title": "Oklahoma Shakespeare",
-      "type": "Theatre",
-      "description": "Classical theatre in the Paseo Arts District. Outdoor amphitheater and Black Box indoor theatre. Year-round season, student matinees, young company camps.",
-      "location": "Oklahoma City",
-      "link": "https://www.okshakes.org",
-      "vendor": false
-    },
     {
       "id": "th-5",
       "subcategory": null,
@@ -268,17 +236,8 @@
       "description": "Community theatre at The Shoppes at NorthPark (12040 N May Ave). Diverse, inclusive casting.",
       "location": "Oklahoma City",
       "link": "https://www.3rdacttheatreco.com",
-      "vendor": false
-    },
-    {
-      "id": "th-6",
-      "subcategory": null,
-      "title": "World Stage Theatre Company",
-      "type": "Theatre",
-      "description": "Community theatre at 1130 S. Harvard. AACT and OCTA member. Season 8 (2025–2026) includes Lord of the Flies, For Colored Girls, and more.",
-      "location": "Tulsa",
-      "link": "https://okworldstage.org",
-      "vendor": false
+      "vendor": false,
+      "section": "Theaters"
     },
     {
       "id": "th-7",
@@ -288,14 +247,65 @@
       "description": "Community theatre since 1970 at 3306 Charles Page Blvd. Four-play season, dinner theatre, Black Box, youth education, and local playwright opportunities.",
       "location": "Tulsa",
       "link": "https://www.americantheatrecompany.org",
-      "vendor": false
+      "vendor": false,
+      "section": "Theaters"
+    },
+    {
+      "id": "th-2",
+      "subcategory": null,
+      "title": "Carpenter Square Theatre",
+      "type": "Theatre",
+      "description": "Year-round live theatre at 1009 W. Reno. Modern works, comedy classics, and musicals. 120-seat venue with lobby art gallery.",
+      "location": "Oklahoma City",
+      "link": "https://www.carpentersquare.com",
+      "vendor": false,
+      "section": "Theaters"
+    },
+    {
+      "id": "th-3",
+      "subcategory": null,
+      "title": "Jewel Box Theatre",
+      "type": "Theatre",
+      "description": "Longest continuously operating theatre in Oklahoma (since 1911). Six productions annually including plays and musicals. 301 NW 36th St.",
+      "location": "Oklahoma City",
+      "link": "https://jewelboxokc.com",
+      "vendor": false,
+      "section": "Theaters"
+    },
+    {
+      "id": "th-1",
+      "subcategory": null,
+      "title": "Lyric Theatre of Oklahoma",
+      "type": "Theatre",
+      "description": "Oklahoma's official state theatre. Professional theatre in the Plaza District; also performs at Civic Center Music Hall. Thelma Gaylord Academy offers training.",
+      "location": "Oklahoma City",
+      "link": "https://lyrictheatreokc.com",
+      "vendor": false,
+      "section": "Theaters"
+    },
+    {
+      "id": "th-4",
+      "subcategory": null,
+      "title": "Oklahoma Shakespeare",
+      "type": "Theatre",
+      "description": "Classical theatre in the Paseo Arts District. Outdoor amphitheater and Black Box indoor theatre. Year-round season, student matinees, young company camps.",
+      "location": "Oklahoma City",
+      "link": "https://www.okshakes.org",
+      "vendor": false,
+      "section": "Theaters"
+    },
+    {
+      "id": "th-6",
+      "subcategory": null,
+      "title": "World Stage Theatre Company",
+      "type": "Theatre",
+      "description": "Community theatre at 1130 S. Harvard. AACT and OCTA member. Season 8 (2025–2026) includes Lord of the Flies, For Colored Girls, and more.",
+      "location": "Tulsa",
+      "link": "https://okworldstage.org",
+      "vendor": false,
+      "section": "Theaters"
     }
   ],
-
-  
-
-
-
   "Vendors": [
     {
       "id": "vendor-1",
@@ -305,10 +315,10 @@
       "description": "Oklahoma film and camera equipment rental. Camera packages, lighting, grip, and production gear for features, TV, and commercials.",
       "location": "Oklahoma",
       "link": "https://ampequipment.com",
-      "vendor": true
+      "vendor": true,
+      "section": "Vendors"
     }
   ],
-
   "Voice": [
     {
       "id": "voice-1",
@@ -316,13 +326,15 @@
       "title": "Tara Strong's Voicelings",
       "type": "Course",
       "description": "Voice acting course and community led by Tara Strong (Timmy Turner, Harley Quinn, Bubbles, Twilight Sparkle, Raven, and more). Online, self-paced: vocal techniques, character creation, audition prep, home studio, career development. Live events with industry guests, private community, gig board. Minimum age 13; under 18 requires guardian permission. Scholarships available.",
-      "pills": ["Scholarships available"],
+      "pills": [
+        "Scholarships available"
+      ],
       "location": "Online",
       "link": "https://www.voicelings.com/",
-      "vendor": false
+      "vendor": false,
+      "section": "Voice"
     }
   ],
-
   "Writing": [
     {
       "id": "writing-1",
@@ -332,7 +344,8 @@
       "description": "Submit short, character-driven scripts (1–2 pages, 2–4 characters) to OFA Studios. Selected scripts are rehearsed and filmed in their on-camera acting classes with dual-camera setup, lighting, and professional editing, then screened at OFA. Writers keep full ownership; free to submit. PDF, original work only.",
       "location": "Oklahoma City",
       "link": "https://www.ofastudios.com/writers-pipeline",
-      "vendor": false
+      "vendor": false,
+      "section": "Writing"
     }
   ]
 }

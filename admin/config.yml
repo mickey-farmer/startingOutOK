@@ -1,0 +1,125 @@
+# Decap CMS config for Acting Out OK
+# Repo: GitHub owner/repo where content lives. Admin UI: https://actingoutok.com/admin/
+
+backend:
+  name: github
+  repo: mickey-farmer/actingOutOK
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+site_url: https://actingoutok.com
+display_url: https://actingoutok.com
+
+collections:
+  - label: "Casting Calls"
+    name: "casting-calls"
+    folder: "content/casting-calls"
+    create: true
+    format: "json"
+    extension: "json"
+    identifier_field: "title"
+    slug: "{{fields.slug}}"
+    summary: "{{title}} — {{location}}"
+    sortable_fields: ["date", "title", "auditionDeadline"]
+    view_filters:
+      - label: Active
+        field: archived
+        pattern: false
+      - label: Archived
+        field: archived
+        pattern: true
+    fields:
+      - { label: "Slug (URL id)", name: "slug", widget: "string", hint: "URL-safe id, e.g. theatre-tulsa-fun-home-2026. Used in filename and links." }
+      - { label: "ID", name: "id", widget: "string", required: false, hint: "Optional; defaults to slug. Used in some feeds." }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Archived", name: "archived", widget: "boolean", default: false, required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Location", name: "location", widget: "string", required: false }
+      - { label: "Director", name: "director", widget: "string", required: false }
+      - { label: "Filming dates", name: "filmingDates", widget: "string", required: false }
+      - { label: "Audition deadline", name: "auditionDeadline", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: "Submission details", name: "submissionDetails", widget: "text", required: false }
+      - { label: "Source link", name: "sourceLink", widget: "string", required: false }
+      - { label: "Exclusive (Acting Out OK Exclusive badge)", name: "exclusive", widget: "boolean", default: false, required: false }
+      - { label: "Under 18 roles", name: "under18", widget: "boolean", default: false, required: false }
+      - label: "Roles"
+        name: "roles"
+        widget: "list"
+        required: false
+        summary: "{{roleTitle}}"
+        fields:
+          - { label: "Role title", name: "roleTitle", widget: "string" }
+          - { label: "Description", name: "description", widget: "text", required: false }
+          - { label: "Pay", name: "pay", widget: "string", required: false }
+          - { label: "Age range", name: "ageRange", widget: "string", required: false }
+          - { label: "Type", name: "type", widget: "string", required: false }
+          - { label: "Union", name: "union", widget: "select", options: ["Union", "Non-Union", "Mixed"], required: false }
+          - { label: "Gender", name: "gender", widget: "string", required: false }
+          - { label: "Ethnicity", name: "ethnicity", widget: "string", required: false }
+
+  - label: "News"
+    name: "news"
+    folder: "content/news"
+    create: true
+    format: "json"
+    extension: "json"
+    identifier_field: "title"
+    slug: "{{fields.slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Slug (URL id)", name: "slug", widget: "string", hint: "URL-safe id for the article page." }
+      - { label: "ID", name: "id", widget: "string", hint: "Unique id, e.g. tulsa-incentive-2026." }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Excerpt", name: "excerpt", widget: "text", hint: "Short summary for the news list and RSS." }
+      - { label: "Body (HTML)", name: "body", widget: "text", hint: "Full article content in HTML (e.g. from a rich editor or Markdown converter)." }
+
+  - label: "Resources"
+    name: "resources"
+    folder: "content/resources"
+    create: true
+    format: "json"
+    extension: "json"
+    identifier_field: "title"
+    slug: "{{fields.id}}"
+    summary: "{{title}} — {{section}}"
+    sortable_fields: ["title", "section", "type"]
+    view_filters:
+      - label: Agencies
+        field: section
+        pattern: "Agencies"
+      - label: Classes
+        field: section
+        pattern: "Classes & Workshops"
+    fields:
+      - { label: "ID", name: "id", widget: "string", hint: "Unique id, e.g. ag-1." }
+      - { label: "Section", name: "section", widget: "select", options: ["Agencies", "Casting", "Classes & Workshops", "Networking", "Photographers", "Props", "Stunts", "Studios & Sound Stages", "Theaters", "Vendors", "Voice", "Writing"] }
+      - { label: "Subcategory", name: "subcategory", widget: "string", required: false }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Type", name: "type", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Location", name: "location", widget: "string", required: false }
+      - { label: "Link", name: "link", widget: "string", required: false }
+      - { label: "Vendor (equipment/services)", name: "vendor", widget: "boolean", default: false, required: false }
+      - { label: "Pills", name: "pills", widget: "list", required: false, summary: "{{value}}", field: { label: "Pill", name: "value", widget: "string" } }
+      - { label: "Schedule", name: "schedule", widget: "string", required: false }
+
+  - label: "Spotlight"
+    name: "spotlight"
+    files:
+      - label: "Spotlight messages"
+        name: "spotlight"
+        file: "content/spotlight.json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{message}}"
+            fields:
+              - { label: "Message", name: "message", widget: "string" }
+              - { label: "Link", name: "link", widget: "string", required: false }
+              - { label: "Link text", name: "linkText", widget: "string", default: "Learn more", required: false }
