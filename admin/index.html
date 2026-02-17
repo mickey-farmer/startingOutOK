@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex" />
   <title>Content Manager – Acting Out OK</title>
-  <!-- Decap CMS with GitHub backend: no Netlify Identity needed -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- Explicit config path so Decap finds it (helps with custom domain / subpath) -->
+  <link href="config.yml" type="text/yaml" rel="cms-config-url" />
 </head>
 <body>
+  <!-- Script at end of body so document.body exists when Decap mounts (avoids appendChild of null) -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </body>
 </html>
