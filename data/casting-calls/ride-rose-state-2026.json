@@ -1,0 +1,73 @@
+{
+  "id": "hide-rose-state-2026",
+  "date": "2026-02-18",
+  "title": "HIDE",
+  "description": "A Rose State Film Studies and Digital Media and deadCenter Education production. Student short film. Filming March 14, 15, 16. Non-union. IMDb credit. Also seeking: Adult Background (professional types) and College-age Background (college students).",
+  "location": "Midwest City",
+  "director": "",
+  "filmingDates": "March 14, 15, 16",
+  "auditionDeadline": "2026-02-28",
+  "submissionDetails": "Submit headshot, reel or self tape. Open until February 28. Email submissions to: danielzgulley@gmail.com, piperlynn.films@gmail.com, eric.writing1412@gmail.com",
+  "sourceLink": "",
+  "exclusive": false,
+  "under18": false,
+  "roles": [
+    {
+      "roleTitle": "Riley",
+      "description": "Male, early 20s. Athletic, cool, suave, confident.",
+      "pay": "IMDb credit, selects, craft services",
+      "payMin": null,
+      "payMax": null,
+      "ageRange": "Early 20s",
+      "ageMin": 20,
+      "ageMax": 25,
+      "type": "Short Film",
+      "union": "Non-Union",
+      "gender": "Male",
+      "ethnicity": "All ethnicities"
+    },
+    {
+      "roleTitle": "Christine",
+      "description": "Female, early 20s. Cheerleader type, outspoken and sarcastic, skeptical.",
+      "pay": "IMDb credit, selects, craft services",
+      "payMin": null,
+      "payMax": null,
+      "ageRange": "Early 20s",
+      "ageMin": 20,
+      "ageMax": 25,
+      "type": "Short Film",
+      "union": "Non-Union",
+      "gender": "Female",
+      "ethnicity": "All ethnicities"
+    },
+    {
+      "roleTitle": "John",
+      "description": "Male, early 20s. Nerdy, smart, socially awkward.",
+      "pay": "IMDb credit, selects, craft services",
+      "payMin": null,
+      "payMax": null,
+      "ageRange": "Early 20s",
+      "ageMin": 20,
+      "ageMax": 25,
+      "type": "Short Film",
+      "union": "Non-Union",
+      "gender": "Male",
+      "ethnicity": "All ethnicities"
+    },
+    {
+      "roleTitle": "Mia",
+      "description": "Female, early 20s.",
+      "pay": "IMDb credit, selects, craft services",
+      "payMin": null,
+      "payMax": null,
+      "ageRange": "Early 20s",
+      "ageMin": 20,
+      "ageMax": 25,
+      "type": "Short Film",
+      "union": "Non-Union",
+      "gender": "Female",
+      "ethnicity": "All ethnicities"
+    }
+  ],
+  "slug": "hide-rose-state-2026"
+}
