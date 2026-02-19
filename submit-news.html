@@ -11,7 +11,7 @@
     gtag('js', new Date());
     gtag('config', 'G-7T5WDT21C0');
   </script>
-  <title>Report an Issue – Acting Out OK</title>
+  <title>Suggest a News Story – Acting Out OK</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/pages.css" />
@@ -19,14 +19,14 @@
   <link rel="stylesheet" href="css/spotlight.css" />
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
-<body data-current-nav="">
+<body data-current-nav="News">
   <header class="site-header">
     <div class="site-header-inner">
       <a href="index.html" class="site-logo"><img src="images/logo.png" alt="Acting Out OK" /></a>
       <div class="site-nav-wrap">
         <div class="nav-dropdown">
           <button type="button" class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="nav-dropdown-menu" id="nav-dropdown-trigger">
-            <span class="nav-dropdown-label">Menu</span>
+            <span class="nav-dropdown-label">News</span>
             <span class="nav-dropdown-arrow" aria-hidden="true">▼</span>
           </button>
           <ul class="nav-dropdown-menu" id="nav-dropdown-menu" hidden role="menu">
@@ -51,67 +51,84 @@
       <a href="about.html">About</a>
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
-      <a href="report-issue.html">Report an issue</a>
     </div>
   </aside>
 
   <main class="main-content contributor-main">
     <div class="page-header">
-      <h1>Report an Issue</h1>
-      <p>Found a broken link, wrong information, or something else? Send us the details and we’ll look into it.</p>
+      <h1>Suggest a News Story</h1>
+      <p>Have a tip or story idea for our news blog? Submit it below. We’ll review it and, if it fits our coverage, we may publish it and credit you as the source. See our <a href="terms.html#news-story-submissions">Terms of Service</a> for how we handle submissions.</p>
     </div>
 
-    <div id="report-thank-you" class="submit-thank-you" hidden>
-      <p><strong>Thanks!</strong> Your report has been sent. We’ll look into it and get back to you if we need more info.</p>
-      <p><a href="index.html">Back to home</a></p>
+    <div id="submit-thank-you" class="submit-thank-you" hidden>
+      <p><strong>Thanks!</strong> Your suggestion has been sent. We’ll review it and may reach out if we decide to run the story.</p>
+      <p><a href="https://news.actingoutok.com">Visit our News blog</a></p>
     </div>
 
-    <form id="form-report-issue" class="contributor-form" action="https://formspree.io/f/xlgwndko" method="POST">
-      <input type="hidden" name="_subject" value="Acting Out OK – Report an issue" />
+    <form id="form-submit-news" class="contributor-form" action="https://formspree.io/f/xjgeojoj" method="POST" hidden>
+      <input type="hidden" name="_subject" value="Acting Out OK – News story suggestion" />
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true" />
+
+      <div class="form-row">
+        <label for="news-headline">Headline</label>
+        <input type="text" id="news-headline" name="headline" placeholder="Suggested headline for the story" required />
+      </div>
+
+      <div class="form-row">
+        <label for="news-description">Story description</label>
+        <textarea id="news-description" name="story_description" rows="4" placeholder="Brief description of the story and why it’s relevant to Oklahoma acting/film." required></textarea>
+      </div>
+
+      <div class="form-row">
+        <label for="news-source-url">URL link to source</label>
+        <input type="url" id="news-source-url" name="source_url" placeholder="https://..." />
+        <p class="form-hint">If the story is from another site or article, paste the link here. Optional if you’re suggesting an original idea.</p>
+      </div>
+
+      <div class="form-row">
+        <label for="news-type">Type</label>
+        <select id="news-type" name="type" required>
+          <option value="">Select type…</option>
+          <option value="Breaking news">Breaking news</option>
+          <option value="Feature">Feature</option>
+          <option value="Interview">Interview</option>
+          <option value="Event">Event</option>
+          <option value="Casting Calls">Casting Calls</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-row" id="news-type-other-wrap" hidden>
+        <label for="news-type-other">Other (please specify)</label>
+        <input type="text" id="news-type-other" name="type_other" placeholder="e.g. Industry update" />
+      </div>
+
+      <hr class="form-divider" aria-hidden="true" />
 
       <div class="form-row two-cols">
         <div>
-          <label for="report-name">Name</label>
-          <input type="text" id="report-name" name="name" placeholder="Your name" required />
+          <label for="news-submitter-name">Name</label>
+          <input type="text" id="news-submitter-name" name="name" placeholder="Your name" required />
         </div>
         <div>
-          <label for="report-email">Email address</label>
-          <input type="email" id="report-email" name="_replyto" placeholder="you@example.com" required />
+          <label for="news-submitter-email">Email address</label>
+          <input type="email" id="news-submitter-email" name="_replyto" placeholder="you@example.com" required />
         </div>
       </div>
 
-      <div class="form-row">
-        <label for="report-area">Area</label>
-        <select id="report-area" name="area" required aria-describedby="report-area-desc">
-          <option value="">Select an area…</option>
-          <option value="Website">Website</option>
-          <option value="Casting Calls">Casting Calls</option>
-          <option value="Resources">Resources</option>
-          <option value="News">News</option>
-          <option value="Other">Other</option>
-        </select>
-        <span id="report-area-desc" class="form-hint" aria-live="polite"></span>
-      </div>
-
-      <div class="form-row" id="report-area-other-wrap" hidden>
-        <label for="report-area-other">Other (please specify)</label>
-        <input type="text" id="report-area-other" name="area_other" placeholder="e.g. Submit form, Spotlight" />
-      </div>
-
-      <div class="form-row">
-        <label for="report-description">Describe the issue</label>
-        <textarea id="report-description" name="description" rows="5" placeholder="What went wrong? Include the page URL or casting call title if relevant." required></textarea>
+      <div class="form-row form-row-tos">
+        <label class="form-tos-label">
+          <input type="checkbox" id="news-tos" name="accept_terms" required />
+          I agree to the <a href="terms.html#news-story-submissions" target="_blank" rel="noopener noreferrer">Terms of Service</a>, including the section on submitting news stories.
+        </label>
       </div>
 
       <div class="form-row cf-turnstile-wrap">
-        <div class="cf-turnstile" data-sitekey="0x4AAAAAACd9D2mM-r32Oe4d" id="turnstile-widget"></div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAACd9D2mM-r32Oe4d"></div>
         <p class="form-hint">Complete the captcha so we know you’re not a bot.</p>
       </div>
 
-      <div class="form-row form-actions">
-        <button type="submit" class="contributor-submit">Submit</button>
-      </div>
+      <button type="submit" class="contributor-submit">Submit</button>
     </form>
   </main>
 
@@ -143,7 +160,7 @@
   </footer>
 
   <script src="js/header.js"></script>
-  <script src="js/report-issue.js"></script>
+  <script src="js/submit-news.js"></script>
   <script src="js/spotlight.js"></script>
 </body>
 </html>
