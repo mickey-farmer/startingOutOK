@@ -757,6 +757,34 @@
   font-weight: 600;
   margin: 0 0 var(--space-2);
 }
+.directory-card-thumb-wrap {
+  margin: calc(-1 * var(--space-6)) calc(-1 * var(--space-6)) var(--space-4);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  max-height: 200px;
+  background: var(--color-bg-elevated);
+}
+.directory-card-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.directory-card-thumb-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-border);
+  min-height: 120px;
+}
+.directory-card-thumb-initials {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
 .directory-card .directory-pronouns {
   font-size: var(--text-sm);
   color: var(--color-text-muted);
@@ -959,6 +987,33 @@
 .talent-resume-year {
   color: var(--color-text-muted);
   font-size: 0.9em;
+}
+
+.talent-credits-table {
+  width: 100%;
+  max-width: 720px;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  margin-top: 0.5rem;
+}
+.talent-credits-table th,
+.talent-credits-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border: 1px solid var(--color-border);
+  vertical-align: top;
+}
+.talent-credits-table th {
+  background: var(--color-bg-elevated);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.talent-credits-table td {
+  color: var(--color-text-muted);
+}
+.talent-credits-table td:first-child {
+  font-weight: 500;
+  color: var(--color-text);
 }
 
 .resources-toolbar {

@@ -2,27 +2,16 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-
-type OtherLink = { label: string; url: string };
-
-type CastEntry = {
-  id: string;
-  name: string;
-  pronouns?: string | null;
-  description?: string | null;
-  location?: string | null;
-  link?: string | null;
-  contactLink?: string | null;
-  contactLabel?: string | null;
-  email?: string | null;
-  instagram?: string | null;
-  otherLinks?: OtherLink[] | null;
-  pills?: string[];
-};
-
-type DirectoryData = Record<string, CastEntry[]>;
+import type { CastEntry, DirectoryData, CreditRow, CreditsByCategory } from "@/lib/cast-types";
 
 const TALENT = "Talent";
+
+const CREDIT_CATEGORIES = ["film", "theatre", "training"] as const;
+const CREDIT_LABELS: Record<(typeof CREDIT_CATEGORIES)[number], string> = {
+  film: "Film",
+  theatre: "Theatre",
+  training: "Training",
+};
 
 function toSlug(name: string): string {
   return name
@@ -30,6 +19,11 @@ function toSlug(name: string): string {
     .trim()
     .replace(/\s+/g, "-")
     .replace(/[^a-z0-9-]/g, "");
+}
+
+function parseImdbId(link: string): string | null {
+  const match = (link || "").match(/(?:imdb\.com\/name\/)?(nm\d+)/i);
+  return match ? match[1].toLowerCase() : null;
 }
 
 export default function AdminCastPage() {
@@ -108,10 +102,6 @@ export default function AdminCastPage() {
 
   function addEntry(entry: CastEntry) {
     const list = getCastList();
-    if (!entry.link?.trim()) {
-      setMessage({ type: "error", text: "IMDb link is required for cast." });
-      return;
-    }
     const id = entry.id?.trim() || toSlug(entry.name);
     setTalent([...list, { ...entry, id }]);
     setAdding(false);
@@ -164,6 +154,18 @@ export default function AdminCastPage() {
             entry={null}
             onSave={(entry) => addEntry(entry)}
             onCancel={() => setAdding(false)}
+            onUploadImage={async (path, base64) => {
+              const res = await fetch("/api/admin/save", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ path, imageBase64: base64, message: "Admin: add cast photo" }),
+              });
+              if (!res.ok) {
+                const j = await res.json().catch(() => ({}));
+                throw new Error(j.error || "Upload failed");
+              }
+            }}
           />
         </div>
       ) : (
@@ -189,6 +191,18 @@ export default function AdminCastPage() {
                   entry={entry}
                   onSave={(updates) => updateEntry(index, updates)}
                   onCancel={() => setEditing(null)}
+                  onUploadImage={async (path, base64) => {
+                    const res = await fetch("/api/admin/save", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      credentials: "include",
+                      body: JSON.stringify({ path, imageBase64: base64, message: "Admin: update cast photo" }),
+                    });
+                    if (!res.ok) {
+                      const j = await res.json().catch(() => ({}));
+                      throw new Error(j.error || "Upload failed");
+                    }
+                  }}
                 />
               ) : (
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -199,13 +213,11 @@ export default function AdminCastPage() {
                         ({entry.pronouns})
                       </span>
                     )}
-                    {entry.link && (
-                      <p style={{ margin: "0.25rem 0 0", fontSize: "0.85rem" }}>
-                        <a href={entry.link} target="_blank" rel="noopener noreferrer">IMDb</a>
-                        {entry.email && ` · ${entry.email}`}
-                        {entry.instagram && ` · Instagram`}
-                      </p>
-                    )}
+                    <p style={{ margin: "0.25rem 0 0", fontSize: "0.85rem" }}>
+                      {entry.link && <a href={entry.link} target="_blank" rel="noopener noreferrer">IMDb</a>}
+                      {entry.email && (entry.link ? ` · ${entry.email}` : entry.email)}
+                      {entry.instagram && ` · Instagram`}
+                    </p>
                   </div>
                   <div style={{ display: "flex", gap: "0.25rem" }}>
                     <button
@@ -242,32 +254,108 @@ export default function AdminCastPage() {
   );
 }
 
+type TmdbSearchResult = {
+  personId: number;
+  imageUrl: string | null;
+  name?: string;
+};
+
 function CastEntryForm({
   entry,
   onSave,
   onCancel,
+  onUploadImage,
 }: {
   entry: CastEntry | null;
   onSave: (entry: CastEntry) => void;
   onCancel: () => void;
+  onUploadImage: (path: string, base64: string) => Promise<void>;
 }) {
   const [name, setName] = useState(entry?.name ?? "");
   const [pronouns, setPronouns] = useState(entry?.pronouns ?? "");
   const [imdbLink, setImdbLink] = useState(entry?.link ?? "");
+  const [tmdbPersonId, setTmdbPersonId] = useState<number | null>(entry?.tmdbPersonId ?? null);
+  const [tmdbSearch, setTmdbSearch] = useState<TmdbSearchResult | null>(null);
+  const [tmdbSearching, setTmdbSearching] = useState(false);
+  const [photoUrl, setPhotoUrl] = useState(entry?.photoUrl ?? "");
+  const [photoUploading, setPhotoUploading] = useState(false);
   const [email, setEmail] = useState(entry?.email ?? "");
   const [instagram, setInstagram] = useState(entry?.instagram ?? "");
-  const [otherLinks, setOtherLinks] = useState<OtherLink[]>(entry?.otherLinks ?? []);
+  const [otherLinks, setOtherLinks] = useState(entry?.otherLinks ?? []);
   const [description, setDescription] = useState(entry?.description ?? "");
   const [id, setId] = useState(entry?.id ?? "");
+  const [credits, setCredits] = useState<CreditsByCategory>({
+    film: entry?.credits?.film ?? [],
+    theatre: entry?.credits?.theatre ?? [],
+    training: entry?.credits?.training ?? [],
+  });
+
+  function addCreditRow(category: keyof CreditsByCategory) {
+    const list = credits[category] ?? [];
+    setCredits({ ...credits, [category]: [...list, { projectName: "", characterOrRole: "", directorOrStudio: "" }] });
+  }
+  function updateCreditRow(category: keyof CreditsByCategory, index: number, field: keyof CreditRow, value: string) {
+    const list = [...(credits[category] ?? [])];
+    list[index] = { ...list[index], [field]: value };
+    setCredits({ ...credits, [category]: list });
+  }
+  function removeCreditRow(category: keyof CreditsByCategory, index: number) {
+    const list = (credits[category] ?? []).filter((_, i) => i !== index);
+    setCredits({ ...credits, [category]: list });
+  }
+
+  async function handleSearchTmdb() {
+    const imdbId = parseImdbId(imdbLink);
+    if (!imdbId) {
+      return;
+    }
+    setTmdbSearching(true);
+    setTmdbSearch(null);
+    try {
+      const res = await fetch(`/api/tmdb/person?imdbId=${encodeURIComponent(imdbId)}`);
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "TMDB search failed");
+      setTmdbSearch({
+        personId: json.personId,
+        imageUrl: json.imageUrl ?? null,
+        name: (json.details as { name?: string })?.name,
+      });
+    } catch (e) {
+      setTmdbSearch(null);
+    } finally {
+      setTmdbSearching(false);
+    }
+  }
+
+  async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    const slug = id.trim() || toSlug(name);
+    if (!slug) return;
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const path = `public/images/cast/${slug}.${ext}`;
+    setPhotoUploading(true);
+    try {
+      const base64 = await fileToBase64(file);
+      await onUploadImage(path, base64);
+      setPhotoUrl(`/images/cast/${slug}.${ext}`);
+    } catch (err) {
+      // could set error state
+    } finally {
+      setPhotoUploading(false);
+      e.target.value = "";
+    }
+  }
 
   function handleSubmit() {
     const slug = id.trim() || toSlug(name);
     if (!name.trim()) return;
-    if (!imdbLink.trim()) {
-      return;
-    }
     const contactLink = instagram.trim() || (otherLinks[0]?.url);
     const contactLabel = instagram.trim() ? "Instagram" : (otherLinks[0]?.label || "Link");
+    const hasCredits =
+      (credits.film?.length ?? 0) > 0 ||
+      (credits.theatre?.length ?? 0) > 0 ||
+      (credits.training?.length ?? 0) > 0;
     onSave({
       id: slug,
       name: name.trim(),
@@ -281,6 +369,9 @@ function CastEntryForm({
       instagram: instagram.trim() || null,
       otherLinks: otherLinks.length ? otherLinks : null,
       pills: undefined,
+      tmdbPersonId: tmdbPersonId ?? null,
+      photoUrl: photoUrl.trim() || null,
+      credits: hasCredits ? credits : null,
     });
   }
 
@@ -306,62 +397,156 @@ function CastEntryForm({
         <label>Pronouns (optional)</label>
         <input value={pronouns} onChange={(e) => setPronouns(e.target.value)} placeholder="she/her" />
       </div>
+
       <div className="admin-form-group">
-        <label>IMDb link *</label>
+        <label>IMDb link (optional)</label>
         <input
           type="url"
           value={imdbLink}
-          onChange={(e) => setImdbLink(e.target.value)}
+          onChange={(e) => { setImdbLink(e.target.value); setTmdbSearch(null); }}
           placeholder="https://www.imdb.com/name/nm1234567/"
         />
-        <p style={{ margin: "0.25rem 0 0", fontSize: "0.8rem", color: "var(--color-muted)" }}>
-          Used to pull photo and credits from TMDB on the talent profile page.
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "0.25rem", flexWrap: "wrap" }}>
+          <button
+            type="button"
+            className="admin-btn admin-btn-secondary"
+            disabled={!imdbLink.trim() || tmdbSearching}
+            onClick={handleSearchTmdb}
+          >
+            {tmdbSearching ? "Searching…" : "Search TMDB"}
+          </button>
+          {tmdbSearch && (
+            <span style={{ fontSize: "0.9rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              {tmdbSearch.imageUrl && (
+                <img src={tmdbSearch.imageUrl} alt="" style={{ width: 32, height: 32, objectFit: "cover", borderRadius: 4 }} />
+              )}
+              <span>{tmdbSearch.name ?? "TMDB profile found"}</span>
+              <button
+                type="button"
+                className="admin-btn admin-btn-primary"
+                style={{ fontSize: "0.8rem" }}
+                onClick={() => { setTmdbPersonId(tmdbSearch.personId); }}
+              >
+                Use this TMDB profile
+              </button>
+            </span>
+          )}
+          {tmdbPersonId != null && (
+            <span style={{ fontSize: "0.85rem", color: "var(--color-muted)" }}>
+              TMDB linked
+            </span>
+          )}
+        </div>
+      </div>
+
+      <div className="admin-form-group">
+        <label>Photo (optional)</label>
+        <p style={{ margin: "0 0 0.25rem", fontSize: "0.8rem", color: "var(--color-muted)" }}>
+          Photo URL or upload an image. Uploaded images are stored in the repo.
         </p>
-      </div>
-      <div className="admin-form-group">
-        <label>Email (optional)</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="jane@example.com"
-        />
-      </div>
-      <div className="admin-form-group">
-        <label>Instagram (optional)</label>
         <input
           type="url"
-          value={instagram}
-          onChange={(e) => setInstagram(e.target.value)}
-          placeholder="https://www.instagram.com/username/"
+          value={photoUrl}
+          onChange={(e) => setPhotoUrl(e.target.value)}
+          placeholder="https://… or /images/cast/name.jpg"
+          style={{ marginBottom: "0.25rem" }}
         />
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoUpload}
+            disabled={photoUploading}
+          />
+          {photoUploading && <span style={{ marginLeft: "0.5rem", fontSize: "0.85rem" }}>Uploading…</span>}
+        </div>
+      </div>
+
+      <div className="admin-form-group">
+        <label>Credits (optional)</label>
+        <p style={{ margin: "0 0 0.5rem", fontSize: "0.8rem", color: "var(--color-muted)" }}>
+          Project name, character/role, and director or studio. Add by category.
+        </p>
+        {CREDIT_CATEGORIES.map((category) => {
+          const rows = credits[category] ?? [];
+          return (
+            <div key={category} style={{ marginBottom: "1rem" }}>
+              <h4 style={{ margin: "0 0 0.5rem", fontSize: "0.95rem", fontWeight: 600 }}>
+                {CREDIT_LABELS[category]}
+              </h4>
+              <table className="admin-credits-table">
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Character / Role</th>
+                    <th>Director / Studio</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, i) => (
+                    <tr key={i}>
+                      <td>
+                        <input
+                          value={row.projectName}
+                          onChange={(e) => updateCreditRow(category, i, "projectName", e.target.value)}
+                          placeholder="Project name"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          value={row.characterOrRole}
+                          onChange={(e) => updateCreditRow(category, i, "characterOrRole", e.target.value)}
+                          placeholder="Character or role type"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          value={row.directorOrStudio}
+                          onChange={(e) => updateCreditRow(category, i, "directorOrStudio", e.target.value)}
+                          placeholder="Director or studio"
+                        />
+                      </td>
+                      <td>
+                        <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.8rem" }} onClick={() => removeCreditRow(category, i)}>
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.85rem", marginTop: "0.25rem" }} onClick={() => addCreditRow(category)}>
+                + Add {CREDIT_LABELS[category]} credit
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="admin-form-group">
+        <label>Contact (optional — only displayed when set)</label>
       </div>
       <div className="admin-form-group">
-        <label>Other links (optional)</label>
+        <label>Email</label>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" />
+      </div>
+      <div className="admin-form-group">
+        <label>Instagram</label>
+        <input type="url" value={instagram} onChange={(e) => setInstagram(e.target.value)} placeholder="https://www.instagram.com/username/" />
+      </div>
+      <div className="admin-form-group">
+        <label>Other links</label>
         {otherLinks.map((link, i) => (
           <div key={i} style={{ display: "flex", gap: "0.5rem", marginBottom: "0.25rem", alignItems: "center" }}>
-            <input
-              placeholder="Label"
-              value={link.label}
-              onChange={(e) => updateOtherLink(i, "label", e.target.value)}
-              style={{ width: "100px" }}
-            />
-            <input
-              type="url"
-              placeholder="URL"
-              value={link.url}
-              onChange={(e) => updateOtherLink(i, "url", e.target.value)}
-              style={{ flex: 1 }}
-            />
-            <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.8rem" }} onClick={() => removeOtherLink(i)}>
-              Remove
-            </button>
+            <input placeholder="Label" value={link.label} onChange={(e) => updateOtherLink(i, "label", e.target.value)} style={{ width: "100px" }} />
+            <input type="url" placeholder="URL" value={link.url} onChange={(e) => updateOtherLink(i, "url", e.target.value)} style={{ flex: 1 }} />
+            <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.8rem" }} onClick={() => removeOtherLink(i)}>Remove</button>
           </div>
         ))}
-        <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.85rem", marginTop: "0.25rem" }} onClick={addOtherLink}>
-          + Add link
-        </button>
+        <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.85rem", marginTop: "0.25rem" }} onClick={addOtherLink}>+ Add link</button>
       </div>
+
       <div className="admin-form-group">
         <label>Short bio (optional)</label>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Brief description" rows={2} />
@@ -370,7 +555,7 @@ function CastEntryForm({
         <label>URL slug (optional)</label>
         <input value={id} onChange={(e) => setId(e.target.value)} placeholder={toSlug(name) || "jane-doe"} />
         <p style={{ margin: "0.25rem 0 0", fontSize: "0.8rem", color: "var(--color-muted)" }}>
-          Used in profile URL: /directory/cast/[slug]
+          Profile URL: /directory/cast/[slug]
         </p>
       </div>
       <div style={{ display: "flex", gap: "0.5rem" }}>
@@ -383,4 +568,17 @@ function CastEntryForm({
       </div>
     </div>
   );
+}
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const base64 = result.includes(",") ? result.split(",")[1] : result;
+      resolve(base64 ?? "");
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }

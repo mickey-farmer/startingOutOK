@@ -3,19 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
-type CastEntry = {
-  id: string;
-  name: string;
-  pronouns?: string | null;
-  description?: string | null;
-  link?: string | null;
-  contactLink?: string | null;
-  contactLabel?: string | null;
-  email?: string | null;
-  instagram?: string | null;
-  otherLinks?: { label: string; url: string }[] | null;
-};
+import type { CastEntry, CreditsByCategory, CreditRow } from "@/lib/cast-types";
 
 type DirectoryData = Record<string, CastEntry[]>;
 
@@ -38,15 +26,21 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
   const [directory, setDirectory] = useState<DirectoryData | null>(null);
   const [tmdb, setTmdb] = useState<TmdbPerson | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [tmdbError, setTmdbError] = useState<string | null>(null);
 
   const entry = directory?.Talent?.find((e) => e.id === slug);
+
+  const hasManualCredits =
+    entry?.credits &&
+    ((entry.credits.film?.length ?? 0) > 0 ||
+      (entry.credits.theatre?.length ?? 0) > 0 ||
+      (entry.credits.training?.length ?? 0) > 0);
 
   useEffect(() => {
     if (!slug) return;
     let cancelled = false;
     setLoading(true);
-    setError(null);
+    setTmdbError(null);
     fetch("/data/directory.json")
       .then((r) => r.json())
       .then((data: DirectoryData) => {
@@ -64,13 +58,13 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
             if (cancelled) return;
             if ("error" in json) {
               setTmdb(null);
-              setError((json as { error: string }).error);
+              setTmdbError((json as { error: string }).error);
             } else {
               setTmdb(json as TmdbPerson);
             }
           })
           .catch((err) => {
-            if (!cancelled) setError(err instanceof Error ? err.message : "Failed to load credits");
+            if (!cancelled) setTmdbError(err instanceof Error ? err.message : "Failed to load");
           })
           .finally(() => {
             if (!cancelled) setLoading(false);
@@ -78,7 +72,7 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
       })
       .catch(() => {
         if (!cancelled) {
-          setError("Failed to load directory");
+          setTmdbError("Failed to load directory");
           setLoading(false);
         }
       });
@@ -110,8 +104,12 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
     );
   }
 
+  const hasManualPhoto = entry.photoUrl?.trim();
+  const tmdbPhotoUrl = tmdb?.imageUrl ?? null;
+
   const movieCast = (tmdb?.movieCredits?.cast ?? []).slice(0, 30);
   const tvCast = (tmdb?.tvCredits?.cast ?? []).slice(0, 30);
+  const hasTmdbCredits = movieCast.length > 0 || tvCast.length > 0;
 
   return (
     <div className="resources-page talent-profile-page">
@@ -124,9 +122,15 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
 
         <header className="talent-profile-header">
           <div className="talent-profile-photo">
-            {tmdb?.imageUrl ? (
+            {hasManualPhoto ? (
+              <img
+                src={entry.photoUrl!}
+                alt=""
+                style={{ width: "100%", height: "auto", borderRadius: "var(--radius, 8px)" }}
+              />
+            ) : tmdbPhotoUrl ? (
               <Image
-                src={tmdb.imageUrl}
+                src={tmdbPhotoUrl}
                 alt=""
                 width={342}
                 height={513}
@@ -153,41 +157,64 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
                   IMDb profile
                 </a>
               )}
-              {entry.email && (
+              {entry.email?.trim() && (
                 <a href={`mailto:${entry.email}`} className="resource-link">
                   {entry.email}
                 </a>
               )}
-              {entry.instagram && (
+              {entry.instagram?.trim() && (
                 <a href={entry.instagram} target="_blank" rel="noopener noreferrer" className="resource-link">
                   Instagram
                 </a>
               )}
-              {entry.contactLink && !entry.instagram && (
+              {entry.contactLink?.trim() && !entry.instagram?.trim() && (
                 <a href={entry.contactLink} target="_blank" rel="noopener noreferrer" className="resource-link">
                   {entry.contactLabel || "Contact"}
                 </a>
               )}
-              {entry.otherLinks?.map((link, i) => (
+              {entry.otherLinks?.filter((l) => l.url?.trim()).map((link, i) => (
                 <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="resource-link">
-                  {link.label}
+                  {link.label?.trim() || "Link"}
                 </a>
               ))}
             </div>
           </div>
         </header>
 
-        {error && (
-          <p className="talent-profile-error" role="alert">
-            Credits could not be loaded: {error}
-          </p>
-        )}
-
-        {(movieCast.length > 0 || tvCast.length > 0) && (
+        {hasManualCredits && (
           <section className="talent-resume">
             <h2 className="talent-resume-title">Credits</h2>
+            {(entry.credits!.film?.length ?? 0) > 0 && (
+              <div className="talent-resume-section">
+                <h3>Film</h3>
+                <CreditsTable rows={entry.credits!.film!} />
+              </div>
+            )}
+            {(entry.credits!.theatre?.length ?? 0) > 0 && (
+              <div className="talent-resume-section">
+                <h3>Theatre</h3>
+                <CreditsTable rows={entry.credits!.theatre!} />
+              </div>
+            )}
+            {(entry.credits!.training?.length ?? 0) > 0 && (
+              <div className="talent-resume-section">
+                <h3>Training</h3>
+                <CreditsTable rows={entry.credits!.training!} />
+              </div>
+            )}
+          </section>
+        )}
+
+        {!hasManualCredits && hasTmdbCredits && (
+          <section className="talent-resume">
+            <h2 className="talent-resume-title">Credits</h2>
+            {tmdbError && (
+              <p className="talent-profile-error" role="alert">
+                {tmdbError}
+              </p>
+            )}
             <p className="talent-resume-intro">
-              Film and TV credits from The Movie Database (TMDB), linked from IMDb.
+              Film and TV credits from The Movie Database (TMDB).
             </p>
             {movieCast.length > 0 && (
               <div className="talent-resume-section">
@@ -227,7 +254,40 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
             )}
           </section>
         )}
+
+        {!hasManualCredits && !hasTmdbCredits && tmdbError && (
+          <p className="talent-profile-error" role="alert">
+            {tmdbError}
+          </p>
+        )}
       </div>
     </div>
+  );
+}
+
+function CreditsTable({ rows }: { rows: CreditRow[] }) {
+  const filtered = rows.filter(
+    (r) => r.projectName?.trim() || r.characterOrRole?.trim() || r.directorOrStudio?.trim()
+  );
+  if (filtered.length === 0) return null;
+  return (
+    <table className="talent-credits-table">
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Character / Role</th>
+          <th>Director / Studio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filtered.map((row, i) => (
+          <tr key={i}>
+            <td>{row.projectName?.trim() || "—"}</td>
+            <td>{row.characterOrRole?.trim() || "—"}</td>
+            <td>{row.directorOrStudio?.trim() || "—"}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

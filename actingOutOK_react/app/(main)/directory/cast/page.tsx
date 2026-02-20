@@ -13,6 +13,7 @@ type DirectoryEntry = {
   contactLink?: string;
   contactLabel?: string;
   pills?: string[];
+  photoUrl?: string | null;
 };
 
 type DirectoryData = Record<string, DirectoryEntry[]>;
@@ -88,6 +89,27 @@ export default function CastDirectoryPage() {
                 className="resource-card directory-card"
                 data-id={entry.id}
               >
+                <div className="directory-card-thumb-wrap">
+                  {entry.photoUrl ? (
+                    <img
+                      src={entry.photoUrl}
+                      alt=""
+                      className="directory-card-thumb"
+                    />
+                  ) : (
+                    <div className="directory-card-thumb directory-card-thumb-placeholder" aria-hidden>
+                      <span className="directory-card-thumb-initials">
+                        {entry.name
+                          .trim()
+                          .split(/\s+/)
+                          .map((w) => w[0])
+                          .join("")
+                          .slice(0, 2)
+                          .toUpperCase() || "?"}
+                      </span>
+                    </div>
+                  )}
+                </div>
                 <h3>{entry.name}</h3>
                 {entry.pronouns && (
                   <p className="directory-pronouns">{entry.pronouns}</p>

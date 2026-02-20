@@ -31,17 +31,25 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  let body: { path: string; content: string; message: string };
+  let body: { path: string; content?: string; message: string; imageBase64?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { path: filePath, content, message } = body;
-  if (!filePath || content === undefined || !message) {
+  const { path: filePath, content, message, imageBase64 } = body;
+  if (!filePath || !message) {
     return NextResponse.json(
-      { error: "path, content, and message are required" },
+      { error: "path and message are required" },
+      { status: 400 }
+    );
+  }
+  const hasContent = content !== undefined && content !== null;
+  const hasImage = typeof imageBase64 === "string" && imageBase64.length > 0;
+  if (!hasContent && !hasImage) {
+    return NextResponse.json(
+      { error: "Either content or imageBase64 is required" },
       { status: 400 }
     );
   }
@@ -49,6 +57,10 @@ export async function POST(request: NextRequest) {
   const repoPath = pathPrefix ? `${pathPrefix}/${filePath}`.replace(/\/+/g, "/") : filePath;
 
   const octokit = new Octokit({ auth: githubToken });
+
+  const contentBase64 = hasImage
+    ? imageBase64!
+    : Buffer.from(content!, "utf8").toString("base64");
 
   try {
     const branch = process.env.GITHUB_BRANCH || undefined;
@@ -60,7 +72,6 @@ export async function POST(request: NextRequest) {
     }).catch(() => ({ data: null }));
 
     const fileSha = existing && !Array.isArray(existing) ? existing.sha : undefined;
-    const contentBase64 = Buffer.from(content, "utf8").toString("base64");
 
     await octokit.repos.createOrUpdateFileContents({
       owner,
