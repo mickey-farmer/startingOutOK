@@ -142,6 +142,7 @@ collections:
     fields:
       - { label: "ID", name: "id", widget: "string", required: true, hint: "Unique URL-safe id, e.g. kaylene-snarsky. Used in filename." }
       - { label: "Name", name: "name", widget: "string", hint: "Person's full name." }
+      - { label: "Pronouns", name: "pronouns", widget: "string", required: false, hint: "e.g. they/them, she/her, he/him. Shown below the name." }
       - label: "Sections"
         name: "sections"
         widget: "list"

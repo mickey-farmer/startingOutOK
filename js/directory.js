@@ -1,6 +1,7 @@
 (function () {
   const container = document.getElementById("directory-container");
   const noResults = document.getElementById("directory-no-results");
+  const filterSearch = document.getElementById("directory-search");
   const filterSection = document.getElementById("filter-section");
   const filterLocation = document.getElementById("filter-location");
   const filterReset = document.getElementById("filter-reset");
@@ -35,6 +36,9 @@
     card.dataset.id = entry.id;
     let html = "";
     html += "<h3>" + escapeHtml(entry.name) + "</h3>";
+    if (entry.pronouns) {
+      html += '<p class="directory-pronouns">' + escapeHtml(entry.pronouns) + "</p>";
+    }
     if (entry.pills && entry.pills.length > 0) {
       html += '<div class="resource-pills">';
       entry.pills.forEach(function (pill) {
@@ -68,6 +72,13 @@
   function matchesFilters(entry, section) {
     if (filterSection.value && section !== filterSection.value) return false;
     if (filterLocation.value && entry.location !== filterLocation.value) return false;
+    const q = filterSearch && filterSearch.value ? filterSearch.value.trim().toLowerCase() : "";
+    if (q) {
+      const name = (entry.name || "").toLowerCase();
+      const desc = (entry.description || "").toLowerCase();
+      const sec = (section || "").toLowerCase();
+      if (name.indexOf(q) === -1 && desc.indexOf(q) === -1 && sec.indexOf(q) === -1) return false;
+    }
     return true;
   }
 
@@ -126,7 +137,10 @@
       container.appendChild(sectionEl);
     });
 
-    if (noResults) noResults.hidden = hasAnyVisible;
+    if (noResults) {
+      noResults.hidden = hasAnyVisible;
+      noResults.textContent = (filterSearch && filterSearch.value.trim()) ? "No directory entries match your search or filters." : "No directory entries match your filters.";
+    }
     if (directoryToolbar) directoryToolbar.hidden = !hasAnyVisible;
 
     if (directoryNavList) {
@@ -179,8 +193,10 @@
 
   if (filterSection) filterSection.addEventListener("change", render);
   if (filterLocation) filterLocation.addEventListener("change", render);
+  if (filterSearch) filterSearch.addEventListener("input", render);
   if (filterReset) {
     filterReset.addEventListener("click", function () {
+      if (filterSearch) filterSearch.value = "";
       filterSection.value = "";
       filterLocation.value = "";
       render();
