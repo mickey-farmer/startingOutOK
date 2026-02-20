@@ -1,0 +1,34 @@
+# Auto-archive casting calls whose audition deadline has passed.
+# Runs daily; can also be triggered manually from the Actions tab.
+name: Archive casting calls past deadline
+
+on:
+  schedule:
+    # Daily at 00:05 UTC (e.g. 6:05 PM CST / 7:05 PM CDT)
+    - cron: "5 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Archive casting calls past deadline
+        run: node scripts/archive-past-deadline-casting-calls.js
+
+      - name: Rebuild data from content
+        run: node scripts/build-from-content.js
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/casting-calls data/
+          git diff --staged --quiet || (git commit -m "chore: auto-archive casting calls past deadline" && git push)
