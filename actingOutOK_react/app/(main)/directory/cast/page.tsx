@@ -83,39 +83,41 @@ export default function CastDirectoryPage() {
         <section className="resources-section" aria-label="Cast">
           <div className="resource-grid" id="cast-container">
             {castList.map((entry) => (
-              <Link
+              <article
                 key={entry.id}
-                href={`/directory/cast/${entry.id}`}
-                className="resource-card directory-card directory-card-link"
+                className="resource-card directory-card"
                 data-id={entry.id}
               >
-                <span className="directory-card-inner">
-                  <h3>{entry.name}</h3>
-                  {entry.pronouns && (
-                    <p className="directory-pronouns">{entry.pronouns}</p>
-                  )}
-                  {entry.pills?.length ? (
-                    <div className="resource-pills">
-                      {entry.pills.map((p) => (
-                        <span key={p} className="resource-pill">
-                          {p}
-                        </span>
-                      ))}
-                    </div>
-                  ) : null}
-                  {entry.location && (
-                    <p className="resource-desc">
-                      <strong>Location: {entry.location}</strong>
-                    </p>
-                  )}
-                  {entry.description && (
-                    <p className="resource-desc">{entry.description}</p>
-                  )}
-                  <div className="directory-links">
-                    <span className="resource-link">View profile →</span>
+                <h3>{entry.name}</h3>
+                {entry.pronouns && (
+                  <p className="directory-pronouns">{entry.pronouns}</p>
+                )}
+                {entry.pills?.length ? (
+                  <div className="resource-pills">
+                    {entry.pills.map((p) => (
+                      <span key={p} className="resource-pill">
+                        {p}
+                      </span>
+                    ))}
                   </div>
-                </span>
-              </Link>
+                ) : null}
+                {entry.location && (
+                  <p className="resource-desc">
+                    <strong>Location: {entry.location}</strong>
+                  </p>
+                )}
+                {entry.description && (
+                  <p className="resource-desc">{entry.description}</p>
+                )}
+                <div className="directory-links">
+                  <Link
+                    href={`/directory/cast/${entry.id}`}
+                    className="directory-view-profile-btn"
+                  >
+                    View profile
+                  </Link>
+                </div>
+              </article>
             ))}
           </div>
         </section>

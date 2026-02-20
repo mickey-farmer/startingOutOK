@@ -820,32 +820,26 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
+  align-items: center;
 }
 .directory-card .directory-links .resource-link {
   margin: 0;
 }
 
-.directory-card-link {
-  padding: 0;
-  overflow: hidden;
-  display: block;
-  color: inherit;
+.directory-view-profile-btn {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-accent);
+  border-radius: var(--radius);
   text-decoration: none;
-  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
-.directory-card-link:hover {
-  color: inherit;
-}
-.directory-card-link .directory-card-inner {
-  display: block;
-  padding: var(--space-4);
-  transition: background var(--transition-fast);
-}
-.directory-card-link:hover .directory-card-inner {
-  background: var(--color-bg-elevated);
-}
-.directory-card-link .directory-card-inner .resource-link {
-  color: var(--color-accent);
+.directory-view-profile-btn:hover {
+  background: var(--color-accent-hover);
+  color: #fff;
 }
 
 /* Talent profile page */
