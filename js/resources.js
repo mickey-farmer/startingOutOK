@@ -34,9 +34,13 @@
     const card = document.createElement("article");
     card.className = "resource-card";
     card.dataset.id = entry.id;
-    const linkHtml = entry.link
-      ? '<a href="' + escapeHtml(entry.link) + '" target="_blank" rel="noopener noreferrer" class="resource-link">Learn more ↗</a>'
-      : "";
+    let linkHtml = "";
+    if (entry.imdbLink) {
+      linkHtml += '<a href="' + escapeHtml(entry.imdbLink) + '" target="_blank" rel="noopener noreferrer" class="resource-link">IMDb ↗</a>';
+    }
+    if (entry.link) {
+      linkHtml += (linkHtml ? " " : "") + '<a href="' + escapeHtml(entry.link) + '" target="_blank" rel="noopener noreferrer" class="resource-link">Learn more ↗</a>';
+    }
     const categoryLine = entry.section === "Classes & Workshops" && entry.subcategory
       ? escapeHtml(entry.subcategory) + " · " + (entry.type || "")
       : (entry.category || "") + (entry.type ? " · " + entry.type : "");
