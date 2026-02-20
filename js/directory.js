@@ -13,8 +13,8 @@
 
   const SECTION_ORDER = [
     "Camera Operators", "Costume", "Directors", "Editors", "Gaffer", "Grips",
-    "Hair & Make-Up", "Intimacy Coordinators", "PAs", "Production Design",
-    "Script Supervisor", "Sound", "Stunt Coordinators",
+    "Hair & Make-Up", "Intimacy Coordinators", "PAs", "Photographers", "Production Design",
+    "Props", "Script Supervisor", "Sound", "Stunt Coordinators", "Talent", "Writers",
   ];
 
   function sectionId(section) {

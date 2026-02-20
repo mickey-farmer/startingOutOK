@@ -148,7 +148,7 @@ collections:
         required: true
         min: 1
         summary: "{{value}}"
-        field: { label: "Section", name: "value", widget: "select", options: ["Camera Operators", "Costume", "Directors", "Editors", "Gaffer", "Grips", "Hair & Make-Up", "Intimacy Coordinators", "PAs", "Production Design", "Script Supervisor", "Sound", "Stunt Coordinators"] }
+        field: { label: "Section", name: "value", widget: "select", options: ["Camera Operators", "Costume", "Directors", "Editors", "Gaffer", "Grips", "Hair & Make-Up", "Intimacy Coordinators", "PAs", "Photographers", "Production Design", "Props", "Script Supervisor", "Sound", "Stunt Coordinators", "Talent", "Writers"] }
         hint: "Add each category this person belongs to. They will appear in every section you add."
       - { label: "Description", name: "description", widget: "text", required: false }
       - { label: "Location", name: "location", widget: "string", required: false, hint: "e.g. Oklahoma City, Tulsa, Oklahoma" }
