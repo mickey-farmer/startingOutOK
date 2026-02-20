@@ -83,55 +83,39 @@ export default function CastDirectoryPage() {
         <section className="resources-section" aria-label="Cast">
           <div className="resource-grid" id="cast-container">
             {castList.map((entry) => (
-              <article
+              <Link
                 key={entry.id}
-                className="resource-card directory-card"
+                href={`/directory/cast/${entry.id}`}
+                className="resource-card directory-card directory-card-link"
                 data-id={entry.id}
               >
-                <h3>{entry.name}</h3>
-                {entry.pronouns && (
-                  <p className="directory-pronouns">{entry.pronouns}</p>
-                )}
-                {entry.pills?.length ? (
-                  <div className="resource-pills">
-                    {entry.pills.map((p) => (
-                      <span key={p} className="resource-pill">
-                        {p}
-                      </span>
-                    ))}
+                <span className="directory-card-inner">
+                  <h3>{entry.name}</h3>
+                  {entry.pronouns && (
+                    <p className="directory-pronouns">{entry.pronouns}</p>
+                  )}
+                  {entry.pills?.length ? (
+                    <div className="resource-pills">
+                      {entry.pills.map((p) => (
+                        <span key={p} className="resource-pill">
+                          {p}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
+                  {entry.location && (
+                    <p className="resource-desc">
+                      <strong>Location: {entry.location}</strong>
+                    </p>
+                  )}
+                  {entry.description && (
+                    <p className="resource-desc">{entry.description}</p>
+                  )}
+                  <div className="directory-links">
+                    <span className="resource-link">View profile →</span>
                   </div>
-                ) : null}
-                {entry.location && (
-                  <p className="resource-desc">
-                    <strong>Location: {entry.location}</strong>
-                  </p>
-                )}
-                {entry.description && (
-                  <p className="resource-desc">{entry.description}</p>
-                )}
-                <div className="directory-links">
-                  {entry.link && (
-                    <a
-                      href={entry.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="resource-link"
-                    >
-                      {entry.link.includes("imdb.com") ? "IMDb" : "Profile"}
-                    </a>
-                  )}
-                  {entry.contactLink && (
-                    <a
-                      href={entry.contactLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="resource-link"
-                    >
-                      {entry.contactLabel || "Contact"}
-                    </a>
-                  )}
-                </div>
-              </article>
+                </span>
+              </Link>
             ))}
           </div>
         </section>

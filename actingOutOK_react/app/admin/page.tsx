@@ -15,10 +15,16 @@ export default function AdminDashboardPage() {
         </h2>
         <ul style={{ margin: 0, paddingLeft: "1.25rem" }}>
           <li>
-            <Link href="/admin/directory" style={{ color: "var(--color-accent)" }}>
-              Directory
+            <Link href="/admin/directory/cast" style={{ color: "var(--color-accent)" }}>
+              Cast
             </Link>
-            — Cast & crew directory entries
+            — Talent directory (alphabetical)
+          </li>
+          <li style={{ marginTop: "0.25rem" }}>
+            <Link href="/admin/directory/crew" style={{ color: "var(--color-accent)" }}>
+              Crew
+            </Link>
+            — Crew sections & entries
           </li>
           <li style={{ marginTop: "0.25rem", color: "var(--color-muted)" }}>
             Resources — coming soon
