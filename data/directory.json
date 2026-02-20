@@ -25,7 +25,7 @@
     {
       "id": "kaylene-snarsky",
       "name": "Kaylene Snarsky",
-      "description": "Actor, dancer, and intimacy coordinator for film and television in Oklahoma.",
+      "description": "Intimacy coordinator for film and television in Oklahoma.",
       "location": "Oklahoma",
       "link": "https://www.imdb.com/name/nm11103298/",
       "contactLink": "https://www.instagram.com/kaytothelene/?hl=en",
@@ -36,7 +36,21 @@
     {
       "id": "rylie-isabella",
       "name": "Rylie Isabella",
-      "description": "Advanced beginner filmmaker currently seeking more expereince and projects.",
+      "description": null,
+      "location": null,
+      "link": "https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk",
+      "contactLink": "https://www.instagram.com/strawberry_shake_media/",
+      "contactLabel": "Instagram",
+      "pills": [
+        "Beginner"
+      ]
+    }
+  ],
+  "Photographers": [
+    {
+      "id": "rylie-isabella",
+      "name": "Rylie Isabella",
+      "description": null,
       "location": null,
       "link": "https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk",
       "contactLink": "https://www.instagram.com/strawberry_shake_media/",
@@ -65,6 +79,7 @@
       "id": "justin-parks",
       "name": "Justin Parks",
       "description": "Stunt training and coordination. Stunt performer and instructor.",
+      "location": "Oklahoma",
       "link": "https://www.instagram.com/justinparks_jp/",
       "contactLink": "https://www.instagram.com/justinparks_jp/",
       "contactLabel": "Instagram"
@@ -74,18 +89,10 @@
     {
       "id": "david-greyson",
       "name": "David Greyson",
-      "description": "Actor, director, writer, filmmaker. Represented by The Tabb Agency (Oklahoma) and Acclaim Talent (Texas).",
+      "description": "Actor, Director, Writer, and Filmmaker. Represented by The Tabb Agency (Oklahoma) and Acclaim Talent (Texas).",
       "location": null,
       "link": "https://www.imdb.com/name/nm4590090/",
       "contactLink": "https://www.instagram.com/mrdavidgreyson/",
-      "contactLabel": "Instagram"
-    },
-     {
-      "id": "kaylene-snarsky",
-      "name": "Kaylene Snarsky",
-      "description": "Actor, dancer, and intimacy coordinator for film and television in Oklahoma.",
-      "link": "https://www.imdb.com/name/nm11103298/",
-      "contactLink": "https://www.instagram.com/kaytothelene/?hl=en",
       "contactLabel": "Instagram"
     }
   ],
