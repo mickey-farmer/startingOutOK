@@ -737,6 +737,11 @@
   font-weight: 600;
   margin: 0 0 var(--space-2);
 }
+.directory-card .directory-pronouns {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-2);
+}
 .resource-card .resource-category {
   font-size: var(--text-xs);
   text-transform: uppercase;
