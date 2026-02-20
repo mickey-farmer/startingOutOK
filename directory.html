@@ -11,13 +11,16 @@
     gtag('js', new Date());
     gtag('config', 'G-7T5WDT21C0');
   </script>
-  <title>Privacy Policy – Acting Out OK</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <title>Directory – Acting Out OK</title>
+  <meta name="description" content="Find Oklahoma film crew and specialists: intimacy coordinators, directors, grips, camera operators, editors, PAs, hair &amp; makeup, and more." />
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/pages.css" />
   <link rel="stylesheet" href="css/spotlight.css" />
 </head>
-<body data-current-nav="Resources">
+<body data-current-nav="Directory">
   <header class="site-header">
     <div class="site-header-inner">
       <a href="index.html" class="site-logo"><img src="images/logo.png" alt="Acting Out OK" /></a>
@@ -55,61 +58,69 @@
   </aside>
 
   <main class="main-content">
-    <article class="prose">
-      <h1>Privacy Policy</h1>
-      <p><strong>Last updated:</strong> February 15, 2026</p>
-      <p>
-        Acting Out OK (“we,” “our,” or “the site”) is committed to protecting your privacy. This policy describes what information we collect, how we use it, and your choices.
-      </p>
+    <div class="resources-page">
+      <aside class="resources-nav" id="directory-nav" aria-label="Jump to section" aria-expanded="true" hidden>
+        <button type="button" class="resources-nav-toggle" id="directory-nav-toggle" aria-expanded="true" aria-controls="directory-nav-list" aria-label="Toggle section list">Sections</button>
+        <nav aria-label="Directory sections">
+          <ul id="directory-nav-list" class="resources-nav-list">
+            <!-- Populated by directory.js -->
+          </ul>
+        </nav>
+      </aside>
+      <div class="resources-content">
+    <div class="page-header">
+      <h1>Directory</h1>
+      <p>Crew and specialists in Oklahoma: intimacy coordinators, directors, grips, camera operators, editors, PAs, hair &amp; makeup, and more.</p>
+      <p class="resources-submit-cta">To suggest someone for the directory, <a href="report-issue.html">let us know</a>.</p>
+    </div>
 
-      <h2>Information We Collect</h2>
-      <p>We may collect:</p>
-      <ul>
-        <li><strong>Usage data</strong> such as pages visited, time on site, and referring URLs, which may be collected by our hosting or analytics provider (e.g., GitHub Pages, or any analytics we add later).</li>
-        <li><strong>Cookies or similar technologies</strong> if we use analytics or third-party tools; we will describe those below if applicable.</li>
-      </ul>
+    <details class="filters-details">
+      <summary class="filters-summary">Filters</summary>
+      <div class="filters-bar">
+      <div class="filter-group">
+        <label for="filter-section">Section</label>
+        <select id="filter-section" aria-label="Filter by section">
+          <option value="">All sections</option>
+          <option value="Camera Operators">Camera Operators</option>
+          <option value="Costume">Costume</option>
+          <option value="Directors">Directors</option>
+          <option value="Editors">Editors</option>
+          <option value="Gaffer">Gaffer</option>
+          <option value="Grips">Grips</option>
+          <option value="Hair & Make-Up">Hair &amp; Make-Up</option>
+          <option value="Intimacy Coordinators">Intimacy Coordinators</option>
+          <option value="PAs">PAs</option>
+          <option value="Production Design">Production Design</option>
+          <option value="Script Supervisor">Script Supervisor</option>
+          <option value="Sound">Sound</option>
+          <option value="Stunt Coordinators">Stunt Coordinators</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-location">Location</label>
+        <select id="filter-location" aria-label="Filter by location">
+          <option value="">All locations</option>
+          <option value="Oklahoma City">Oklahoma City</option>
+          <option value="Tulsa">Tulsa</option>
+          <option value="Oklahoma City &amp; Tulsa">Oklahoma City &amp; Tulsa</option>
+          <option value="Norman">Norman</option>
+          <option value="Oklahoma">Oklahoma</option>
+        </select>
+      </div>
+      <button type="button" class="filter-reset" id="filter-reset">Reset filters</button>
+      </div>
+    </details>
 
-      <h2>How We Use Your Information</h2>
-      <p>We use the information we collect to:</p>
-      <ul>
-        <li>Improve the site and understand how visitors use it.</li>
-        <li>Comply with legal obligations where required.</li>
-      </ul>
-
-      <h2>Casting Listings &amp; Third-Party Content</h2>
-      <p>
-        Casting calls, resources, and other listings on this site are provided for information only. Acting Out OK does not employ, represent, endorse, or produce any listed project or employer. We do not verify compliance with labor laws (including child labor laws) or the accuracy of listing details. Your use of any listing or opportunity is at your own risk. For our full disclaimer, see the Casting Calls page.
-      </p>
-
-      <h2>Third-Party Services</h2>
-      <p>
-        We may use third-party services (e.g., analytics or hosting). Those services have their own privacy policies governing how they collect and use data. We encourage you to review their policies.
-      </p>
-
-      <h2>Data Retention</h2>
-      <p>
-        We retain usage and other data only as long as needed to operate the site or as required by law.
-      </p>
-
-      <h2>Your Rights</h2>
-      <p>
-        You may request access to, correction of, or deletion of your personal data. To do so, contact us using the method provided on the site.
-      </p>
-
-      <h2>Changes to This Policy</h2>
-      <p>
-        We may update this privacy policy from time to time. The “Last updated” date at the top will reflect the most recent change. Continued use of the site after changes constitutes acceptance of the updated policy.
-      </p>
-
-      <h2>Contact</h2>
-      <p>
-        If you have questions about this privacy policy or your data, please contact us at <a href="mailto:mickey@mickeyonstage.com">mickey@mickeyonstage.com</a>.
-      </p>
-
-      <p>
-        <a href="index.html">Back to home</a> · <a href="about.html">About</a>
-      </p>
-    </article>
+    <div class="resources-toolbar" id="directory-toolbar" hidden>
+      <button type="button" class="resources-expand-collapse" id="directory-expand-all" aria-label="Expand all sections">Expand all</button>
+      <button type="button" class="resources-expand-collapse" id="directory-collapse-all" aria-label="Collapse all sections">Collapse all</button>
+    </div>
+    <div class="resources-container" id="directory-container">
+      <!-- Sections and grids rendered by directory.js -->
+    </div>
+    <p class="no-results" id="directory-no-results" hidden>No directory entries match your filters.</p>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -139,7 +150,9 @@
       </div>
     </div>
   </footer>
+
   <script src="js/header.js"></script>
+  <script src="js/directory.js"></script>
   <script src="js/spotlight.js"></script>
 </body>
 </html>

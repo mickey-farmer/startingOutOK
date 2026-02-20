@@ -142,6 +142,55 @@ function buildResources() {
   console.log("Resources:", Object.values(out).flat().length);
 }
 
+// ----- Directory (crew & specialists by specialty) -----
+// Each entry can list in multiple sections via "sections" array (or legacy "section").
+function buildDirectory() {
+  const folder = path.join(contentDir, "directory");
+  if (!fs.existsSync(folder)) return;
+  const files = fs.readdirSync(folder).filter((f) => f.endsWith(".json"));
+  const bySection = {};
+  for (const file of files) {
+    const full = readJson(path.join(folder, file));
+    if (!full || typeof full !== "object") continue;
+    if (full.deleted === "yes" || full.deleted === true) continue;
+    // Support "sections" (array) or legacy "section" (single)
+    const rawSections = full.sections != null
+      ? full.sections
+      : (full.section != null ? [full.section] : []);
+    const sections = Array.isArray(rawSections)
+      ? rawSections.map((s) => (typeof s === "string" ? s : s?.value ?? "")).filter(Boolean)
+      : [];
+    if (sections.length === 0) continue;
+    const entry = { ...full };
+    delete entry.section;
+    delete entry.sections;
+    if (Array.isArray(entry.pills)) {
+      entry.pills = entry.pills.map((p) => (typeof p === "string" ? p : p?.value ?? ""));
+    }
+    sections.forEach((section) => {
+      if (!bySection[section]) bySection[section] = [];
+      bySection[section].push({ ...entry });
+    });
+  }
+  const sectionOrder = [
+    "Camera Operators", "Costume", "Directors", "Editors", "Gaffer", "Grips",
+    "Hair & Make-Up", "Intimacy Coordinators", "PAs", "Production Design",
+    "Script Supervisor", "Sound", "Stunt Coordinators",
+  ];
+  const out = {};
+  for (const section of sectionOrder) {
+    if (bySection[section]?.length) {
+      bySection[section].sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+      out[section] = bySection[section];
+    }
+  }
+  for (const section of Object.keys(bySection)) {
+    if (!out[section]) out[section] = bySection[section];
+  }
+  writeJson(path.join(dataDir, "directory.json"), out);
+  console.log("Directory:", Object.values(out).flat().length);
+}
+
 // ----- Spotlight -----
 function buildSpotlight() {
   const file = path.join(contentDir, "spotlight.json");
@@ -157,5 +206,6 @@ function buildSpotlight() {
 buildCastingCalls();
 buildNews();
 buildResources();
+buildDirectory();
 buildSpotlight();
 console.log("Done. data/ is ready for the site.");

@@ -11,7 +11,7 @@
     gtag('js', new Date());
     gtag('config', 'G-7T5WDT21C0');
   </script>
-  <title>Submit a Resource – Acting Out OK</title>
+  <title>Submit a Resource or Directory Entry – Acting Out OK</title>
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/pages.css" />
@@ -32,6 +32,7 @@
           <ul class="nav-dropdown-menu" id="nav-dropdown-menu" hidden role="menu">
             <li role="none"><a href="casting-calls.html" role="menuitem">Casting Calls</a></li>
             <li role="none"><a href="resources.html" role="menuitem">Resources</a></li>
+            <li role="none"><a href="directory.html" role="menuitem">Directory</a></li>
             <li role="none"><a href="https://news.actingoutok.com" role="menuitem">News</a></li>
           </ul>
         </div>
@@ -45,6 +46,7 @@
     <ul class="nav-drawer-nav">
       <li><a href="casting-calls.html">Casting Calls</a></li>
       <li><a href="resources.html">Resources</a></li>
+      <li><a href="directory.html">Directory</a></li>
       <li><a href="https://news.actingoutok.com">News</a></li>
     </ul>
     <div class="nav-drawer-footer">
@@ -56,17 +58,17 @@
 
   <main class="main-content form-page-main">
     <div class="page-header">
-      <h1>Submit a Resource</h1>
+      <h1>Submit a Resource or Directory Entry</h1>
       <p>Request that your business or resource be added to Acting Out OK. Choose the section that best fits, and we’ll review your submission.</p>
     </div>
 
     <div id="submit-thank-you" class="submit-thank-you" hidden>
       <p><strong>Thanks!</strong> Your request has been sent. We’ll review it and add your resource to the listing when appropriate.</p>
-      <p><a href="resources.html">Back to Resources</a></p>
+      <p><a href="resources.html">Resources</a> · <a href="directory.html">Directory</a></p>
     </div>
 
     <form id="form-submit-resource" class="submit-form" action="https://formspree.io/f/xbdaowkw" method="POST" hidden>
-      <input type="hidden" name="_subject" value="Acting Out OK – New resource submission" />
+      <input type="hidden" name="_subject" value="Acting Out OK – New resource submission" id="form-subject" />
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" />
 
       <div class="form-row two-cols">
@@ -80,6 +82,25 @@
         </div>
       </div>
 
+      <hr class="form-divider" aria-hidden="true" />
+
+      <div class="form-row">
+        <span class="form-label">What are you submitting?</span>
+        <fieldset class="form-radios" aria-describedby="submit-type-desc">
+          <legend class="sr-only">Resource or Directory entry</legend>
+          <label class="form-radio-label">
+            <input type="radio" name="submit_type" value="resource" id="submit-type-resource" checked />
+            Resource (business, class, theater, agency, etc.)
+          </label>
+          <label class="form-radio-label">
+            <input type="radio" name="submit_type" value="directory" id="submit-type-directory" />
+            Directory (a specific person – crew, specialist, etc.)
+          </label>
+        </fieldset>
+        <span id="submit-type-desc" class="form-hint">Directory entries require the person's consent to be listed. See our <a href="terms.html#directory-listings">Terms of Service</a>.</span>
+      </div>
+
+      <div id="resource-fields-wrap">
       <hr class="form-divider" aria-hidden="true" />
 
       <div class="form-row">
@@ -164,6 +185,72 @@
         <label for="resource-notes">Additional notes or tags (optional)</label>
         <textarea id="resource-notes" name="notes_or_tags" rows="2" placeholder="e.g. Offers young adult classes, First class free"></textarea>
       </div>
+      </div>
+
+      <div id="directory-fields-wrap" hidden>
+      <hr class="form-divider" aria-hidden="true" />
+      <div class="form-row">
+        <label for="directory-name">Person’s full name</label>
+        <input type="text" id="directory-name" name="directory_name" placeholder="e.g. Jane Smith" />
+      </div>
+      <div class="form-row">
+        <label for="directory-specialty">Specialty / category</label>
+        <select id="directory-specialty" name="directory_specialty" aria-describedby="directory-specialty-desc">
+          <option value="">Select a category…</option>
+          <option value="Camera Operators">Camera Operators</option>
+          <option value="Costume">Costume</option>
+          <option value="Directors">Directors</option>
+          <option value="Editors">Editors</option>
+          <option value="Gaffer">Gaffer</option>
+          <option value="Grips">Grips</option>
+          <option value="Hair & Make-Up">Hair &amp; Make-Up</option>
+          <option value="Intimacy Coordinators">Intimacy Coordinators</option>
+          <option value="PAs">PAs</option>
+          <option value="Production Design">Production Design</option>
+          <option value="Script Supervisor">Script Supervisor</option>
+          <option value="Sound">Sound</option>
+          <option value="Stunt Coordinators">Stunt Coordinators</option>
+        </select>
+        <span id="directory-specialty-desc" class="form-hint">You may list the same person in more than one category after we add them; mention in the description if needed.</span>
+      </div>
+      <div class="form-row">
+        <label for="directory-description">Description</label>
+        <textarea id="directory-description" name="directory_description" rows="3" placeholder="Brief description (e.g. what they do, credits, training)."></textarea>
+      </div>
+      <div class="form-row">
+        <label for="directory-location">Location (optional)</label>
+        <select id="directory-location" name="directory_location">
+          <option value="">Select location…</option>
+          <option value="Oklahoma City">Oklahoma City</option>
+          <option value="Tulsa">Tulsa</option>
+          <option value="Oklahoma City & Tulsa">Oklahoma City &amp; Tulsa</option>
+          <option value="Norman">Norman</option>
+          <option value="Oklahoma">Oklahoma</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="directory-imdb">IMDb link (optional)</label>
+        <input type="url" id="directory-imdb" name="directory_imdb" placeholder="https://www.imdb.com/name/nm..." />
+      </div>
+      <div class="form-row">
+        <span class="form-label">Contact information</span>
+        <p class="form-hint">Provide at least one way to contact this person (we’ll use it for the directory listing and to verify consent if needed).</p>
+      </div>
+      <div class="form-row two-cols">
+        <div>
+          <label for="directory-contact-instagram">Instagram (optional)</label>
+          <input type="url" id="directory-contact-instagram" name="directory_contact_instagram" placeholder="https://instagram.com/..." />
+        </div>
+        <div>
+          <label for="directory-contact-email">Email (optional)</label>
+          <input type="email" id="directory-contact-email" name="directory_contact_email" placeholder="email@example.com" />
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="directory-contact-other">Other contact (optional)</label>
+        <input type="text" id="directory-contact-other" name="directory_contact_other" placeholder="e.g. website URL, phone" />
+      </div>
+      </div>
 
       <div class="form-row form-row-tos">
         <label class="form-tos-label">
@@ -174,6 +261,7 @@
 
       <input type="hidden" name="add_to_section" id="add-to-section" value="" />
       <textarea name="resource_json" id="resource-json" style="display:none;" aria-hidden="true"></textarea>
+      <textarea name="directory_json" id="directory-json" style="display:none;" aria-hidden="true"></textarea>
 
       <div class="form-row cf-turnstile-wrap">
         <div class="cf-turnstile" data-sitekey="0x4AAAAAACd9D2mM-r32Oe4d"></div>
@@ -195,6 +283,7 @@
         <ul class="footer-links">
           <li><a href="casting-calls.html">Casting Calls</a></li>
           <li><a href="resources.html">Resources</a></li>
+          <li><a href="directory.html">Directory</a></li>
           <li><a href="https://news.actingoutok.com">News</a></li>
         </ul>
       </div>

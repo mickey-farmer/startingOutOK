@@ -129,6 +129,35 @@ collections:
       - { label: "Pills", name: "pills", widget: "list", required: false, summary: "{{value}}", field: { label: "Pill", name: "value", widget: "string" } }
       - { label: "Schedule", name: "schedule", widget: "string", required: false }
 
+  - label: "Directory"
+    name: "directory"
+    folder: "content/directory"
+    create: true
+    format: "json"
+    extension: "json"
+    identifier_field: "name"
+    slug: "{{fields.id}}"
+    summary: "{{name}}"
+    sortable_fields: ["name", "location"]
+    fields:
+      - { label: "ID", name: "id", widget: "string", required: true, hint: "Unique URL-safe id, e.g. kaylene-snarsky. Used in filename." }
+      - { label: "Name", name: "name", widget: "string", hint: "Person's full name." }
+      - label: "Sections"
+        name: "sections"
+        widget: "list"
+        required: true
+        min: 1
+        summary: "{{value}}"
+        field: { label: "Section", name: "value", widget: "select", options: ["Camera Operators", "Costume", "Directors", "Editors", "Gaffer", "Grips", "Hair & Make-Up", "Intimacy Coordinators", "PAs", "Production Design", "Script Supervisor", "Sound", "Stunt Coordinators"] }
+        hint: "Add each category this person belongs to. They will appear in every section you add."
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Location", name: "location", widget: "string", required: false, hint: "e.g. Oklahoma City, Tulsa, Oklahoma" }
+      - { label: "Link (primary)", name: "link", widget: "string", required: false, hint: "IMDb, website, or main profile URL." }
+      - { label: "Contact link", name: "contactLink", widget: "string", required: false, hint: "Instagram, email mailto:, or other contact URL." }
+      - { label: "Contact label", name: "contactLabel", widget: "string", required: false, hint: "e.g. Instagram, Email" }
+      - { label: "Pills", name: "pills", widget: "list", required: false, summary: "{{value}}", field: { label: "Pill", name: "value", widget: "string" }, hint: "Optional tags, e.g. Union, Available for indie." }
+      - { label: "Deleted (hide from site)", name: "deleted", widget: "boolean", default: false, required: false }
+
   - label: "Spotlight"
     name: "spotlight"
     files:

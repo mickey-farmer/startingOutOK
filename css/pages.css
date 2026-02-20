@@ -776,6 +776,30 @@
   font-weight: 500;
 }
 
+.directory-placeholder {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin: 0;
+  padding: var(--space-2) 0;
+}
+.directory-placeholder a {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+.directory-placeholder a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+.directory-card .directory-links {
+  margin-top: var(--space-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.directory-card .directory-links .resource-link {
+  margin: 0;
+}
+
 .resources-toolbar {
   display: flex;
   gap: var(--space-3);

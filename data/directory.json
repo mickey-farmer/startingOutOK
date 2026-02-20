@@ -1,0 +1,22 @@
+{
+  "Intimacy Coordinators": [
+    {
+      "id": "kaylene-snarsky",
+      "name": "Kaylene Snarsky",
+      "description": "Intimacy coordinator for film and television in Oklahoma.",
+      "link": "https://www.imdb.com/name/nm11103298/",
+      "contactLink": "https://www.instagram.com/kaytothelene/?hl=en",
+      "contactLabel": "Instagram"
+    }
+  ],
+  "Stunt Coordinators": [
+    {
+      "id": "justin-parks",
+      "name": "Justin Parks",
+      "description": "Stunt performer and coordinator in Oklahoma.",
+      "link": "https://www.imdb.com/name/nm7241993/",
+      "contactLink": "https://www.instagram.com/justinparks_jp/",
+      "contactLabel": "Instagram"
+    }
+  ]
+}

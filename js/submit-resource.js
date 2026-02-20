@@ -2,6 +2,12 @@
   var form = document.getElementById("form-submit-resource");
   var thankYou = document.getElementById("submit-thank-you");
   var jsonField = document.getElementById("resource-json");
+  var directoryJsonField = document.getElementById("directory-json");
+  var formSubject = document.getElementById("form-subject");
+  var resourceFieldsWrap = document.getElementById("resource-fields-wrap");
+  var directoryFieldsWrap = document.getElementById("directory-fields-wrap");
+  var submitTypeResource = document.getElementById("submit-type-resource");
+  var submitTypeDirectory = document.getElementById("submit-type-directory");
   var sectionSelect = document.getElementById("resource-section");
   var sectionOtherWrap = document.getElementById("section-other-wrap");
   var sectionOtherInput = document.getElementById("section-other");
@@ -36,6 +42,27 @@
     }
     nextInput.value = window.location.origin + window.location.pathname + "?submitted=1";
   }
+
+  function isDirectory() {
+    return submitTypeDirectory && submitTypeDirectory.checked;
+  }
+
+  function toggleSubmitType() {
+    var dir = isDirectory();
+    if (resourceFieldsWrap) resourceFieldsWrap.hidden = dir;
+    if (directoryFieldsWrap) directoryFieldsWrap.hidden = !dir;
+    if (sectionSelect) sectionSelect.required = !dir;
+    var titleEl = document.getElementById("resource-title");
+    if (titleEl) titleEl.required = !dir;
+    var nameEl = document.getElementById("directory-name");
+    var specialtyEl = document.getElementById("directory-specialty");
+    if (nameEl) nameEl.required = dir;
+    if (specialtyEl) specialtyEl.required = dir;
+  }
+
+  if (submitTypeResource) submitTypeResource.addEventListener("change", toggleSubmitType);
+  if (submitTypeDirectory) submitTypeDirectory.addEventListener("change", toggleSubmitType);
+  toggleSubmitType();
 
   function toggleSectionOther() {
     var val = sectionSelect ? sectionSelect.value : "";
@@ -97,6 +124,53 @@
       return;
     }
 
+    if (isDirectory()) {
+      var dirName = (document.getElementById("directory-name") && document.getElementById("directory-name").value) || "";
+      var dirSpecialty = (document.getElementById("directory-specialty") && document.getElementById("directory-specialty").value) || "";
+      var dirDesc = (document.getElementById("directory-description") && document.getElementById("directory-description").value) || "";
+      var dirLocation = (document.getElementById("directory-location") && document.getElementById("directory-location").value) || "";
+      var dirImdb = (document.getElementById("directory-imdb") && document.getElementById("directory-imdb").value) || "";
+      var dirIg = (document.getElementById("directory-contact-instagram") && document.getElementById("directory-contact-instagram").value) || "";
+      var dirEmail = (document.getElementById("directory-contact-email") && document.getElementById("directory-contact-email").value) || "";
+      var dirOther = (document.getElementById("directory-contact-other") && document.getElementById("directory-contact-other").value) || "";
+
+      if (!dirName.trim()) {
+        alert("Please enter the person's full name.");
+        if (document.getElementById("directory-name")) document.getElementById("directory-name").focus();
+        return;
+      }
+      if (!dirSpecialty) {
+        alert("Please select a specialty / category.");
+        if (document.getElementById("directory-specialty")) document.getElementById("directory-specialty").focus();
+        return;
+      }
+      if (!dirIg.trim() && !dirEmail.trim() && !dirOther.trim()) {
+        alert("Please provide at least one contact (Instagram, Email, or Other).");
+        return;
+      }
+
+      var primaryLink = (dirImdb && dirImdb.trim()) ? dirImdb.trim() : (dirIg.trim() || dirOther.trim() || null);
+      var contactLinkVal = dirIg.trim() ? dirIg.trim() : (dirEmail.trim() ? "mailto:" + dirEmail.trim() : (dirOther.trim() || null));
+      var contactLabelVal = dirIg.trim() ? "Instagram" : (dirEmail.trim() ? "Email" : (dirOther.trim() ? "Contact" : null));
+
+      var dirObj = {
+        name: dirName.trim(),
+        sections: [dirSpecialty],
+        description: (dirDesc || "").trim() || null,
+        location: (dirLocation || "").trim() || null,
+        link: primaryLink,
+        contactLink: contactLinkVal,
+        contactLabel: contactLabelVal
+      };
+
+      if (formSubject) formSubject.value = "Acting Out OK – New directory submission";
+      if (document.getElementById("add-to-section")) document.getElementById("add-to-section").value = "Add to Directory (content/directory). Verify consent before listing.";
+      if (jsonField) jsonField.value = "";
+      if (directoryJsonField) directoryJsonField.value = JSON.stringify(dirObj, null, 2);
+      form.submit();
+      return;
+    }
+
     var section = sectionSelect ? sectionSelect.value : "";
     var sectionResolved = section === "Other" && sectionOtherInput ? (sectionOtherInput.value || "").trim() : section;
     var subcategoryVal = "";
@@ -133,11 +207,11 @@
       .filter(Boolean);
     if (pills.length) obj.pills = pills;
 
+    if (formSubject) formSubject.value = "Acting Out OK – New resource submission";
     var addToSectionEl = document.getElementById("add-to-section");
     if (addToSectionEl) addToSectionEl.value = "Add the Resource JSON below to the \"" + sectionResolved + "\" array in data/resources.json";
-    if (jsonField) {
-      jsonField.value = JSON.stringify(obj, null, 2);
-    }
+    if (jsonField) jsonField.value = JSON.stringify(obj, null, 2);
+    if (directoryJsonField) directoryJsonField.value = "";
     form.submit();
   });
 })();
