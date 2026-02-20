@@ -1,0 +1,217 @@
+.admin-root {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-bg, #f8f6f3);
+}
+
+.admin-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.95);
+  border-right: 1px solid var(--color-border, #e5e2dd);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4, 1rem);
+}
+
+.admin-sidebar-header {
+  margin-bottom: var(--space-6, 1.5rem);
+}
+
+.admin-brand {
+  font-family: var(--font-display, "Outfit", sans-serif);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-text, #1a1a1a);
+  text-decoration: none;
+  display: block;
+}
+
+.admin-brand-sub {
+  font-size: 0.75rem;
+  color: var(--color-muted, #666);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.admin-nav-link {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  color: var(--color-text, #1a1a1a);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.admin-nav-link:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--color-accent, #c45c26);
+}
+
+.admin-nav-external {
+  color: var(--color-muted, #666);
+}
+
+.admin-sidebar-footer {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border, #e5e2dd);
+}
+
+.admin-logout-btn {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  color: var(--color-muted, #666);
+  background: transparent;
+  border: 1px solid var(--color-border, #e5e2dd);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.admin-logout-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--color-text, #1a1a1a);
+}
+
+.admin-main {
+  flex: 1;
+  padding: var(--space-6, 1.5rem);
+  overflow: auto;
+}
+
+.admin-page-title {
+  font-family: var(--font-display, "Outfit", sans-serif);
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 0 0 var(--space-4);
+  color: var(--color-text, #1a1a1a);
+}
+
+.admin-card {
+  background: #fff;
+  border: 1px solid var(--color-border, #e5e2dd);
+  border-radius: 8px;
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.admin-form-group {
+  margin-bottom: var(--space-4);
+}
+
+.admin-form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--color-text, #1a1a1a);
+}
+
+.admin-form-group input,
+.admin-form-group textarea,
+.admin-form-group select {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-border, #e5e2dd);
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.admin-form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.admin-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.admin-btn-primary {
+  background: var(--color-accent, #c45c26);
+  color: #fff;
+}
+
+.admin-btn-primary:hover {
+  background: var(--color-accent-hover, #a84a1a);
+}
+
+.admin-btn-secondary {
+  background: #fff;
+  color: var(--color-text, #1a1a1a);
+  border: 1px solid var(--color-border, #e5e2dd);
+}
+
+.admin-btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.admin-alert {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: var(--space-4);
+  font-size: 0.9rem;
+}
+
+.admin-alert-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.admin-alert-success {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.admin-login-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg, #f8f6f3);
+  padding: var(--space-4);
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 360px;
+  background: #fff;
+  border: 1px solid var(--color-border, #e5e2dd);
+  border-radius: 8px;
+  padding: var(--space-6);
+}
+
+.admin-login-title {
+  font-family: var(--font-display, "Outfit", sans-serif);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0 0 var(--space-4);
+  text-align: center;
+}
+
+.admin-login-form .admin-form-group {
+  margin-bottom: var(--space-4);
+}
+
+.admin-login-form .admin-btn-primary {
+  width: 100%;
+  padding: 0.6rem;
+}
