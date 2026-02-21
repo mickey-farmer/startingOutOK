@@ -181,6 +181,54 @@
         "training": [],
         "television": []
       }
+    },
+    {
+      "id": "mickey-farmer",
+      "name": "Mickey Farmer",
+      "pronouns": "he/him",
+      "description": null,
+      "location": null,
+      "link": "https://www.imdb.com/name/nm17592118/?ref_=fn_t_1",
+      "contactLink": "https://instagram.com/mickeyonstage",
+      "contactLabel": "Instagram",
+      "email": null,
+      "instagram": "https://instagram.com/mickeyonstage",
+      "otherLinks": null,
+      "tmdbPersonId": null,
+      "photoUrl": "/images/cast/mickey-farmer.jpeg",
+      "credits": {
+        "film": [
+          {
+            "projectName": "Zellinial Discourse (Short) ",
+            "characterOrRole": "Lead",
+            "directorOrStudio": "M. Farmer"
+          },
+          {
+            "projectName": "CONTROL (Short)",
+            "characterOrRole": "Lead",
+            "directorOrStudio": "Nick Hodge"
+          },
+          {
+            "projectName": "In My Shoes (Short)",
+            "characterOrRole": "Lead",
+            "directorOrStudio": "Rorey Younge"
+          }
+        ],
+        "theatre": [],
+        "training": [
+          {
+            "projectName": "On-camera Acting",
+            "characterOrRole": "Multiple instructors",
+            "directorOrStudio": "OFA Studios"
+          },
+          {
+            "projectName": "Action for Actors: Stunts level 1",
+            "characterOrRole": "Justin Parks, 1907 Stunts",
+            "directorOrStudio": "OFA Studios"
+          }
+        ],
+        "television": []
+      }
     }
   ],
   "Writers": [
