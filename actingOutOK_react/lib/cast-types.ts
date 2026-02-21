@@ -9,6 +9,7 @@ export type CreditsByCategory = {
   film?: CreditRow[];
   theatre?: CreditRow[];
   training?: CreditRow[];
+  television?: CreditRow[];
 };
 
 export type CastEntry = {

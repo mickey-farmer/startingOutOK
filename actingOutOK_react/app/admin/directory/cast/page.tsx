@@ -6,11 +6,12 @@ import type { CastEntry, DirectoryData, CreditRow, CreditsByCategory } from "@/l
 
 const TALENT = "Talent";
 
-const CREDIT_CATEGORIES = ["film", "theatre", "training"] as const;
+const CREDIT_CATEGORIES = ["film", "theatre", "training", "television"] as const;
 const CREDIT_LABELS: Record<(typeof CREDIT_CATEGORIES)[number], string> = {
   film: "Film",
   theatre: "Theatre",
   training: "Training",
+  television: "Television",
 };
 
 function toSlug(name: string): string {
@@ -24,6 +25,14 @@ function toSlug(name: string): string {
 function parseImdbId(link: string): string | null {
   const match = (link || "").match(/(?:imdb\.com\/name\/)?(nm\d+)/i);
   return match ? match[1].toLowerCase() : null;
+}
+
+function parseTmdbPersonId(input: string): number | null {
+  const trimmed = (input || "").trim();
+  const fromUrl = trimmed.match(/(?:themoviedb\.org\/person\/|person\/)(\d+)/i);
+  if (fromUrl) return parseInt(fromUrl[1], 10);
+  const raw = trimmed.match(/^(\d+)$/);
+  return raw ? parseInt(raw[1], 10) : null;
 }
 
 export default function AdminCastPage() {
@@ -258,6 +267,8 @@ type TmdbSearchResult = {
   personId: number;
   imageUrl: string | null;
   name?: string;
+  movieCredits: { cast: { title?: string; character?: string; release_date?: string }[] };
+  tvCredits: { cast: { name?: string; character?: string; first_air_date?: string }[] };
 };
 
 function CastEntryForm({
@@ -288,6 +299,7 @@ function CastEntryForm({
     film: entry?.credits?.film ?? [],
     theatre: entry?.credits?.theatre ?? [],
     training: entry?.credits?.training ?? [],
+    television: entry?.credits?.television ?? [],
   });
 
   function addCreditRow(category: keyof CreditsByCategory) {
@@ -306,25 +318,50 @@ function CastEntryForm({
 
   async function handleSearchTmdb() {
     const imdbId = parseImdbId(imdbLink);
-    if (!imdbId) {
+    const tmdbId = parseTmdbPersonId(imdbLink);
+    if (!imdbId && tmdbId == null) {
       return;
     }
     setTmdbSearching(true);
     setTmdbSearch(null);
     try {
-      const res = await fetch(`/api/tmdb/person?imdbId=${encodeURIComponent(imdbId)}`);
+      const q = imdbId
+        ? `imdbId=${encodeURIComponent(imdbId)}`
+        : `personId=${encodeURIComponent(tmdbId!)}`;
+      const res = await fetch(`/api/tmdb/person?${q}`);
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "TMDB search failed");
       setTmdbSearch({
         personId: json.personId,
         imageUrl: json.imageUrl ?? null,
         name: (json.details as { name?: string })?.name,
+        movieCredits: json.movieCredits ?? { cast: [] },
+        tvCredits: json.tvCredits ?? { cast: [] },
       });
     } catch (e) {
       setTmdbSearch(null);
     } finally {
       setTmdbSearching(false);
     }
+  }
+
+  function handleImportCreditsFromTmdb() {
+    if (!tmdbSearch) return;
+    const filmRows: CreditRow[] = (tmdbSearch.movieCredits?.cast ?? []).map((c) => ({
+      projectName: c.title ?? "",
+      characterOrRole: c.character ?? "",
+      directorOrStudio: c.release_date ? c.release_date.slice(0, 4) : "",
+    }));
+    const tvRows: CreditRow[] = (tmdbSearch.tvCredits?.cast ?? []).map((c) => ({
+      projectName: c.name ?? "",
+      characterOrRole: c.character ?? "",
+      directorOrStudio: c.first_air_date ? c.first_air_date.slice(0, 4) : "",
+    }));
+    setCredits((prev) => ({
+      ...prev,
+      film: [...(prev.film ?? []), ...filmRows],
+      television: [...(prev.television ?? []), ...tvRows],
+    }));
   }
 
   async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -355,7 +392,8 @@ function CastEntryForm({
     const hasCredits =
       (credits.film?.length ?? 0) > 0 ||
       (credits.theatre?.length ?? 0) > 0 ||
-      (credits.training?.length ?? 0) > 0;
+      (credits.training?.length ?? 0) > 0 ||
+      (credits.television?.length ?? 0) > 0;
     onSave({
       id: slug,
       name: name.trim(),
@@ -399,14 +437,17 @@ function CastEntryForm({
       </div>
 
       <div className="admin-form-group">
-        <label>IMDb link (optional)</label>
+        <label>IMDb or TMDB link (optional)</label>
         <input
-          type="url"
+          type="text"
           value={imdbLink}
           onChange={(e) => { setImdbLink(e.target.value); setTmdbSearch(null); }}
-          placeholder="https://www.imdb.com/name/nm1234567/"
+          placeholder="IMDb: imdb.com/name/nm1234567  or  TMDB: themoviedb.org/person/12345"
         />
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "0.25rem", flexWrap: "wrap" }}>
+        <p style={{ margin: "0.25rem 0 0", fontSize: "0.8rem", color: "var(--color-muted)" }}>
+          Paste an IMDb name link or a TMDB person link. TMDB works for many local actors when IMDb lookup fails.
+        </p>
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "0.5rem", flexWrap: "wrap" }}>
           <button
             type="button"
             className="admin-btn admin-btn-secondary"
@@ -416,22 +457,32 @@ function CastEntryForm({
             {tmdbSearching ? "Searching…" : "Search TMDB"}
           </button>
           {tmdbSearch && (
-            <span style={{ fontSize: "0.9rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              {tmdbSearch.imageUrl && (
-                <img src={tmdbSearch.imageUrl} alt="" style={{ width: 32, height: 32, objectFit: "cover", borderRadius: 4 }} />
-              )}
-              <span>{tmdbSearch.name ?? "TMDB profile found"}</span>
-              <button
-                type="button"
-                className="admin-btn admin-btn-primary"
-                style={{ fontSize: "0.8rem" }}
-                onClick={() => { setTmdbPersonId(tmdbSearch.personId); }}
-              >
-                Use this TMDB profile
-              </button>
-            </span>
+            <>
+              <span style={{ fontSize: "0.9rem", display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                {tmdbSearch.imageUrl && (
+                  <img src={tmdbSearch.imageUrl} alt="" style={{ width: 32, height: 32, objectFit: "cover", borderRadius: 4 }} />
+                )}
+                <span>{tmdbSearch.name ?? "TMDB profile found"}</span>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn-primary"
+                  style={{ fontSize: "0.8rem" }}
+                  onClick={() => { setTmdbPersonId(tmdbSearch.personId); }}
+                >
+                  Use this TMDB profile
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn-secondary"
+                  style={{ fontSize: "0.8rem" }}
+                  onClick={handleImportCreditsFromTmdb}
+                >
+                  Import credits from TMDB
+                </button>
+              </span>
+            </>
           )}
-          {tmdbPersonId != null && (
+          {tmdbPersonId != null && !tmdbSearch && (
             <span style={{ fontSize: "0.85rem", color: "var(--color-muted)" }}>
               TMDB linked
             </span>

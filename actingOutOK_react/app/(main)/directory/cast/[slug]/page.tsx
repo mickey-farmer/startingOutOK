@@ -34,7 +34,8 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
     entry?.credits &&
     ((entry.credits.film?.length ?? 0) > 0 ||
       (entry.credits.theatre?.length ?? 0) > 0 ||
-      (entry.credits.training?.length ?? 0) > 0);
+      (entry.credits.training?.length ?? 0) > 0 ||
+      (entry.credits.television?.length ?? 0) > 0);
 
   useEffect(() => {
     if (!slug) return;
@@ -200,6 +201,12 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
               <div className="talent-resume-section">
                 <h3>Training</h3>
                 <CreditsTable rows={entry.credits!.training!} />
+              </div>
+            )}
+            {(entry.credits!.television?.length ?? 0) > 0 && (
+              <div className="talent-resume-section">
+                <h3>Television</h3>
+                <CreditsTable rows={entry.credits!.television!} />
               </div>
             )}
           </section>
