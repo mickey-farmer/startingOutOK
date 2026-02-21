@@ -316,6 +316,36 @@ function CastEntryForm({
     setCredits({ ...credits, [category]: list });
   }
 
+  function moveCreditRow(category: keyof CreditsByCategory, fromIndex: number, toIndex: number) {
+    if (fromIndex === toIndex) return;
+    const list = [...(credits[category] ?? [])];
+    const [removed] = list.splice(fromIndex, 1);
+    list.splice(toIndex, 0, removed);
+    setCredits({ ...credits, [category]: list });
+  }
+
+  function handleCreditDragStart(e: React.DragEvent, category: keyof CreditsByCategory, index: number) {
+    e.dataTransfer.setData("application/json", JSON.stringify({ category, index }));
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", ""); // for Firefox
+  }
+  function handleCreditDragOver(e: React.DragEvent) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  }
+  function handleCreditDrop(e: React.DragEvent, category: keyof CreditsByCategory, toIndex: number) {
+    e.preventDefault();
+    try {
+      const raw = e.dataTransfer.getData("application/json");
+      if (!raw) return;
+      const { category: fromCat, index: fromIndex } = JSON.parse(raw) as { category: keyof CreditsByCategory; index: number };
+      if (fromCat !== category) return;
+      moveCreditRow(category, fromIndex, toIndex);
+    } catch {
+      // ignore
+    }
+  }
+
   async function handleSearchTmdb() {
     const imdbId = parseImdbId(imdbLink);
     const tmdbId = parseTmdbPersonId(imdbLink);
@@ -528,6 +558,7 @@ function CastEntryForm({
               <table className="admin-credits-table">
                 <thead>
                   <tr>
+                    <th className="admin-credits-drag-col" aria-label="Move" />
                     <th>Project</th>
                     <th>Character / Role</th>
                     <th>Director / Studio</th>
@@ -536,7 +567,34 @@ function CastEntryForm({
                 </thead>
                 <tbody>
                   {rows.map((row, i) => (
-                    <tr key={i}>
+                    <tr
+                      key={i}
+                      onDragOver={handleCreditDragOver}
+                      onDrop={(e) => handleCreditDrop(e, category, i)}
+                      className="admin-credits-row-draggable"
+                    >
+                      <td className="admin-credits-drag-col">
+                        <span
+                          draggable
+                          onDragStart={(e) => handleCreditDragStart(e, category, i)}
+                          className="admin-credits-drag-handle"
+                          title="Drag to reorder"
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "ArrowDown" && i < rows.length - 1) {
+                              e.preventDefault();
+                              moveCreditRow(category, i, i + 1);
+                            } else if (e.key === "ArrowUp" && i > 0) {
+                              e.preventDefault();
+                              moveCreditRow(category, i, i - 1);
+                            }
+                          }}
+                          aria-label="Drag to reorder"
+                        >
+                          <MoveIcon />
+                        </span>
+                      </td>
                       <td>
                         <input
                           value={row.projectName}
@@ -618,6 +676,26 @@ function CastEntryForm({
         </button>
       </div>
     </div>
+  );
+}
+
+function MoveIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="currentColor"
+      aria-hidden
+      style={{ display: "block", verticalAlign: "middle" }}
+    >
+      <circle cx="6" cy="4" r="1.5" />
+      <circle cx="10" cy="4" r="1.5" />
+      <circle cx="6" cy="8" r="1.5" />
+      <circle cx="10" cy="8" r="1.5" />
+      <circle cx="6" cy="12" r="1.5" />
+      <circle cx="10" cy="12" r="1.5" />
+    </svg>
   );
 }
 

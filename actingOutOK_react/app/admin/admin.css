@@ -244,3 +244,31 @@
 .admin-credits-table td:last-child {
   width: 80px;
 }
+
+.admin-credits-drag-col {
+  width: 32px;
+  padding: 0.25rem !important;
+  vertical-align: middle;
+  text-align: center;
+}
+.admin-credits-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  cursor: grab;
+  color: var(--color-muted, #666);
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+.admin-credits-drag-handle:hover {
+  color: var(--color-accent);
+  background: rgba(0, 0, 0, 0.05);
+}
+.admin-credits-drag-handle:active {
+  cursor: grabbing;
+}
+.admin-credits-row-draggable.drag-over {
+  background: rgba(0, 0, 0, 0.03);
+}
