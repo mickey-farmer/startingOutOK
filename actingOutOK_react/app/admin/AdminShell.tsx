@@ -28,6 +28,12 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           <Link href="/admin/directory/crew" className="admin-nav-link">
             Crew
           </Link>
+          <Link href="/admin/resources" className="admin-nav-link">
+            Resources
+          </Link>
+          <Link href="/admin/casting-calls" className="admin-nav-link">
+            Casting Calls
+          </Link>
           <Link href="/" className="admin-nav-link admin-nav-external" target="_blank" rel="noopener noreferrer">
             View site →
           </Link>

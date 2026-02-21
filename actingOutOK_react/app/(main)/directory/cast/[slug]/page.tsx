@@ -42,7 +42,7 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
     let cancelled = false;
     setLoading(true);
     setTmdbError(null);
-    fetch("/data/directory.json")
+    fetch("/api/data/directory")
       .then((r) => r.json())
       .then((data: DirectoryData) => {
         if (cancelled) return;

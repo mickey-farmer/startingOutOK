@@ -49,7 +49,7 @@ export default function ResourcesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/resources.json")
+    fetch("/api/data/resources")
       .then((r) => r.json())
       .then(setData)
       .finally(() => setLoading(false));

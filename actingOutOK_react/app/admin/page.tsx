@@ -26,11 +26,17 @@ export default function AdminDashboardPage() {
             </Link>
             — Crew sections & entries
           </li>
-          <li style={{ marginTop: "0.25rem", color: "var(--color-muted)" }}>
-            Resources — coming soon
+          <li style={{ marginTop: "0.25rem" }}>
+            <Link href="/admin/resources" style={{ color: "var(--color-accent)" }}>
+              Resources
+            </Link>
+            — Agencies, classes, theaters, vendors, etc.
           </li>
-          <li style={{ marginTop: "0.25rem", color: "var(--color-muted)" }}>
-            Casting calls — coming soon
+          <li style={{ marginTop: "0.25rem" }}>
+            <Link href="/admin/casting-calls" style={{ color: "var(--color-accent)" }}>
+              Casting Calls
+            </Link>
+            — List and detail pages
           </li>
         </ul>
       </div>

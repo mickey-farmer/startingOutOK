@@ -64,14 +64,20 @@ export default function AdminCastPage() {
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null);
   const [editing, setEditing] = useState<number | null>(null);
   const [adding, setAdding] = useState(false);
+  const [useSupabase, setUseSupabase] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/data/directory.json");
-      if (!res.ok) throw new Error("Failed to load directory");
-      const json: DirectoryData = await res.json();
+      const [dirRes, dsRes] = await Promise.all([
+        fetch("/api/data/directory"),
+        fetch("/api/admin/data-source", { credentials: "include" }),
+      ]);
+      if (!dirRes.ok) throw new Error("Failed to load directory");
+      const json: DirectoryData = await dirRes.json();
       setData(json);
+      const ds = await dsRes.json().catch(() => ({}));
+      setUseSupabase(!!ds.useSupabase);
     } catch (e) {
       setMessage({ type: "error", text: e instanceof Error ? e.message : "Failed to load" });
     } finally {
@@ -99,22 +105,26 @@ export default function AdminCastPage() {
     setSaving(true);
     setMessage(null);
     try {
-      const res = await fetch("/api/admin/save", {
+      const url = useSupabase ? "/api/admin/supabase/directory" : "/api/admin/save";
+      const body = useSupabase
+        ? { directory: data }
+        : {
+            path: "public/data/directory.json",
+            content: JSON.stringify(data, null, 2),
+            message: "Admin: update cast directory",
+          };
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          path: "public/data/directory.json",
-          content: JSON.stringify(data, null, 2),
-          message: "Admin: update cast directory",
-        }),
+        body: JSON.stringify(body),
       });
       const result = await res.json().catch(() => ({}));
       if (!res.ok) {
         setMessage({ type: "error", text: result.error || "Save failed" });
         return;
       }
-      setMessage({ type: "success", text: "Saved. Site will update after deploy." });
+      setMessage({ type: "success", text: useSupabase ? "Saved to database." : "Saved. Site will update after deploy." });
       setEditing(null);
       setAdding(false);
     } catch (e) {
