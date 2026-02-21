@@ -102,21 +102,27 @@
       "link": "https://www.imdb.com/name/nm4590090/",
       "contactLink": "https://www.instagram.com/mrdavidgreyson/?hl=en",
       "contactLabel": "Instagram",
-      "email": "email@example.com",
+      "email": null,
       "instagram": "https://www.instagram.com/mrdavidgreyson/?hl=en",
       "otherLinks": null,
       "tmdbPersonId": null,
-      "photoUrl": null,
+      "photoUrl": "/images/cast/david-greyson.png",
       "credits": {
         "film": [
           {
             "projectName": "Minding Your Business",
-            "characterOrRole": "Lead",
+            "characterOrRole": "Jacob",
+            "directorOrStudio": ""
+          },
+          {
+            "projectName": "Last Seven Days",
+            "characterOrRole": "Trent Whitmore",
             "directorOrStudio": ""
           }
         ],
         "theatre": [],
-        "training": []
+        "training": [],
+        "television": []
       }
     },
     {
