@@ -89,55 +89,59 @@ export default function CastDirectoryPage() {
                 className="resource-card directory-card"
                 data-id={entry.id}
               >
-                <div className="directory-card-thumb-wrap">
-                  {entry.photoUrl ? (
-                    <img
-                      src={entry.photoUrl}
-                      alt=""
-                      className="directory-card-thumb"
-                    />
-                  ) : (
-                    <div className="directory-card-thumb directory-card-thumb-placeholder" aria-hidden>
-                      <span className="directory-card-thumb-initials">
-                        {entry.name
-                          .trim()
-                          .split(/\s+/)
-                          .map((w) => w[0])
-                          .join("")
-                          .slice(0, 2)
-                          .toUpperCase() || "?"}
-                      </span>
+                <div className="directory-card-body">
+                  <div className="directory-card-content">
+                    <h3>{entry.name}</h3>
+                    {entry.pronouns && (
+                      <p className="directory-pronouns">{entry.pronouns}</p>
+                    )}
+                    {entry.pills?.length ? (
+                      <div className="resource-pills">
+                        {entry.pills.map((p) => (
+                          <span key={p} className="resource-pill">
+                            {p}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                    {entry.location && (
+                      <p className="resource-desc">
+                        <strong>Location: {entry.location}</strong>
+                      </p>
+                    )}
+                    {entry.description && (
+                      <p className="resource-desc">{entry.description}</p>
+                    )}
+                    <div className="directory-links">
+                      <Link
+                        href={`/directory/cast/${entry.id}`}
+                        className="directory-view-profile-btn"
+                      >
+                        View profile
+                      </Link>
                     </div>
-                  )}
-                </div>
-                <h3>{entry.name}</h3>
-                {entry.pronouns && (
-                  <p className="directory-pronouns">{entry.pronouns}</p>
-                )}
-                {entry.pills?.length ? (
-                  <div className="resource-pills">
-                    {entry.pills.map((p) => (
-                      <span key={p} className="resource-pill">
-                        {p}
-                      </span>
-                    ))}
                   </div>
-                ) : null}
-                {entry.location && (
-                  <p className="resource-desc">
-                    <strong>Location: {entry.location}</strong>
-                  </p>
-                )}
-                {entry.description && (
-                  <p className="resource-desc">{entry.description}</p>
-                )}
-                <div className="directory-links">
-                  <Link
-                    href={`/directory/cast/${entry.id}`}
-                    className="directory-view-profile-btn"
-                  >
-                    View profile
-                  </Link>
+                  <div className="directory-card-thumb-wrap">
+                    {entry.photoUrl ? (
+                      <img
+                        src={entry.photoUrl}
+                        alt=""
+                        className="directory-card-thumb"
+                      />
+                    ) : (
+                      <div className="directory-card-thumb directory-card-thumb-placeholder" aria-hidden>
+                        <span className="directory-card-thumb-initials">
+                          {entry.name
+                            .trim()
+                            .split(/\s+/)
+                            .map((w) => w[0])
+                            .join("")
+                            .slice(0, 2)
+                            .toUpperCase() || "?"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </article>
             ))}
