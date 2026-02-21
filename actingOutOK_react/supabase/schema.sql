@@ -1,6 +1,7 @@
 -- Acting Out OK – Supabase schema
 -- Run this in the Supabase SQL Editor (Dashboard → SQL Editor → New query).
--- Then enable RLS and policies below if you want anonymous read-only access.
+-- If you already ran this once and only need to add contact_submissions, run just
+-- the "CONTACT SUBMISSIONS" block (create table + comment + alter enable row level security).
 
 -- =============================================================================
 -- CAST (Talent directory)
@@ -103,6 +104,22 @@ create table if not exists public.casting_calls (
 comment on table public.casting_calls is 'Casting call list + detail. roles = array of { roleTitle, description, pay, ageRange, type, union, gender, ethnicity }';
 
 -- =============================================================================
+-- CONTACT SUBMISSIONS (contact form: general, casting, news, resource, report)
+-- =============================================================================
+create table if not exists public.contact_submissions (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz default now(),
+  name text not null,
+  email text not null,
+  type text not null,
+  payload jsonb default '{}'
+);
+
+comment on table public.contact_submissions is 'Contact form submissions; payload holds type-specific fields. Emails sent via Resend.';
+comment on column public.contact_submissions.type is 'One of: casting_call, news, resource, report_issue, general';
+comment on column public.contact_submissions.payload is 'Type-specific form data (no turnstile token or TOS).';
+
+-- =============================================================================
 -- RLS (Row Level Security)
 -- Allow public read; write only via service_role (your API uses service role).
 -- =============================================================================
@@ -110,12 +127,27 @@ alter table public.cast enable row level security;
 alter table public.crew enable row level security;
 alter table public.resources enable row level security;
 alter table public.casting_calls enable row level security;
+alter table public.contact_submissions enable row level security;
 
--- Allow anyone to read (anon and authenticated)
-create policy "cast_select" on public.cast for select using (true);
-create policy "crew_select" on public.crew for select using (true);
-create policy "resources_select" on public.resources for select using (true);
-create policy "casting_calls_select" on public.casting_calls for select using (true);
+-- Allow anyone to read (anon and authenticated). Create only if missing (safe to re-run).
+do $$
+begin
+  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'cast' and policyname = 'cast_select') then
+    create policy "cast_select" on public.cast for select using (true);
+  end if;
+  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'crew' and policyname = 'crew_select') then
+    create policy "crew_select" on public.crew for select using (true);
+  end if;
+  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'resources' and policyname = 'resources_select') then
+    create policy "resources_select" on public.resources for select using (true);
+  end if;
+  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'casting_calls' and policyname = 'casting_calls_select') then
+    create policy "casting_calls_select" on public.casting_calls for select using (true);
+  end if;
+end $$;
+
+-- contact_submissions: no public read/write; only service_role (server) can insert/select.
+-- (Do not create policies for anon/auth – server uses service role which bypasses RLS.)
 
 -- No insert/update/delete for anon or authenticated; only service_role can write.
 -- (Do not create policies for insert/update/delete – your app uses the service role key server-side.)
@@ -131,11 +163,21 @@ begin
 end;
 $$ language plpgsql;
 
-create trigger cast_updated_at before update on public.cast
-  for each row execute function public.set_updated_at();
-create trigger crew_updated_at before update on public.crew
-  for each row execute function public.set_updated_at();
-create trigger resources_updated_at before update on public.resources
-  for each row execute function public.set_updated_at();
-create trigger casting_calls_updated_at before update on public.casting_calls
-  for each row execute function public.set_updated_at();
+-- Create triggers only if missing (safe to re-run).
+do $$
+begin
+  if not exists (select 1 from pg_trigger t join pg_class c on t.tgrelid = c.oid join pg_namespace n on c.relnamespace = n.oid where n.nspname = 'public' and c.relname = 'cast' and t.tgname = 'cast_updated_at') then
+    create trigger cast_updated_at before update on public.cast for each row execute function public.set_updated_at();
+  end if;
+  if not exists (select 1 from pg_trigger t join pg_class c on t.tgrelid = c.oid join pg_namespace n on c.relnamespace = n.oid where n.nspname = 'public' and c.relname = 'crew' and t.tgname = 'crew_updated_at') then
+    create trigger crew_updated_at before update on public.crew for each row execute function public.set_updated_at();
+  end if;
+  if not exists (select 1 from pg_trigger t join pg_class c on t.tgrelid = c.oid join pg_namespace n on c.relnamespace = n.oid where n.nspname = 'public' and c.relname = 'resources' and t.tgname = 'resources_updated_at') then
+    create trigger resources_updated_at before update on public.resources for each row execute function public.set_updated_at();
+  end if;
+  if not exists (select 1 from pg_trigger t join pg_class c on t.tgrelid = c.oid join pg_namespace n on c.relnamespace = n.oid where n.nspname = 'public' and c.relname = 'casting_calls' and t.tgname = 'casting_calls_updated_at') then
+    create trigger casting_calls_updated_at before update on public.casting_calls for each row execute function public.set_updated_at();
+  end if;
+end $$;
+
+-- contact_submissions has no updated_at (append-only).

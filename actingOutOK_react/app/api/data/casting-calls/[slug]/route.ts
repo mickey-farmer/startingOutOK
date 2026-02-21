@@ -16,7 +16,9 @@ export async function GET(
     if (!data) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: { "Cache-Control": "no-store, max-age=0" },
+    });
   } catch (e) {
     const message = e instanceof Error ? e.message : "Failed to load casting call";
     return NextResponse.json({ error: message }, { status: 500 });

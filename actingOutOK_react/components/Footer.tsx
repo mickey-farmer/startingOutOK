@@ -52,6 +52,9 @@ export default function Footer() {
               <Link href="/terms">Terms of Service</Link>
             </li>
             <li>
+              <Link href="/contact">Contact</Link>
+            </li>
+            <li>
               <Link href="/submit-news">Suggest a news story</Link>
             </li>
             <li>
