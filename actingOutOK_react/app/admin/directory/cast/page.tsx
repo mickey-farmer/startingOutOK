@@ -14,6 +14,28 @@ const CREDIT_LABELS: Record<(typeof CREDIT_CATEGORIES)[number], string> = {
   television: "Television",
 };
 
+type CreditCol = { key: keyof CreditRow; header: string; placeholder: string };
+const CREDIT_COLS: Record<(typeof CREDIT_CATEGORIES)[number], CreditCol[]> = {
+  film: [
+    { key: "projectName", header: "Project", placeholder: "Project name" },
+    { key: "characterOrRole", header: "Character / Role", placeholder: "Character or role" },
+  ],
+  theatre: [
+    { key: "projectName", header: "Project", placeholder: "Project name" },
+    { key: "characterOrRole", header: "Character / Role", placeholder: "Character or role" },
+    { key: "directorOrStudio", header: "Director / Studio", placeholder: "Director or studio" },
+  ],
+  training: [
+    { key: "projectName", header: "Course", placeholder: "Course name" },
+    { key: "characterOrRole", header: "Instructor", placeholder: "Instructor" },
+    { key: "directorOrStudio", header: "Studio", placeholder: "Studio" },
+  ],
+  television: [
+    { key: "projectName", header: "Show", placeholder: "Show name" },
+    { key: "characterOrRole", header: "Character / Role", placeholder: "Character or role" },
+  ],
+};
+
 function toSlug(name: string): string {
   return name
     .toLowerCase()
@@ -546,7 +568,7 @@ function CastEntryForm({
       <div className="admin-form-group">
         <label>Credits (optional)</label>
         <p style={{ margin: "0 0 0.5rem", fontSize: "0.8rem", color: "var(--color-muted)" }}>
-          Project name, character/role, and director or studio. Add by category.
+          Film & TV: project and role. Theatre: project, role, director/studio. Training: course, instructor, studio.
         </p>
         {CREDIT_CATEGORIES.map((category) => {
           const rows = credits[category] ?? [];
@@ -559,9 +581,9 @@ function CastEntryForm({
                 <thead>
                   <tr>
                     <th className="admin-credits-drag-col" aria-label="Move" />
-                    <th>Project</th>
-                    <th>Character / Role</th>
-                    <th>Director / Studio</th>
+                    {CREDIT_COLS[category].map((col) => (
+                      <th key={col.key}>{col.header}</th>
+                    ))}
                     <th></th>
                   </tr>
                 </thead>
@@ -595,27 +617,15 @@ function CastEntryForm({
                           <MoveIcon />
                         </span>
                       </td>
-                      <td>
-                        <input
-                          value={row.projectName}
-                          onChange={(e) => updateCreditRow(category, i, "projectName", e.target.value)}
-                          placeholder="Project name"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          value={row.characterOrRole}
-                          onChange={(e) => updateCreditRow(category, i, "characterOrRole", e.target.value)}
-                          placeholder="Character or role type"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          value={row.directorOrStudio}
-                          onChange={(e) => updateCreditRow(category, i, "directorOrStudio", e.target.value)}
-                          placeholder="Director or studio"
-                        />
-                      </td>
+                      {CREDIT_COLS[category].map((col) => (
+                        <td key={col.key}>
+                          <input
+                            value={row[col.key] ?? ""}
+                            onChange={(e) => updateCreditRow(category, i, col.key, e.target.value)}
+                            placeholder={col.placeholder}
+                          />
+                        </td>
+                      ))}
                       <td>
                         <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.8rem" }} onClick={() => removeCreditRow(category, i)}>
                           Remove

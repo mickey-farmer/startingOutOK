@@ -154,8 +154,8 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
             )}
             <div className="talent-profile-contact">
               {entry.link && (
-                <a href={entry.link} target="_blank" rel="noopener noreferrer" className="resource-link">
-                  IMDb profile
+                <a href={entry.link} target="_blank" rel="noopener noreferrer" className="talent-profile-contact-icon" title="IMDb profile" aria-label="IMDb profile">
+                  <ImdbIcon />
                 </a>
               )}
               {entry.email?.trim() && (
@@ -164,8 +164,8 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
                 </a>
               )}
               {entry.instagram?.trim() && (
-                <a href={entry.instagram} target="_blank" rel="noopener noreferrer" className="resource-link">
-                  Instagram
+                <a href={entry.instagram} target="_blank" rel="noopener noreferrer" className="talent-profile-contact-icon" title="Instagram" aria-label="Instagram">
+                  <InstagramIcon />
                 </a>
               )}
               {entry.contactLink?.trim() && !entry.instagram?.trim() && (
@@ -188,25 +188,25 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
             {(entry.credits!.film?.length ?? 0) > 0 && (
               <div className="talent-resume-section">
                 <h3>Film</h3>
-                <CreditsTable rows={entry.credits!.film!} />
+                <CreditsTable category="film" rows={entry.credits!.film!} />
               </div>
             )}
             {(entry.credits!.theatre?.length ?? 0) > 0 && (
               <div className="talent-resume-section">
                 <h3>Theatre</h3>
-                <CreditsTable rows={entry.credits!.theatre!} />
+                <CreditsTable category="theatre" rows={entry.credits!.theatre!} />
               </div>
             )}
             {(entry.credits!.training?.length ?? 0) > 0 && (
               <div className="talent-resume-section">
                 <h3>Training</h3>
-                <CreditsTable rows={entry.credits!.training!} />
+                <CreditsTable category="training" rows={entry.credits!.training!} />
               </div>
             )}
             {(entry.credits!.television?.length ?? 0) > 0 && (
               <div className="talent-resume-section">
                 <h3>Television</h3>
-                <CreditsTable rows={entry.credits!.television!} />
+                <CreditsTable category="television" rows={entry.credits!.television!} />
               </div>
             )}
           </section>
@@ -272,7 +272,29 @@ export default function TalentProfilePage({ params }: { params: { slug: string }
   );
 }
 
-function CreditsTable({ rows }: { rows: CreditRow[] }) {
+const CREDIT_DISPLAY_COLS: Record<keyof CreditsByCategory, { key: keyof CreditRow; header: string }[]> = {
+  film: [
+    { key: "projectName", header: "Project" },
+    { key: "characterOrRole", header: "Character / Role" },
+  ],
+  theatre: [
+    { key: "projectName", header: "Project" },
+    { key: "characterOrRole", header: "Character / Role" },
+    { key: "directorOrStudio", header: "Director / Studio" },
+  ],
+  training: [
+    { key: "projectName", header: "Course" },
+    { key: "characterOrRole", header: "Instructor" },
+    { key: "directorOrStudio", header: "Studio" },
+  ],
+  television: [
+    { key: "projectName", header: "Show" },
+    { key: "characterOrRole", header: "Character / Role" },
+  ],
+};
+
+function CreditsTable({ category, rows }: { category: keyof CreditsByCategory; rows: CreditRow[] }) {
+  const cols = CREDIT_DISPLAY_COLS[category];
   const filtered = rows.filter(
     (r) => r.projectName?.trim() || r.characterOrRole?.trim() || r.directorOrStudio?.trim()
   );
@@ -281,20 +303,38 @@ function CreditsTable({ rows }: { rows: CreditRow[] }) {
     <table className="talent-credits-table">
       <thead>
         <tr>
-          <th>Project</th>
-          <th>Character / Role</th>
-          <th>Director / Studio</th>
+          {cols.map((c) => (
+            <th key={c.key}>{c.header}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
         {filtered.map((row, i) => (
           <tr key={i}>
-            <td>{row.projectName?.trim() || "—"}</td>
-            <td>{row.characterOrRole?.trim() || "—"}</td>
-            <td>{row.directorOrStudio?.trim() || "—"}</td>
+            {cols.map((c) => (
+              <td key={c.key}>{row[c.key]?.trim() || "—"}</td>
+            ))}
           </tr>
         ))}
       </tbody>
     </table>
+  );
+}
+
+function ImdbIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden focusable="false">
+      <path d="M4 4h4v16H4V4zm6 0h2v16h-2V4zm6 0h4v16h-4V4z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden focusable="false">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+    </svg>
   );
 }

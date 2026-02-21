@@ -49,25 +49,34 @@ export default function HomePage() {
             </p>
           </div>
         </Link>
-        <Link href="/directory" className="splash-bar" aria-label="Directory">
-          <div className="splash-bar-letters" aria-hidden>
-            <span>D</span>
-            <span>I</span>
-            <span>R</span>
-            <span>E</span>
-            <span>C</span>
-            <span>T</span>
-            <span>O</span>
-            <span>R</span>
-            <span>Y</span>
-          </div>
-          <div className="splash-bar-content">
-            <p className="splash-bar-desc">
-              Crew and specialists in Oklahoma: intimacy coordinators,
-              directors, grips, and more.
-            </p>
-          </div>
-        </Link>
+        <div className="splash-directory">
+          <Link href="/directory/cast" className="splash-bar splash-bar-cast" aria-label="Cast directory">
+            <div className="splash-bar-letters" aria-hidden>
+              <span>C</span>
+              <span>A</span>
+              <span>S</span>
+              <span>T</span>
+            </div>
+            <div className="splash-bar-content">
+              <p className="splash-bar-desc">
+                Talent in Oklahoma. Actors with profiles, credits, and contact info.
+              </p>
+            </div>
+          </Link>
+          <Link href="/directory/crew" className="splash-bar splash-bar-crew" aria-label="Crew directory">
+            <div className="splash-bar-letters" aria-hidden>
+              <span>C</span>
+              <span>R</span>
+              <span>E</span>
+              <span>W</span>
+            </div>
+            <div className="splash-bar-content">
+              <p className="splash-bar-desc">
+                Crew and specialists: intimacy coordinators, directors, grips, and more.
+              </p>
+            </div>
+          </Link>
+        </div>
         <a
           href="https://news.actingoutok.com"
           className="splash-bar"
