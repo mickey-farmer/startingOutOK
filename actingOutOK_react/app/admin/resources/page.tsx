@@ -2,50 +2,48 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-type DirectoryEntry = {
+type ResourceEntry = {
   id: string;
-  name: string;
-  pronouns?: string | null;
-  description: string;
+  title: string;
+  subcategory?: string | null;
+  type?: string | null;
+  description?: string | null;
   location?: string | null;
   link?: string | null;
-  contactLink?: string | null;
-  contactLabel?: string | null;
+  imdbLink?: string | null;
+  vendor?: boolean;
   pills?: string[];
+  schedule?: string | null;
 };
 
-type DirectoryData = Record<string, DirectoryEntry[]>;
+type ResourcesData = Record<string, ResourceEntry[]>;
 
-const CREW_SECTION_ORDER = [
-  "Directors",
-  "Writers",
-  "Camera Operators",
+const RESOURCE_SECTION_ORDER = [
+  "Agencies",
+  "Casting",
+  "Classes & Workshops",
+  "Networking",
   "Photographers",
-  "PAs",
   "Props",
-  "Stunt Coordinators",
-  "Intimacy Coordinators",
-  "Costume",
-  "Editors",
-  "Gaffer",
-  "Grips",
-  "Hair & Make-Up",
-  "Production Design",
-  "Script Supervisor",
-  "Sound",
+  "Stunts",
+  "Studios & Sound Stages",
+  "Theaters",
+  "Vendors",
+  "Voice",
+  "Writing",
 ];
 
 function sectionSort(a: string, b: string): number {
-  const i = CREW_SECTION_ORDER.indexOf(a);
-  const j = CREW_SECTION_ORDER.indexOf(b);
+  const i = RESOURCE_SECTION_ORDER.indexOf(a);
+  const j = RESOURCE_SECTION_ORDER.indexOf(b);
   if (i !== -1 && j !== -1) return i - j;
   if (i !== -1) return -1;
   if (j !== -1) return 1;
   return a.localeCompare(b);
 }
 
-export default function AdminCrewPage() {
-  const [data, setData] = useState<DirectoryData | null>(null);
+export default function AdminResourcesPage() {
+  const [data, setData] = useState<ResourcesData | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "error" | "success"; text: string } | null>(null);
@@ -57,12 +55,12 @@ export default function AdminCrewPage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const [dirRes, dsRes] = await Promise.all([
-        fetch("/api/data/directory"),
+      const [resRes, dsRes] = await Promise.all([
+        fetch("/api/data/resources"),
         fetch("/api/admin/data-source", { credentials: "include" }),
       ]);
-      if (!dirRes.ok) throw new Error("Failed to load directory");
-      const json: DirectoryData = await dirRes.json();
+      if (!resRes.ok) throw new Error("Failed to load resources");
+      const json: ResourcesData = await resRes.json();
       setData(json);
       const ds = await dsRes.json().catch(() => ({}));
       setUseSupabase(!!ds.useSupabase);
@@ -77,17 +75,17 @@ export default function AdminCrewPage() {
     load();
   }, [load]);
 
-  async function handleSave(newData: DirectoryData) {
+  async function handleSave(newData: ResourcesData) {
     setSaving(true);
     setMessage(null);
     try {
-      const url = useSupabase ? "/api/admin/supabase/directory" : "/api/admin/save";
+      const url = useSupabase ? "/api/admin/supabase/resources" : "/api/admin/save";
       const body = useSupabase
-        ? { directory: newData }
+        ? { resources: newData }
         : {
-            path: "public/data/directory.json",
-            content: JSON.stringify(newData, null, 2),
-            message: "Admin: update crew directory",
+            path: "public/data/resources.json",
+            content: JSON.stringify(newData),
+            message: "Admin: update resources",
           };
       const res = await fetch(url, {
         method: "POST",
@@ -111,19 +109,17 @@ export default function AdminCrewPage() {
     }
   }
 
-  function updateEntry(section: string, index: number, updates: Partial<DirectoryEntry>) {
+  function updateEntry(section: string, index: number, updates: Partial<ResourceEntry>) {
     if (!data) return;
     const sectionEntries = [...(data[section] || [])];
     sectionEntries[index] = { ...sectionEntries[index], ...updates };
-    const next: DirectoryData = { ...data, [section]: sectionEntries };
-    setData(next);
+    setData({ ...data, [section]: sectionEntries });
   }
 
-  function addEntry(section: string, entry: DirectoryEntry) {
+  function addEntry(section: string, entry: ResourceEntry) {
     if (!data) return;
     const sectionEntries = [...(data[section] || []), entry];
-    const next: DirectoryData = { ...data, [section]: sectionEntries };
-    setData(next);
+    setData({ ...data, [section]: sectionEntries });
     setEditing(null);
   }
 
@@ -158,21 +154,19 @@ export default function AdminCrewPage() {
   if (loading || !data) {
     return (
       <div>
-        <h1 className="admin-page-title">Crew</h1>
-        <p>{loading ? "Loading…" : "Failed to load directory."}</p>
+        <h1 className="admin-page-title">Resources</h1>
+        <p>{loading ? "Loading…" : "Failed to load resources."}</p>
       </div>
     );
   }
 
-  const sections = Object.keys(data)
-    .filter((s) => s !== "Talent")
-    .sort(sectionSort);
+  const sections = Object.keys(data).sort(sectionSort);
 
   return (
     <>
-      <h1 className="admin-page-title">Crew</h1>
+      <h1 className="admin-page-title">Resources</h1>
       <p style={{ margin: "0 0 1rem", fontSize: "0.9rem", color: "var(--color-muted)" }}>
-        Crew sections (all except Talent). Edit sections and entries.
+        Agencies, classes, theaters, vendors, etc. Edit sections and entries.
       </p>
       {message && (
         <div className={`admin-alert admin-alert-${message.type}`} role="alert">
@@ -196,7 +190,7 @@ export default function AdminCrewPage() {
             <input
               value={newSectionName}
               onChange={(e) => setNewSectionName(e.target.value)}
-              placeholder="e.g. Sound Mixers"
+              placeholder="e.g. Equipment"
             />
           </div>
           <div style={{ display: "flex", gap: "0.5rem" }}>
@@ -232,7 +226,7 @@ export default function AdminCrewPage() {
             {(data[section] || []).map((entry, index) => (
               <li key={`${entry.id}-${index}`} style={{ marginBottom: "0.5rem", padding: "0.5rem", background: "rgba(0,0,0,0.03)", borderRadius: 6 }}>
                 {editing?.section === section && editing?.index === index ? (
-                  <CrewEntryForm
+                  <ResourceEntryForm
                     entry={entry}
                     onSave={(updates) => { updateEntry(section, index, updates); setEditing(null); }}
                     onCancel={() => setEditing(null)}
@@ -240,9 +234,9 @@ export default function AdminCrewPage() {
                 ) : (
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div>
-                      <strong>{entry.name}</strong>
-                      {entry.pronouns && <span style={{ color: "var(--color-muted)", marginLeft: "0.25rem" }}>({entry.pronouns})</span>}
-                      <p style={{ margin: "0.25rem 0 0", fontSize: "0.9rem", color: "var(--color-muted)" }}>{entry.description}</p>
+                      <strong>{entry.title}</strong>
+                      {entry.type && <span style={{ color: "var(--color-muted)", marginLeft: "0.25rem" }}>({entry.type})</span>}
+                      <p style={{ margin: "0.25rem 0 0", fontSize: "0.9rem", color: "var(--color-muted)" }}>{entry.description || "—"}</p>
                     </div>
                     <div style={{ display: "flex", gap: "0.25rem" }}>
                       <button type="button" className="admin-btn admin-btn-secondary" style={{ fontSize: "0.8rem" }} onClick={() => setEditing({ section, index })}>Edit</button>
@@ -253,93 +247,121 @@ export default function AdminCrewPage() {
               </li>
             ))}
           </ul>
-          <CrewAddEntryForm section={section} onAdd={(entry) => addEntry(section, entry)} />
+          <ResourceAddEntryForm section={section} onAdd={(entry) => addEntry(section, entry)} />
         </div>
       ))}
     </>
   );
 }
 
-function CrewEntryForm({
+function ResourceEntryForm({
   entry,
   onSave,
   onCancel,
 }: {
-  entry: DirectoryEntry;
-  onSave: (updates: Partial<DirectoryEntry>) => void;
+  entry: ResourceEntry;
+  onSave: (updates: Partial<ResourceEntry>) => void;
   onCancel: () => void;
 }) {
   const [form, setForm] = useState(entry);
+  const [pillsStr, setPillsStr] = useState((entry.pills || []).join(", "));
+
+  function handleSave() {
+    const pills = pillsStr.trim() ? pillsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined;
+    onSave({ ...form, pills });
+  }
+
   return (
     <div className="admin-card" style={{ marginTop: "0.5rem" }}>
       <div className="admin-form-group">
         <label>ID (slug)</label>
-        <input value={form.id} onChange={(e) => setForm((f) => ({ ...f, id: e.target.value }))} placeholder="jane-doe" />
+        <input value={form.id} onChange={(e) => setForm((f) => ({ ...f, id: e.target.value }))} placeholder="ag-1" />
       </div>
       <div className="admin-form-group">
-        <label>Name</label>
-        <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} />
+        <label>Title</label>
+        <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} />
       </div>
       <div className="admin-form-group">
-        <label>Pronouns (optional)</label>
-        <input value={form.pronouns ?? ""} onChange={(e) => setForm((f) => ({ ...f, pronouns: e.target.value || null }))} placeholder="she/her" />
+        <label>Type (optional)</label>
+        <input value={form.type ?? ""} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value || null }))} placeholder="Agency, Class, Theatre…" />
+      </div>
+      <div className="admin-form-group">
+        <label>Subcategory (optional)</label>
+        <input value={form.subcategory ?? ""} onChange={(e) => setForm((f) => ({ ...f, subcategory: e.target.value || null }))} />
       </div>
       <div className="admin-form-group">
         <label>Description</label>
-        <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
+        <textarea value={form.description ?? ""} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value || null }))} />
+      </div>
+      <div className="admin-form-group">
+        <label>Location (optional)</label>
+        <input value={form.location ?? ""} onChange={(e) => setForm((f) => ({ ...f, location: e.target.value || null }))} />
       </div>
       <div className="admin-form-group">
         <label>Link (optional)</label>
         <input type="url" value={form.link ?? ""} onChange={(e) => setForm((f) => ({ ...f, link: e.target.value || null }))} />
       </div>
       <div className="admin-form-group">
-        <label>Contact link (optional)</label>
-        <input type="url" value={form.contactLink ?? ""} onChange={(e) => setForm((f) => ({ ...f, contactLink: e.target.value || null }))} />
+        <label>IMDb link (optional)</label>
+        <input type="url" value={form.imdbLink ?? ""} onChange={(e) => setForm((f) => ({ ...f, imdbLink: e.target.value || null }))} />
       </div>
       <div className="admin-form-group">
-        <label>Contact label (optional)</label>
-        <input value={form.contactLabel ?? ""} onChange={(e) => setForm((f) => ({ ...f, contactLabel: e.target.value || null }))} placeholder="Instagram" />
+        <label>Schedule (optional)</label>
+        <input value={form.schedule ?? ""} onChange={(e) => setForm((f) => ({ ...f, schedule: e.target.value || null }))} placeholder="e.g. First Friday 8–10 a.m." />
+      </div>
+      <div className="admin-form-group">
+        <label>
+          <input type="checkbox" checked={form.vendor ?? false} onChange={(e) => setForm((f) => ({ ...f, vendor: e.target.checked }))} />
+          {" "}Vendor (equipment/services)
+        </label>
       </div>
       <div className="admin-form-group">
         <label>Pills (optional, comma-separated)</label>
-        <input value={(form.pills || []).join(", ")} onChange={(e) => setForm((f) => ({ ...f, pills: e.target.value.trim() ? e.target.value.split(",").map((s) => s.trim()).filter(Boolean) : undefined }))} placeholder="Beginner" />
+        <input value={pillsStr} onChange={(e) => setPillsStr(e.target.value)} placeholder="First class free, Scholarships" />
       </div>
       <div style={{ display: "flex", gap: "0.5rem" }}>
-        <button type="button" className="admin-btn admin-btn-primary" onClick={() => onSave(form)}>Save</button>
+        <button type="button" className="admin-btn admin-btn-primary" onClick={handleSave}>Save</button>
         <button type="button" className="admin-btn admin-btn-secondary" onClick={onCancel}>Cancel</button>
       </div>
     </div>
   );
 }
 
-function CrewAddEntryForm({ section, onAdd }: { section: string; onAdd: (entry: DirectoryEntry) => void }) {
+function ResourceAddEntryForm({ section, onAdd }: { section: string; onAdd: (entry: ResourceEntry) => void }) {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState<Partial<DirectoryEntry>>({
+  const [form, setForm] = useState<Partial<ResourceEntry>>({
     id: "",
-    name: "",
-    pronouns: null,
-    description: "",
+    title: "",
+    subcategory: null,
+    type: null,
+    description: null,
     location: null,
     link: null,
-    contactLink: null,
-    contactLabel: null,
+    imdbLink: null,
+    vendor: false,
     pills: undefined,
+    schedule: null,
   });
+  const [pillsStr, setPillsStr] = useState("");
 
   function handleAdd() {
-    if (!form.id?.trim() || !form.name?.trim() || !form.description?.trim()) return;
+    if (!form.id?.trim() || !form.title?.trim()) return;
+    const pills = pillsStr.trim() ? pillsStr.split(",").map((s) => s.trim()).filter(Boolean) : undefined;
     onAdd({
       id: form.id.trim(),
-      name: form.name.trim(),
-      pronouns: form.pronouns || null,
-      description: form.description.trim(),
+      title: form.title.trim(),
+      subcategory: form.subcategory || null,
+      type: form.type || null,
+      description: form.description || null,
       location: form.location || null,
       link: form.link || null,
-      contactLink: form.contactLink || null,
-      contactLabel: form.contactLabel || null,
-      pills: form.pills?.length ? form.pills : undefined,
+      imdbLink: form.imdbLink || null,
+      vendor: form.vendor ?? false,
+      pills,
+      schedule: form.schedule || null,
     });
-    setForm({ id: "", name: "", pronouns: null, description: "", location: null, link: null, contactLink: null, contactLabel: null, pills: undefined });
+    setForm({ id: "", title: "", subcategory: null, type: null, description: null, location: null, link: null, imdbLink: null, vendor: false, pills: undefined, schedule: null });
+    setPillsStr("");
     setOpen(false);
   }
 
@@ -353,14 +375,13 @@ function CrewAddEntryForm({ section, onAdd }: { section: string; onAdd: (entry: 
   return (
     <div className="admin-card" style={{ marginTop: "0.75rem" }}>
       <h3 style={{ margin: "0 0 0.5rem", fontSize: "1rem" }}>New entry</h3>
-      <div className="admin-form-group"><label>ID (slug)</label><input value={form.id ?? ""} onChange={(e) => setForm((f) => ({ ...f, id: e.target.value }))} placeholder="jane-doe" /></div>
-      <div className="admin-form-group"><label>Name</label><input value={form.name ?? ""} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} /></div>
-      <div className="admin-form-group"><label>Pronouns (optional)</label><input value={form.pronouns ?? ""} onChange={(e) => setForm((f) => ({ ...f, pronouns: e.target.value || null }))} placeholder="she/her" /></div>
-      <div className="admin-form-group"><label>Description</label><textarea value={form.description ?? ""} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} /></div>
+      <div className="admin-form-group"><label>ID (slug)</label><input value={form.id ?? ""} onChange={(e) => setForm((f) => ({ ...f, id: e.target.value }))} placeholder="ag-1" /></div>
+      <div className="admin-form-group"><label>Title</label><input value={form.title ?? ""} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} /></div>
+      <div className="admin-form-group"><label>Type (optional)</label><input value={form.type ?? ""} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value || null }))} /></div>
+      <div className="admin-form-group"><label>Description (optional)</label><textarea value={form.description ?? ""} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value || null }))} /></div>
+      <div className="admin-form-group"><label>Location (optional)</label><input value={form.location ?? ""} onChange={(e) => setForm((f) => ({ ...f, location: e.target.value || null }))} /></div>
       <div className="admin-form-group"><label>Link (optional)</label><input type="url" value={form.link ?? ""} onChange={(e) => setForm((f) => ({ ...f, link: e.target.value || null }))} /></div>
-      <div className="admin-form-group"><label>Contact link (optional)</label><input type="url" value={form.contactLink ?? ""} onChange={(e) => setForm((f) => ({ ...f, contactLink: e.target.value || null }))} /></div>
-      <div className="admin-form-group"><label>Contact label (optional)</label><input value={form.contactLabel ?? ""} onChange={(e) => setForm((f) => ({ ...f, contactLabel: e.target.value || null }))} placeholder="Instagram" /></div>
-      <div className="admin-form-group"><label>Pills (optional, comma-separated)</label><input value={(form.pills || []).join(", ")} onChange={(e) => setForm((f) => ({ ...f, pills: e.target.value.trim() ? e.target.value.split(",").map((s) => s.trim()).filter(Boolean) : undefined }))} placeholder="Beginner" /></div>
+      <div className="admin-form-group"><label>Pills (optional, comma-separated)</label><input value={pillsStr} onChange={(e) => setPillsStr(e.target.value)} /></div>
       <div style={{ display: "flex", gap: "0.5rem" }}>
         <button type="button" className="admin-btn admin-btn-primary" onClick={handleAdd}>Add entry</button>
         <button type="button" className="admin-btn admin-btn-secondary" onClick={() => setOpen(false)}>Cancel</button>

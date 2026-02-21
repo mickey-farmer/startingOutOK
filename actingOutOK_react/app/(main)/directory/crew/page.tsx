@@ -53,7 +53,7 @@ export default function CrewDirectoryPage() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch("/data/directory.json")
+    fetch("/api/data/directory")
       .then((r) => r.json())
       .then(setData)
       .finally(() => setLoading(false));

@@ -58,7 +58,7 @@ export default function CastingCallsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/casting-calls.json")
+    fetch("/api/data/casting-calls")
       .then((r) => r.json())
       .then((data: CastingEntry[]) => {
         setList(Array.isArray(data) ? data : []);
