@@ -10,6 +10,52 @@ function parseImdbId(input: string): string | null {
   return match ? match[1].toLowerCase() : null;
 }
 
+/** Extract TMDB person id (numeric) from URL or raw id */
+function parseTmdbPersonId(input: string): number | null {
+  const trimmed = (input || "").trim();
+  const fromUrl = trimmed.match(/(?:themoviedb\.org\/person\/|person\/)(\d+)/i);
+  if (fromUrl) return parseInt(fromUrl[1], 10);
+  const raw = trimmed.match(/^(\d+)$/);
+  return raw ? parseInt(raw[1], 10) : null;
+}
+
+async function fetchPersonByTmdbId(
+  personId: number,
+  apiKey: string,
+  headers: Record<string, string>
+): Promise<{ personId: number; imdbId?: string; details: Record<string, unknown> | null; imageUrl: string | null; movieCredits: { cast: unknown[]; crew: unknown[] }; tvCredits: { cast: unknown[] } }> {
+  const url = (path: string, params: Record<string, string> = {}) => {
+    const p = new URLSearchParams({ api_key: apiKey, ...params });
+    return `${TMDB_BASE}${path}?${p}`;
+  };
+  const [detailsRes, imagesRes, movieCreditsRes, tvCreditsRes] = await Promise.all([
+    fetch(url(`/person/${personId}`), { headers }),
+    fetch(url(`/person/${personId}/images`), { headers }),
+    fetch(url(`/person/${personId}/movie_credits`), { headers }),
+    fetch(url(`/person/${personId}/tv_credits`), { headers }),
+  ]);
+  const details = detailsRes.ok ? ((await detailsRes.json()) as Record<string, unknown>) : null;
+  const images = imagesRes.ok ? ((await imagesRes.json()) as { profiles?: { file_path: string; vote_average: number }[] }) : null;
+  const movieCredits = movieCreditsRes.ok ? ((await movieCreditsRes.json()) as { cast?: unknown[]; crew?: unknown[] }) : null;
+  const tvCredits = tvCreditsRes.ok ? ((await tvCreditsRes.json()) as { cast?: unknown[] }) : null;
+  const profilePath = images?.profiles?.sort((a, b) => (b.vote_average ?? 0) - (a.vote_average ?? 0))[0]?.file_path;
+  const imageUrl = profilePath ? `${TMDB_IMAGE_BASE}/w342${profilePath}` : null;
+  const imdbId = (details?.imdb_id as string) || undefined;
+  return {
+    personId,
+    imdbId,
+    details,
+    imageUrl,
+    movieCredits: {
+      cast: movieCredits?.cast ?? [],
+      crew: movieCredits?.crew ?? [],
+    },
+    tvCredits: {
+      cast: tvCredits?.cast ?? [],
+    },
+  };
+}
+
 export async function GET(request: NextRequest) {
   const apiKey = process.env.TMDB_API_KEY;
   if (!apiKey) {
@@ -19,23 +65,39 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const imdbInput = request.nextUrl.searchParams.get("imdbId") ?? request.nextUrl.searchParams.get("imdb");
-  const imdbId = parseImdbId(imdbInput ?? "");
-  if (!imdbId) {
+  const searchParams = request.nextUrl.searchParams;
+  const imdbInput = searchParams.get("imdbId") ?? searchParams.get("imdb");
+  const tmdbPersonIdInput = searchParams.get("personId") ?? searchParams.get("tmdbPersonId");
+  const imdbId = imdbInput ? parseImdbId(imdbInput) : null;
+  const personIdFromUrl = tmdbPersonIdInput ? parseTmdbPersonId(tmdbPersonIdInput) : null;
+
+  if (!imdbId && personIdFromUrl == null) {
     return NextResponse.json(
-      { error: "Invalid or missing imdbId (e.g. nm1234567 or full IMDb URL)" },
+      { error: "Provide imdbId (IMDb URL or nm1234567) or personId (TMDB person URL or ID)" },
       { status: 400 }
     );
   }
 
-  try {
-    const headers = { Accept: "application/json" };
-    const url = (path: string, params: Record<string, string> = {}) => {
-      const p = new URLSearchParams({ api_key: apiKey!, ...params });
-      return `${TMDB_BASE}${path}?${p}`;
-    };
+  const headers = { Accept: "application/json" };
+  const url = (path: string, params: Record<string, string> = {}) => {
+    const p = new URLSearchParams({ api_key: apiKey!, ...params });
+    return `${TMDB_BASE}${path}?${p}`;
+  };
 
-    const findRes = await fetch(url("/find/" + imdbId, { external_source: "imdb_id" }), { headers });
+  try {
+    let personId: number;
+
+    if (personIdFromUrl != null) {
+      personId = personIdFromUrl;
+      const result = await fetchPersonByTmdbId(personId, apiKey, headers);
+      return NextResponse.json({
+        ...result,
+        movieCredits: result.movieCredits ?? { cast: [], crew: [] },
+        tvCredits: result.tvCredits ?? { cast: [] },
+      });
+    }
+
+    const findRes = await fetch(url("/find/" + imdbId!, { external_source: "imdb_id" }), { headers });
     if (!findRes.ok) {
       const err = await findRes.text();
       return NextResponse.json(
@@ -45,10 +107,10 @@ export async function GET(request: NextRequest) {
     }
     const findData = (await findRes.json()) as { person_results?: { id: number }[] };
     const personResults = findData.person_results ?? [];
-    const personId = personResults[0]?.id;
+    personId = personResults[0]?.id;
     if (personId == null) {
       return NextResponse.json(
-        { error: "No person found on TMDB for this IMDb ID" },
+        { error: "No person found on TMDB for this IMDb ID. Try a TMDB person link instead (themoviedb.org/person/...)." },
         { status: 404 }
       );
     }
