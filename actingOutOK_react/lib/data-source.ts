@@ -209,7 +209,11 @@ export type CastingCallDetail = {
   }>;
 };
 
-export async function getCastingCallsList(): Promise<CastingListEntry[]> {
+export type CastingCallsListResult =
+  | { data: CastingListEntry[]; source: "supabase" }
+  | { data: CastingListEntry[]; source: "json" };
+
+export async function getCastingCallsList(): Promise<CastingCallsListResult> {
   if (isSupabaseConfigured()) {
     const supabase = getSupabase();
     const { data, error } = await supabase
@@ -217,7 +221,7 @@ export async function getCastingCallsList(): Promise<CastingListEntry[]> {
       .select("slug, title, date, audition_deadline, location, pay, type, union_status, under18, role_count, archived")
       .order("date", { ascending: false });
     if (error) throw new Error(error.message);
-    return (data || []).map((row: Record<string, unknown>) => ({
+    const list = (data || []).map((row: Record<string, unknown>) => ({
       slug: row.slug as string,
       title: row.title as string,
       date: row.date as string | null,
@@ -230,11 +234,13 @@ export async function getCastingCallsList(): Promise<CastingListEntry[]> {
       roleCount: (row.role_count as number) ?? 0,
       archived: (row.archived as boolean) ?? false,
     }));
+    return { data: list, source: "supabase" };
   }
 
   const path = join(PUBLIC_DATA, "casting-calls.json");
   const raw = JSON.parse(readFileSync(path, "utf-8")) as CastingListEntry[];
-  return Array.isArray(raw) ? raw : [];
+  const list = Array.isArray(raw) ? raw : [];
+  return { data: list, source: "json" };
 }
 
 export async function getCastingCallBySlug(slug: string): Promise<CastingCallDetail | null> {

@@ -1,17 +1,16 @@
 import { NextResponse } from "next/server";
 import { getCastingCallsList } from "@/lib/data-source";
-import { isSupabaseConfigured } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const data = await getCastingCallsList();
-    const source = isSupabaseConfigured() ? "supabase" : "json";
+    const { data, source } = await getCastingCallsList();
     return NextResponse.json(data, {
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
         "X-Data-Source": source,
+        "X-List-Count": String(data.length),
       },
     });
   } catch (e) {
