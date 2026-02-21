@@ -1,36 +1,180 @@
 {
   "Camera Operators": [
-    {"id":"dylan-albertson","name":"Dylan Albertson","pronouns":"they/them","description":"Cinematographer and camera department: Director of Photography, 1st AC / Focus Puller, 2nd AC, DIT, Steadicam Operator, Loader.","location":null,"link":"https://www.imdb.com/name/nm10928135/?ref_=nv_sr_srsg_0_tt_0_nm_8_in_0_q_dylan%20albertson","contactLink":"https://www.instagram.com/olympe.aerial/","contactLabel":"Instagram"},
-    {"id":"kayla-brook-ward","name":"Kayla Brook Ward","pronouns":null,"description":"PA, Writer.","location":null,"link":null,"contactLink":"mailto:Kayla.stynes99@gmail.com","contactLabel":"Email","pills":["Beginner"]}
+    {
+      "id": "dylan-albertson",
+      "name": "Dylan Albertson",
+      "pronouns": "they/them",
+      "description": "Cinematographer and camera department: Director of Photography, 1st AC / Focus Puller, 2nd AC, DIT, Steadicam Operator, Loader.",
+      "location": null,
+      "link": "https://www.imdb.com/name/nm10928135/?ref_=nv_sr_srsg_0_tt_0_nm_8_in_0_q_dylan%20albertson",
+      "contactLink": "https://www.instagram.com/olympe.aerial/",
+      "contactLabel": "Instagram"
+    },
+    {
+      "id": "kayla-brook-ward",
+      "name": "Kayla Brook Ward",
+      "pronouns": null,
+      "description": "",
+      "location": null,
+      "link": null,
+      "contactLink": "mailto:Kayla.stynes99@gmail.com",
+      "contactLabel": "Email",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ],
   "Directors": [
-    {"id":"david-greyson","name":"David Greyson","pronouns":"he/him","description":"Actor, Director, Writer, and Filmmaker. Represented by The Tabb Agency (Oklahoma) and Acclaim Talent (Texas).","location":null,"link":"https://www.imdb.com/name/nm4590090/","contactLink":"https://www.instagram.com/mrdavidgreyson/","contactLabel":"Instagram"}
+    {
+      "id": "david-greyson",
+      "name": "David Greyson",
+      "pronouns": "he/him",
+      "description": "Actor, Director, Writer, and Filmmaker. Represented by The Tabb Agency (Oklahoma) and Acclaim Talent (Texas).",
+      "location": null,
+      "link": "https://www.imdb.com/name/nm4590090/",
+      "contactLink": "https://www.instagram.com/mrdavidgreyson/",
+      "contactLabel": "Instagram"
+    }
   ],
   "Editors": [
-    {"id":"kayla-brook-ward","name":"Kayla Brook Ward","pronouns":null,"description":"PA, Writer.","location":null,"link":null,"contactLink":"mailto:Kayla.stynes99@gmail.com","contactLabel":"Email","pills":["Beginner"]}
+    {
+      "id": "kayla-brook-ward",
+      "name": "Kayla Brook Ward",
+      "pronouns": null,
+      "description": "",
+      "location": null,
+      "link": null,
+      "contactLink": "mailto:Kayla.stynes99@gmail.com",
+      "contactLabel": "Email",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ],
   "Grips": [
-    {"id":"kayla-brook-ward","name":"Kayla Brook Ward","pronouns":null,"description":"PA, Writer.","location":null,"link":null,"contactLink":"mailto:Kayla.stynes99@gmail.com","contactLabel":"Email","pills":["Beginner"]}
+    {
+      "id": "kayla-brook-ward",
+      "name": "Kayla Brook Ward",
+      "pronouns": null,
+      "description": "",
+      "location": null,
+      "link": null,
+      "contactLink": "mailto:Kayla.stynes99@gmail.com",
+      "contactLabel": "Email",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ],
   "Intimacy Coordinators": [
-    {"id":"kaylene-snarsky","name":"Kaylene Snarsky","pronouns":"she/her","description":"Intimacy coordinator for film and television in Oklahoma.","location":"Oklahoma","link":"https://www.imdb.com/name/nm11103298/","contactLink":"https://www.instagram.com/kaytothelene/?hl=en","contactLabel":"Instagram"}
+    {
+      "id": "kaylene-snarsky",
+      "name": "Kaylene Snarsky",
+      "pronouns": "she/her",
+      "description": "Intimacy coordinator for film and television in Oklahoma.",
+      "location": "Oklahoma",
+      "link": "https://www.imdb.com/name/nm11103298/",
+      "contactLink": "https://www.instagram.com/kaytothelene/?hl=en",
+      "contactLabel": "Instagram"
+    }
   ],
   "PAs": [
-    {"id":"rylie-isabella","name":"Rylie Isabella","pronouns":"she/her","description":"Advanced beginner with experience in film and television production currently seeking more expereince and projects.","location":null,"link":"https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk","contactLink":"https://www.instagram.com/strawberry_shake_media/","contactLabel":"Instagram","pills":["Beginner"]},
-    {"id":"kayla-brook-ward","name":"Kayla Brook Ward","pronouns":null,"description":"PA, Writer.","location":null,"link":null,"contactLink":"mailto:Kayla.stynes99@gmail.com","contactLabel":"Email"}
+    {
+      "id": "rylie-isabella",
+      "name": "Rylie Isabella",
+      "pronouns": "she/her",
+      "description": "Advanced beginner with experience in film and television production currently seeking more expereince and projects.",
+      "location": null,
+      "link": "https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk",
+      "contactLink": "https://www.instagram.com/strawberry_shake_media/",
+      "contactLabel": "Instagram",
+      "pills": [
+        "Beginner"
+      ]
+    },
+    {
+      "id": "kayla-brook-ward",
+      "name": "Kayla Brook Ward",
+      "pronouns": null,
+      "description": "",
+      "location": null,
+      "link": null,
+      "contactLink": "mailto:Kayla.stynes99@gmail.com",
+      "contactLabel": "Email",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ],
   "Photographers": [
-    {"id":"rylie-isabella","name":"Rylie Isabella","pronouns":"she/her","description":"Advanced beginner with experience in film and television production currently seeking more expereince and projects.","location":null,"link":"https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk","contactLink":"https://www.instagram.com/strawberry_shake_media/","contactLabel":"Instagram","pills":["Beginner"]}
+    {
+      "id": "rylie-isabella",
+      "name": "Rylie Isabella",
+      "pronouns": "she/her",
+      "description": "Advanced beginner with experience in film and television production currently seeking more expereince and projects.",
+      "location": null,
+      "link": "https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk",
+      "contactLink": "https://www.instagram.com/strawberry_shake_media/",
+      "contactLabel": "Instagram",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ],
   "Props": [
-    {"id":"rylie-isabella","name":"Rylie Isabella","pronouns":"she/her","description":"Advanced beginner with experience in film and television production currently seeking more expereince and projects.","location":null,"link":"https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk","contactLink":"https://www.instagram.com/strawberry_shake_media/","contactLabel":"Instagram","pills":["Beginner"]},
-    {"id":"kayla-brook-ward","name":"Kayla Brook Ward","pronouns":null,"description":"PA, Writer.","location":null,"link":null,"contactLink":"mailto:Kayla.stynes99@gmail.com","contactLabel":"Email","pills":["Beginner"]}
+    {
+      "id": "rylie-isabella",
+      "name": "Rylie Isabella",
+      "pronouns": "she/her",
+      "description": "Advanced beginner with experience in film and television production currently seeking more expereince and projects.",
+      "location": null,
+      "link": "https://www.imdb.com/name/nm17454131/?ref_=ext_shr_lnk",
+      "contactLink": "https://www.instagram.com/strawberry_shake_media/",
+      "contactLabel": "Instagram",
+      "pills": [
+        "Beginner"
+      ]
+    },
+    {
+      "id": "kayla-brook-ward",
+      "name": "Kayla Brook Ward",
+      "pronouns": null,
+      "description": "",
+      "location": null,
+      "link": null,
+      "contactLink": "mailto:Kayla.stynes99@gmail.com",
+      "contactLabel": "Email",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ],
   "Script Supervisor": [
-    {"id":"kayla-brook-ward","name":"Kayla Brook Ward","pronouns":null,"description":"PA, Writer.","location":null,"link":null,"contactLink":"mailto:Kayla.stynes99@gmail.com","contactLabel":"Email","pills":["Beginner"]}
+    {
+      "id": "kayla-brook-ward",
+      "name": "Kayla Brook Ward",
+      "pronouns": null,
+      "description": "",
+      "location": null,
+      "link": null,
+      "contactLink": "mailto:Kayla.stynes99@gmail.com",
+      "contactLabel": "Email",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ],
   "Stunt Coordinators": [
-    {"id":"justin-parks","name":"Justin Parks","pronouns":"he/him","description":"Stunt training and coordination. Stunt performer and instructor.","location":"Oklahoma","link":"https://www.instagram.com/justinparks_jp/","contactLink":"https://www.instagram.com/justinparks_jp/","contactLabel":"Instagram"}
+    {
+      "id": "justin-parks",
+      "name": "Justin Parks",
+      "pronouns": "he/him",
+      "description": "Stunt training and coordination. Stunt performer and instructor.",
+      "location": "Oklahoma",
+      "link": "https://www.instagram.com/justinparks_jp/",
+      "contactLink": "https://www.instagram.com/justinparks_jp/",
+      "contactLabel": "Instagram"
+    }
   ],
   "Talent": [
     {
@@ -57,6 +201,33 @@
           {
             "projectName": "Last Seven Days",
             "characterOrRole": "Trent Whitmore",
+            "directorOrStudio": ""
+          }
+        ],
+        "theatre": [],
+        "training": [],
+        "television": []
+      }
+    },
+    {
+      "id": "jane-doe",
+      "name": "Jane Doe",
+      "pronouns": "she/her",
+      "description": null,
+      "location": null,
+      "link": null,
+      "contactLink": null,
+      "contactLabel": "Link",
+      "email": null,
+      "instagram": null,
+      "otherLinks": null,
+      "tmdbPersonId": null,
+      "photoUrl": null,
+      "credits": {
+        "film": [
+          {
+            "projectName": "Project",
+            "characterOrRole": "Lead",
             "directorOrStudio": ""
           }
         ],
@@ -172,7 +343,28 @@
     }
   ],
   "Writers": [
-    {"id":"david-greyson","name":"David Greyson","pronouns":"he/him","description":"Actor, Director, Writer, and Filmmaker. Represented by The Tabb Agency (Oklahoma) and Acclaim Talent (Texas).","location":null,"link":"https://www.imdb.com/name/nm4590090/","contactLink":"https://www.instagram.com/mrdavidgreyson/","contactLabel":"Instagram"},
-    {"id":"kayla-brook-ward","name":"Kayla Brook Ward","pronouns":null,"description":"PA, Writer.","location":null,"link":null,"contactLink":"mailto:Kayla.stynes99@gmail.com","contactLabel":"Email"}
+    {
+      "id": "david-greyson",
+      "name": "David Greyson",
+      "pronouns": "he/him",
+      "description": "Actor, Director, Writer, and Filmmaker. Represented by The Tabb Agency (Oklahoma) and Acclaim Talent (Texas).",
+      "location": null,
+      "link": "https://www.imdb.com/name/nm4590090/",
+      "contactLink": "https://www.instagram.com/mrdavidgreyson/",
+      "contactLabel": "Instagram"
+    },
+    {
+      "id": "kayla-brook-ward",
+      "name": "Kayla Brook Ward",
+      "pronouns": null,
+      "description": "",
+      "location": null,
+      "link": null,
+      "contactLink": "mailto:Kayla.stynes99@gmail.com",
+      "contactLabel": "Email",
+      "pills": [
+        "Beginner"
+      ]
+    }
   ]
 }
