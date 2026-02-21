@@ -50,6 +50,10 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 - **Do not** put the service role key in client-side code or in `NEXT_PUBLIC_*` variables. It is only used in API routes and server-side code.
 - After adding env vars, restart the dev server or redeploy.
 
+**Production (Vercel):** The app only reads from Supabase when **both** `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set in **Vercel** → Project → Settings → Environment Variables (for Production and/or Preview). If they are missing in production, the site uses the static JSON files in `public/data/` (casting-calls.json, casting-calls/*.json, etc.) instead.
+
+**If env vars are set but the site still shows old/deleted data:** After redeploying, open your production site → **DevTools → Network** → reload the Casting Calls page → click the request to `/api/data/casting-calls` → check **Response Headers** for **`X-Data-Source`**. If it says **`json`**, the server is not using Supabase (env not applied to that deployment, or wrong env scope). If it says **`supabase`**, the API is reading from Supabase; then confirm the URL points to the same Supabase project where you made changes, and try **Redeploy** with **Clear cache** in Vercel.
+
 ---
 
 ## 5. Behavior when Supabase is configured

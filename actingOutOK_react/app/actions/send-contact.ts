@@ -136,16 +136,28 @@ function buildEmailBody(p: ContactPayload): string {
   return lines.join("\n");
 }
 
+type SiteverifyResponse = { success?: boolean; "error-codes"?: string[] };
+
 async function verifyTurnstile(token: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return false;
+  if (!secret) {
+    console.error("Turnstile: TURNSTILE_SECRET_KEY is not set. Add it to .env.local (server-side).");
+    return false;
+  }
   const res = await fetch(TURNSTILE_SITEVERIFY, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({ secret, response: token }),
   });
-  const data = (await res.json()) as { success?: boolean };
-  return data.success === true;
+  const data = (await res.json()) as SiteverifyResponse;
+  if (data.success === true) return true;
+  // Log so you can see why verification failed (e.g. wrong secret, timeout-or-duplicate)
+  console.error("Turnstile siteverify failed:", {
+    success: data.success,
+    "error-codes": data["error-codes"],
+    hint: "Check TURNSTILE_SECRET_KEY matches the secret for your widget (not the site key). Token is single-use and expires in 5 min.",
+  });
+  return false;
 }
 
 export async function sendContact(payload: ContactPayload): Promise<{ ok: true } | { ok: false; error: string }> {

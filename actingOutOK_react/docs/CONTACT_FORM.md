@@ -38,6 +38,28 @@ Do **not** commit the API key. Set it in your deployment environment (Vercel, et
 1. Create a Turnstile widget in the [Cloudflare dashboard](https://dash.cloudflare.com/?to=/:account/turnstile).
 2. Use the **site key** in the widget (or set `NEXT_PUBLIC_TURNSTILE_SITE_KEY`).
 3. Use the **secret key** as `TURNSTILE_SECRET_KEY` (server-side only).
+4. **Add your hostnames** so Turnstile works: Cloudflare Turnstile → your widget → **Hostname Management** → add `localhost` (for local dev) and your production domain (e.g. `actingoutok.com`). If you don’t add the domain, you’ll get **Error 110200** (“Domain not authorized”).
+
+**“Captcha verification failed” after completing Turnstile:** Server-side verification failed. Check:
+- **TURNSTILE_SECRET_KEY** is set (in `.env.local` for dev, and in **Vercel** for production — see below).
+- The value is the widget’s **secret key**, not the site key (dashboard shows both; use the secret).
+- Locally: restart the dev server after changing `.env.local`; check the terminal for `Turnstile siteverify failed:` and `error-codes`.
+- Production: set the env var in Vercel and redeploy; add your production domain to Turnstile Hostname Management.
+
+## Production (Vercel)
+
+For the contact form to work in production you must set **environment variables in Vercel** (they are not read from `.env.local` in production):
+
+1. **Vercel** → your project → **Settings** → **Environment Variables**.
+2. Add these for **Production** (and Preview if you test deploy branches):
+   - `SUPABASE_URL` – your Supabase project URL
+   - `SUPABASE_SERVICE_ROLE_KEY` – Supabase service role key (secret)
+   - `RESEND_API_KEY` – Resend API key
+   - `TURNSTILE_SECRET_KEY` – Cloudflare Turnstile **secret** key (not the site key)
+3. Optionally: `CONTACT_EMAIL`, `RESEND_FROM_EMAIL`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` if you override defaults.
+4. **Redeploy** after adding or changing variables (Vercel uses env at build/deploy time; a new deployment picks up new values).
+
+Also in **Cloudflare Turnstile** → your widget → **Hostname Management**: add your production domain (e.g. `your-app.vercel.app` or `actingoutok.com`). Without it you can get Error 110200 or verification issues in production.
 
 ## Next steps & testing
 
