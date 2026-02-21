@@ -207,33 +207,6 @@
       }
     },
     {
-      "id": "jane-doe",
-      "name": "Jane Doe",
-      "pronouns": "she/her",
-      "description": null,
-      "location": null,
-      "link": null,
-      "contactLink": null,
-      "contactLabel": "Link",
-      "email": null,
-      "instagram": null,
-      "otherLinks": null,
-      "tmdbPersonId": null,
-      "photoUrl": null,
-      "credits": {
-        "film": [
-          {
-            "projectName": "Project",
-            "characterOrRole": "Lead",
-            "directorOrStudio": ""
-          }
-        ],
-        "theatre": [],
-        "training": [],
-        "television": []
-      }
-    },
-    {
       "id": "kaylene-snarsky",
       "name": "Kaylene Snarsky",
       "pronouns": "she/her",
