@@ -944,9 +944,28 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
+  align-items: center;
 }
 .talent-profile-contact .resource-link {
   font-size: var(--text-sm);
+}
+.talent-profile-contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--color-text-muted);
+  border-radius: var(--radius);
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+.talent-profile-contact-icon:hover {
+  color: var(--color-accent);
+  background: rgba(0, 0, 0, 0.05);
+}
+.talent-profile-contact-icon svg {
+  width: 22px;
+  height: 22px;
 }
 .talent-profile-error {
   font-size: var(--text-sm);

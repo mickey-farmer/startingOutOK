@@ -44,9 +44,44 @@
 .splash-bar:nth-child(2)::before {
   box-shadow: inset 4px 0 0 var(--bar-resources);
 }
-.splash-bar:nth-child(3)::before {
+.splash-directory {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 1px solid var(--color-border);
+}
+.splash-directory .splash-bar {
+  flex: 1;
+  border-right: none;
+  border-bottom: 1px solid var(--color-border);
+  min-height: 0;
+}
+.splash-directory .splash-bar:last-child {
+  border-bottom: none;
+}
+.splash-directory .splash-bar::before {
   box-shadow: inset 4px 0 0 var(--bar-directory);
 }
+.splash-directory .splash-bar:hover::before {
+  background: rgba(255, 255, 255, 0.78);
+}
+.splash-directory .splash-bar:hover {
+  flex: 1.1;
+  min-width: 0;
+  z-index: 2;
+  box-shadow: 0 0 40px rgba(234, 88, 12, 0.35);
+}
+.splash-directory .splash-bar:hover .splash-bar-letters {
+  color: var(--color-text);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+.splash-directory .splash-bar:hover .splash-bar-desc {
+  opacity: 1;
+  background: rgba(234, 88, 12, 0.22);
+  color: var(--color-text);
+}
+
 .splash-bar:nth-child(4)::before {
   box-shadow: inset 4px 0 0 var(--bar-news);
 }
@@ -192,6 +227,14 @@
   }
   .splash-bar:last-child {
     border-bottom: none;
+  }
+  .splash-directory {
+    min-height: 56vh;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .splash-directory .splash-bar {
+    min-height: 14vh;
   }
   .splash-bar-letters {
     flex-direction: row;
